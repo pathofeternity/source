@@ -1,24 +1,57 @@
-.App {
-  text-align: center;
-}
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.App-container {
+  width: 100%;
+  /* Workaround because 100% height doesn't work. */
+  height: 100vh;
 }
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.App-column {
+  float: left;
+  min-width: 600px;
+  width: 50%;
+  height: 100%;
 }
-
-.App-intro {
-  font-size: large;
+.App-stats {
+  margin: 10px;
+  /*
+  Override the horizontal margin because only vertical margins collapse.
+  This makes the space between the left and right halves 10px instead of 20px.
+  */
+  margin-right: 5px;
+  height: 225px;
+  background-color: #aaaaff;
 }
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.App-menu {
+  margin: 10px;
+  margin-right: 5px;
+  height: calc(100% - 255px);
+  min-height: 450px;
+  background-color: #ccffcc;
+}
+.App-skills {
+  margin: 10px;
+  margin-left: 5px;
+  /*
+  Because vertical margins are collapsed, add half the space back to each
+  component.
+  */
+  height: calc(50% - 15px);
+  min-height: 300px;
+  background-color: #ffcccc;
+}
+.App-map {
+  margin: 10px;
+  margin-left: 5px;
+  height: calc(50% - 15px);
+  min-height: 300px;
+  background-color: #ffffcc;
+}
+.App-bars {
+  width: 75%;
+  height:100%;
+  float:left;
+}
+.App-timer {
+  width:25%;
+  height:100%;
+  float: right;
 }
