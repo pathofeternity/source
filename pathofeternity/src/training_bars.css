@@ -1,0 +1,42 @@
+
+h2{ margin: 12px;}
+h3 {
+  margin: 12px;
+}
+.bars-component {
+  text-align: center;
+}
+.bars-container {
+  border: solid;
+  border-color: #cccccc;
+  margin: 5px;
+  padding: 5px;
+}
+.bars-container.small {
+  width: calc(33% - 9px);
+  float:left;
+}
+.progress {
+  margin-bottom:0px !important;
+  height:25px !important;
+  position: relative;
+}
+/* Literally copied from swarmsim */
+.progress-bar {
+  overflow-x: visible;
+  text-shadow: 1px 1px #000,
+    -1px 1px #000,
+    1px -1px #000,
+    -1px -1px #000,
+    1px 0 #000,
+    0 1px #000,
+    -1px 0 #000,
+    0 -1px #000;
+}
+.progress span {
+  position: absolute;
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 3px;
+}

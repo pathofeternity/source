@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import './App.css';
+import TrainingBars from './training_bars.js';
 import {tick } from './actions.js'
 import { connect } from 'react-redux'
 
@@ -16,13 +17,14 @@ const AppLayout = ({score, onClick}) =>  (
       <div className="App-column">
         <div className="App-stats">
           <div className="App-bars">
-            {score}
+            <TrainingBars />
           </div>
           <div className="App-timer">
             <button onClick={onClick} >CLICK ME</button>
           </div>
         </div>
         <div className="App-menu">
+          {score}
         </div>
       </div>
       <div className="App-column">
