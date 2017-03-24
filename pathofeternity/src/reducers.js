@@ -5,7 +5,7 @@ const initialState = {
     cultivation: {
       trainingName: 'Meditation',
       max: 1000,
-      rate: 4
+      rate: 400
     },
     body: {
       trainingName: 'Physical Training',

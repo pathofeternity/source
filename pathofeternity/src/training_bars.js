@@ -1,7 +1,15 @@
 import React, { PropTypes } from 'react';
 import './training_bars.css';
 import { connect } from 'react-redux'
-import {ProgressBar} from 'react-bootstrap'
+import {ProgressBar, Button} from 'react-bootstrap'
+
+const spanOrButton = (value, max) => {
+  if (value == max) {
+    return <Button>Breakthrough</Button>
+  } else {
+    return <span>{value} / {max}</span>
+  }
+}
 
 const BarsLayout = ({cultivation, body, mind, soul,
 cultivationMax, bodyMax, mindMax, soulMax}) =>  (
@@ -9,7 +17,7 @@ cultivationMax, bodyMax, mindMax, soulMax}) =>  (
     <div className="bars-container">
       <h2>Cultivation</h2>
       <ProgressBar max={cultivationMax} now={cultivation}
-        label={<span>{cultivation} / {cultivationMax}</span>} />
+        label={spanOrButton(cultivation, cultivationMax)} />
     </div>
 
     <div className="small bars-container">
@@ -29,6 +37,16 @@ cultivationMax, bodyMax, mindMax, soulMax}) =>  (
     </div>
   </div>
   )
+  BarsLayout.propTypes = {
+    cultivation: PropTypes.number.isRequired,
+    cultivationMax: PropTypes.number.isRequired,
+    body: PropTypes.number.isRequired,
+    bodyMax: PropTypes.number.isRequired,
+    mind: PropTypes.number.isRequired,
+    mindMax: PropTypes.number.isRequired,
+    soul: PropTypes.number.isRequired,
+    soulMax: PropTypes.number.isRequired,
+  }
 
 const mapDispatchToProps = (dispatch) => {return {}}
 const mapStateToProps = (state) => {
