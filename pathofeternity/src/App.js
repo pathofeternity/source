@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import './App.css';
 import TrainingBars from './training_bars.js';
+import TabMenu from './tab_menu.js';
 import {tick } from './actions.js'
 import { connect } from 'react-redux'
 
@@ -12,7 +13,7 @@ import { connect } from 'react-redux'
 */
 
 // Uses block arrow syntax to restrict the scope to this file.
-const AppLayout = ({score, onClick}) =>  (
+const AppLayout = ({onClick}) =>  (
     <div className="App-container">
       <div className="App-column">
         <div className="App-stats">
@@ -24,7 +25,7 @@ const AppLayout = ({score, onClick}) =>  (
           </div>
         </div>
         <div className="App-menu">
-          {score}
+          <TabMenu />
         </div>
       </div>
       <div className="App-column">
@@ -38,7 +39,6 @@ const AppLayout = ({score, onClick}) =>  (
   )
 
 AppLayout.propTypes = {
-  score: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired
 }
 

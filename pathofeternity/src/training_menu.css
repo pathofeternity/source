@@ -1,0 +1,21 @@
+.training-container {
+  float: left;
+  width: calc(50% - 14px);
+  margin-left: 3px;
+  margin-right: 3px;
+  height: 100%;
+  border-style: solid;
+  border-color: #cccccc;
+}
+.panel-heading a:after {
+    font-family:'Glyphicons Halflings';
+    content:"\e114";
+    float: right;
+    color: grey;
+}
+.panel-heading a.collapsed:after {
+    content:"\e080";
+}
+td {
+  padding: 2px !important;
+}

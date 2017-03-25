@@ -1,26 +1,30 @@
-import { TICK } from './actions.js'
+import { TICK, SET_PERCENT } from './actions.js'
 
 const initialState = {
   stats: {
     cultivation: {
       trainingName: 'Meditation',
       max: 1000,
-      rate: 400
+      rate: 400,
+      percent: 25
     },
     body: {
       trainingName: 'Physical Training',
       max: 100,
-      rate: 1
+      rate: 1,
+      percent: 25
     },
     mind: {
       trainingName: 'Mental Training',
       max: 100,
-      rate: 1
+      rate: 1,
+      percent: 25
     },
     soul: {
       trainingName: 'Soul Training',
       max: 100,
-      rate: 1
+      rate: 1,
+      percent: 25
     }
   },
   // Separate scores so we don't reallocate all stats every time.
@@ -30,7 +34,6 @@ const initialState = {
     mind: 0,
     soul: 0
   },
-  score: 0
 }
 
 // Top-level reducer.
@@ -38,7 +41,8 @@ export function pathApp(state = initialState, action) {
   switch (action.type) {
     case TICK:
     return tickReducer(state)
-
+    case SET_PERCENT:
+    return setPercentReducer(state, action)
     default:
     return state
   }
@@ -49,10 +53,33 @@ function tickReducer(state) {
   var oldScores = state.scores
   var newScores = {}
   for (var statName in stats) {
-    newScores[statName] = Math.min(oldScores[statName] + stats[statName].rate, stats[statName].max)
+    newScores[statName] = Math.min(oldScores[statName] +
+      (stats[statName].rate * stats[statName].percent / 100),
+      stats[statName].max)
   }
   return Object.assign({}, state, {
     scores: newScores,
-    score: state.score + 1
   })
+}
+
+function setPercentReducer(state, action) {
+  var stats = state.stats
+  var newStats = {}
+  var sum = 0
+  for (var statName in stats) {
+    sum += stats[statName].percent
+  }
+  sum -= stats[action.statName].percent
+  var remaining = 100 - sum
+
+  for (statName in stats) {
+    if (statName === action.statName) {
+      var changedStat = Object.assign({}, stats[statName],
+        { percent: Math.min(remaining, action.percent)})
+      newStats[statName] = changedStat
+    } else {
+      newStats[statName] = stats[statName]
+    }
+  }
+  return Object.assign({}, state, {stats: newStats})
 }

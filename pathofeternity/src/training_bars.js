@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import {ProgressBar, Button} from 'react-bootstrap'
 
 const spanOrButton = (value, max) => {
-  if (value == max) {
+  if (value === max) {
     return <Button>Breakthrough</Button>
   } else {
     return <span>{value} / {max}</span>
