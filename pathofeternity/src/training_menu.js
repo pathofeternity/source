@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import {Panel, Accordion} from 'react-bootstrap'
 import {setPercent} from './actions.js'
 
-const rate = (stat) => stat.percent * stat.rate / 100
-
 // Component with local state to expand/collapse panels.
 const TrainingMenuLayout = ({cultivation, body, mind, soul, onChange}) => (
   <div className="training-container">

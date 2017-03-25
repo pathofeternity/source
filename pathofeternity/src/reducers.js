@@ -34,10 +34,17 @@ const initialState = {
     mind: 0,
     soul: 0
   },
+  checkpoints: {
+    reachedFirstBreakthrough: false
+  }
 }
 
 // Top-level reducer.
 export function pathApp(state = initialState, action) {
+  console.log(state)
+  return setCheckpoints(actionPicker(state, action))
+}
+function actionPicker(state, action) {
   switch (action.type) {
     case TICK:
     return tickReducer(state)
@@ -47,7 +54,13 @@ export function pathApp(state = initialState, action) {
     return state
   }
 }
-
+function setCheckpoints(state) {
+  var newCheckpoints = Object.assign({}, state.checkpoints)
+  if (state.scores.cultivation >= state.stats.cultivation.max) {
+    newCheckpoints.reachedFirstBreakthrough = true
+  }
+  return Object.assign({}, state, {checkpoints: newCheckpoints})
+}
 function tickReducer(state) {
   var stats = state.stats
   var oldScores = state.scores

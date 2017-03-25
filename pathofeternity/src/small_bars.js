@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import './training_bars.css';
 import { connect } from 'react-redux'
-import {ProgressBar, Button, Fade} from 'react-bootstrap'
+import {ProgressBar} from 'react-bootstrap'
 
 const SmallBarLayout = ({name, value, max, rate}) =>  (
     <div className="small bars-container">

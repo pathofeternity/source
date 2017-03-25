@@ -12,35 +12,40 @@ const spanOrButton = (value, max, rate) => {
   }
 }
 
-const BarsLayout = ({cultivation, cultivationMax, cultivationRate}) =>  (
+const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
+  showSmallBars}) =>  (
   <div className="bars-component">
     <div className="bars-container">
       <h2>Cultivation</h2>
       <ProgressBar max={cultivationMax} now={cultivation}
         label={spanOrButton(cultivation, cultivationMax, cultivationRate)} />
     </div>
+    <Fade in={showSmallBars}><div>
+      <BodyBar/>
+      <MindBar/>
+      <SoulBar/>
+    </div></Fade>
 
-    <BodyBar/>
-    <MindBar/>
-    <SoulBar/>
   </div>
   )
   BarsLayout.propTypes = {
     cultivation: PropTypes.number.isRequired,
     cultivationMax: PropTypes.number.isRequired,
     cultivationRate: PropTypes.number.isRequired,
+    showSmallBars: PropTypes.bool
   }
 
-const mapDispatchToProps = (dispatch) => {return {}}
-const statRate = (stat) => stat.percent * stat.rate / 100
-const mapStateToProps = (state) => {
-  return {
-    cultivation: Number(state.scores.cultivation.toFixed(2)),
-    cultivationMax: state.stats.cultivation.max,
-    cultivationRate: statRate(state.stats.cultivation),
+  const mapDispatchToProps = (dispatch) => {return {}}
+  const statRate = (stat) => stat.percent * stat.rate / 100
+  const mapStateToProps = (state) => {
+    return {
+      cultivation: Number(state.scores.cultivation.toFixed(2)),
+      cultivationMax: state.stats.cultivation.max,
+      cultivationRate: statRate(state.stats.cultivation),
+      showSmallBars: state.checkpoints.reachedFirstBreakthrough
+    }
   }
-}
 
-const TrainingBars = connect(mapStateToProps, mapDispatchToProps)(BarsLayout)
+  const TrainingBars = connect(mapStateToProps, mapDispatchToProps)(BarsLayout)
 
-export default TrainingBars;
+  export default TrainingBars;
