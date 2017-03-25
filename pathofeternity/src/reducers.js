@@ -66,20 +66,15 @@ function setPercentReducer(state, action) {
   var stats = state.stats
   var newStats = {}
   var sum = 0
+  // Calculate how much room we have left.
   for (var statName in stats) {
     sum += stats[statName].percent
   }
   sum -= stats[action.statName].percent
   var remaining = 100 - sum
 
-  for (statName in stats) {
-    if (statName === action.statName) {
-      var changedStat = Object.assign({}, stats[statName],
-        { percent: Math.min(remaining, action.percent)})
-      newStats[statName] = changedStat
-    } else {
-      newStats[statName] = stats[statName]
-    }
-  }
+  newStats = Object.assign({}, stats)
+  newStats[action.statName] = Object.assign({}, stats[action.statName],
+    { percent: Math.min(remaining, action.percent)})
   return Object.assign({}, state, {stats: newStats})
 }

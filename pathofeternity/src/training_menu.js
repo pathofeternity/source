@@ -13,39 +13,35 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, onChange}) => (
     <table><tbody><tr>
       <td>Meditation</td>
       <td><input type="range" min="0" max="100"
-        value={cultivation.percent}
+        value={cultivation}
         onChange={e => {onChange("cultivation", e)}}/></td>
-      <td>{rate(cultivation)}/sec</td>
-      <td>{cultivation.percent}%</td>
+      <td>{cultivation}%</td>
     </tr></tbody></table>
     <div>
       <Accordion>
         <Panel
-          header={"Basic (" + (body.percent + mind.percent + soul.percent) + "%)"}>
+          header={"Basic (" + (body + mind + soul) + "%)"}>
           <table><tbody>
             <tr>
               <td>Physcial Training</td>
               <td><input type="range" min="0" max="100"
-                value={body.percent}
+                value={body}
                 onChange={e => {onChange("body", e)}}/></td>
-              <td>{rate(body)}/sec</td>
-              <td>{body.percent}%</td>
+              <td>{body}%</td>
             </tr>
             <tr>
               <td>Mental Training</td>
               <td><input type="range" min="0" max="100"
-                value={mind.percent}
+                value={mind}
                 onChange={e => {onChange("mind", e)}}/></td>
-              <td>{rate(mind)}/sec</td>
-              <td>{mind.percent}%</td>
+              <td>{mind}%</td>
             </tr>
             <tr>
               <td>Soul Training</td>
               <td><input type="range" min="0" max="100"
-                value={soul.percent}
+                value={soul}
                 onChange={e => {onChange("soul", e)}}/></td>
-              <td>{rate(soul)}/sec</td>
-              <td>{soul.percent}%</td>
+              <td>{soul}%</td>
             </tr>
           </tbody></table>
         </Panel>
@@ -55,10 +51,10 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, onChange}) => (
   </div>
 )
 TrainingMenuLayout.propTypes = {
-  cultivation: PropTypes.object,
-  body: PropTypes.object,
-  mind: PropTypes.object,
-  soul: PropTypes.object
+  cultivation: PropTypes.number,
+  body: PropTypes.number,
+  mind: PropTypes.number,
+  soul: PropTypes.number
 }
 
 
@@ -69,10 +65,10 @@ const mapDispatchToProps = (dispatch) => {
 }
 const mapStateToProps = (state) => {
   return {
-    cultivation: state.stats.cultivation,
-    body: state.stats.body,
-    mind: state.stats.mind,
-    soul: state.stats.soul
+    cultivation: state.stats.cultivation.percent,
+    body: state.stats.body.percent,
+    mind: state.stats.mind.percent,
+    soul: state.stats.soul.percent
   }
 }
 
