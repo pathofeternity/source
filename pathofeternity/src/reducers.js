@@ -41,7 +41,6 @@ const initialState = {
 
 // Top-level reducer.
 export function pathApp(state = initialState, action) {
-  console.log(state)
   return setCheckpoints(actionPicker(state, action))
 }
 function actionPicker(state, action) {

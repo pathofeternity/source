@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import './App.css';
 import TrainingBars from './bars/training_bars.js';
 import TabMenu from './tab_menu/tab_menu.js';
+import TimerArea from './timer_area.js';
 import {tick } from './actions.js'
 import { connect } from 'react-redux'
 
@@ -21,7 +22,8 @@ const AppLayout = ({onClick}) =>  (
             <TrainingBars />
           </div>
           <div className="App-timer">
-            <button onClick={onClick} >CLICK ME</button>
+            <button onClick={onClick} >TICK (for manual debugging)</button>
+            <TimerArea/>
           </div>
         </div>
         <div className="App-menu">
