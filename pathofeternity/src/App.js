@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 */
 
 // Uses block arrow syntax to restrict the scope to this file.
-const AppLayout = ({onClick}) =>  (
+const AppLayout = ({onClick, save, deleteSave}) =>  (
     <div className="App-container">
       <div className="App-column">
         <div className="App-stats">
@@ -23,6 +23,8 @@ const AppLayout = ({onClick}) =>  (
           </div>
           <div className="App-timer">
             <button onClick={onClick} >TICK (for manual debugging)</button>
+            <button onClick={save}>Save</button>
+            <button onClick={deleteSave}>Delete Save</button>
             <TimerArea/>
           </div>
         </div>
@@ -56,7 +58,9 @@ const mapDispatchToProps = (dispatch) => {
 }
 const mapStateToProps = (state) => {
   return {
-    score: state.score
+    score: state.score,
+    save: () => localStorage.setItem('saved_game', JSON.stringify(state)),
+    deleteSave: () => localStorage.setItem('saved_game', null),
   }
 }
 

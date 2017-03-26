@@ -50,9 +50,19 @@ function actionPicker(state, action) {
     case SET_PERCENT:
     return setPercentReducer(state, action)
     default:
-    return state
+    return loadGame()
   }
 }
+function loadGame() {
+  var loadedState = JSON.parse(localStorage.getItem('saved_game'))
+  if (loadedState == null) {
+    return initialState;
+  } else {
+    return loadedState;
+  }
+
+}
+
 function setCheckpoints(state) {
   var newCheckpoints = Object.assign({}, state.checkpoints)
   if (state.scores.cultivation >= state.stats.cultivation.max) {
