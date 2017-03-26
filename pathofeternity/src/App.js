@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import './App.css';
-import TrainingBars from './training_bars.js';
+import TrainingBars from './bars/training_bars.js';
 import TabMenu from './tab_menu.js';
 import {tick } from './actions.js'
 import { connect } from 'react-redux'
