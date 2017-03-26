@@ -46,12 +46,12 @@
   background-color: #ffffcc;
 }
 .App-bars {
-  width: 75%;
+  width: 80%;
   height:100%;
   float:left;
 }
 .App-timer {
-  width:25%;
+  width:20%;
   height:100%;
   float: right;
 }
