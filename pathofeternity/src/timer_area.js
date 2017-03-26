@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import {Tabs, Tab} from 'react-bootstrap'
-import {tick } from './actions.js'
+import {tick} from './actions.js'
 
 class TimerLayout extends React.Component {
   render() {
