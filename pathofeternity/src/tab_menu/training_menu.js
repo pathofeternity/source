@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import './training_menu.css'
 import { connect } from 'react-redux'
 import {Panel, Accordion} from 'react-bootstrap'
-import {setPercent} from './actions.js'
+import {setPercent} from '../actions.js'
 
 // Component with local state to expand/collapse panels.
 const TrainingMenuLayout = ({cultivation, body, mind, soul, onChange}) => (
