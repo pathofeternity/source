@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import './App.css';
 import TrainingBars from './bars/training_bars.js';
 import TabMenu from './tab_menu/tab_menu.js';
+import EventPanel from './event_panel/event_panel.js';
 import TimerArea from './timer_area.js';
 import {tick } from './actions.js'
 import { connect } from 'react-redux'
@@ -37,6 +38,7 @@ const AppLayout = ({onClick, save, deleteSave}) =>  (
           Skills go here.
         </div>
         <div className="App-map">
+          <EventPanel />
         </div>
       </div>
     </div>

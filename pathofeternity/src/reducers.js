@@ -1,10 +1,10 @@
-import { TICK, SET_PERCENT } from './actions.js'
+import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH } from './actions.js'
 
 const initialState = {
   stats: {
     cultivation: {
       trainingName: 'Meditation',
-      max: 1000,
+      max: 10,
       rate: 400,
       percent: 25
     },
@@ -34,21 +34,20 @@ const initialState = {
     mind: 0,
     soul: 0
   },
-  checkpoints: {
-    reachedFirstBreakthrough: false
-  }
+  activeEvent: null,
+  eventStep: 0,
 }
 
 // Top-level reducer.
 export function pathApp(state = initialState, action) {
-  return setCheckpoints(actionPicker(state, action))
-}
-function actionPicker(state, action) {
+
   switch (action.type) {
     case TICK:
     return tickReducer(state)
     case SET_PERCENT:
     return setPercentReducer(state, action)
+    case SUCCESSFUL_BREAKTHROUGH:
+    return successfulBreakthroughReducer(state)
     default:
     return loadGame()
   }
@@ -60,16 +59,17 @@ function loadGame() {
   } else {
     return loadedState;
   }
-
+}
+function successfulBreakthroughReducer(state) {
+  return Object.assign({}, state, {
+    stats: Object.assign({}, state.stats, {
+      cultivation: Object.assign({}, state.stats.cultivation, {
+        max: state.stats.cultivation.max * 10
+      })
+    })
+  })
 }
 
-function setCheckpoints(state) {
-  var newCheckpoints = Object.assign({}, state.checkpoints)
-  if (state.scores.cultivation >= state.stats.cultivation.max) {
-    newCheckpoints.reachedFirstBreakthrough = true
-  }
-  return Object.assign({}, state, {checkpoints: newCheckpoints})
-}
 function tickReducer(state) {
   var stats = state.stats
   var oldScores = state.scores

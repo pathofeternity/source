@@ -20,7 +20,7 @@ const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
       <ProgressBar max={cultivationMax} now={cultivation}
         label={spanOrButton(cultivation, cultivationMax, cultivationRate)} />
     </div>
-    <Fade in={showSmallBars}><div>
+    <Fade in={cultivationMax >= 100}><div>
       <BodyBar/>
       <MindBar/>
       <SoulBar/>
@@ -41,8 +41,7 @@ const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
     return {
       cultivation: Number(state.scores.cultivation.toFixed(2)),
       cultivationMax: state.stats.cultivation.max,
-      cultivationRate: statRate(state.stats.cultivation),
-      showSmallBars: state.checkpoints.reachedFirstBreakthrough
+      cultivationRate: statRate(state.stats.cultivation)
     }
   }
 
