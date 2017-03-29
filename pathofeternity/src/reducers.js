@@ -1,4 +1,5 @@
-import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH } from './actions.js'
+import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH,
+START_EVENT, PROGRESS_EVENT, END_EVENT} from './actions.js'
 
 const initialState = {
   stats: {
@@ -39,7 +40,7 @@ const initialState = {
 }
 
 // Top-level reducer.
-export function pathApp(state = initialState, action) {
+export function pathApp(state = loadGame(), action) {
 
   switch (action.type) {
     case TICK:
@@ -48,8 +49,14 @@ export function pathApp(state = initialState, action) {
     return setPercentReducer(state, action)
     case SUCCESSFUL_BREAKTHROUGH:
     return successfulBreakthroughReducer(state)
+    case START_EVENT:
+    return startEventReducer(state, action)
+    case PROGRESS_EVENT:
+    return progressEventReducer(state)
+    case END_EVENT:
+    return endEventReducer(state)
     default:
-    return loadGame()
+    return state
   }
 }
 function loadGame() {
@@ -99,4 +106,14 @@ function setPercentReducer(state, action) {
   newStats[action.statName] = Object.assign({}, stats[action.statName],
     { percent: Math.min(remaining, action.percent)})
   return Object.assign({}, state, {stats: newStats})
+}
+
+function startEventReducer(state, action) {
+  return Object.assign({}, state, {activeEvent: action.eventName, eventStep: 0})
+}
+function progressEventReducer(state) {
+  return Object.assign({}, state, {eventStep: state.eventStep + 1})
+}
+function endEventReducer(state) {
+  return Object.assign({}, state, {activeEvent: null, eventStep: 0})
 }

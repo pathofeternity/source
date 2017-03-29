@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import './App.css';
+import {Fade} from 'react-bootstrap'
 import TrainingBars from './bars/training_bars.js';
 import TabMenu from './tab_menu/tab_menu.js';
 import EventPanel from './event_panel/event_panel.js';
@@ -15,7 +16,7 @@ import { connect } from 'react-redux'
 */
 
 // Uses block arrow syntax to restrict the scope to this file.
-const AppLayout = ({onClick, save, deleteSave}) =>  (
+const AppLayout = ({onClick, save, deleteSave, hasEvent}) =>  (
     <div className="App-container">
       <div className="App-column">
         <div className="App-stats">
@@ -38,7 +39,7 @@ const AppLayout = ({onClick, save, deleteSave}) =>  (
           Skills go here.
         </div>
         <div className="App-map">
-          <EventPanel />
+          <Fade in={hasEvent}><div><EventPanel /></div></Fade>
         </div>
       </div>
     </div>
@@ -63,6 +64,7 @@ const mapStateToProps = (state) => {
     score: state.score,
     save: () => localStorage.setItem('saved_game', JSON.stringify(state)),
     deleteSave: () => localStorage.setItem('saved_game', null),
+    hasEvent: state.activeEvent != null
   }
 }
 

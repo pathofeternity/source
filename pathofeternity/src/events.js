@@ -1,12 +1,16 @@
 import {successfulBreakthrough} from './actions.js'
 
 export const events = {
-  breakthroughE1:{
+  breakthroughE1: {
+    name: "Breakthrough to Essence 1",
     steps: [
       {
-        name: "Focusing Energy",
+        buttonText: "Focus Mind",
+        name: "Preparing Mind",
+      },
+      {
         buttonText: "Focus Energy",
-        legalSkills: () => ["Focus", "Cancel"],
+        name: "Focusing Energy",
       }
     ],
     finishAction: successfulBreakthrough(),

@@ -1,24 +1,28 @@
 import React, { PropTypes } from 'react';
 import './training_bars.css';
+import {startEvent} from '../actions.js'
 import { connect } from 'react-redux'
 import {ProgressBar, Button, Fade} from 'react-bootstrap'
 import {BodyBar, MindBar, SoulBar} from './small_bars.js'
 
-const spanOrButton = (value, max, rate) => {
+const spanOrButton = (value, max, rate, startBreakthrough) => {
   if (value >= max) {
-    return <span className="nomargin"><Button>Breakthrough</Button></span>
+    return <span className="nomargin">
+      <Button onClick={startBreakthrough}>Breakthrough</Button>
+    </span>
   } else {
     return <span>{value} / {max} ({rate}/sec)</span>
   }
 }
 
 const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
-  showSmallBars}) =>  (
+  startBreakthrough}) =>  (
   <div className="bars-component">
     <div className="bars-container">
       <h2>Cultivation</h2>
       <ProgressBar max={cultivationMax} now={cultivation}
-        label={spanOrButton(cultivation, cultivationMax, cultivationRate)} />
+        label={spanOrButton(cultivation, cultivationMax, cultivationRate,
+        startBreakthrough)} />
     </div>
     <Fade in={cultivationMax >= 100}><div>
       <BodyBar/>
@@ -32,10 +36,11 @@ const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
     cultivation: PropTypes.number.isRequired,
     cultivationMax: PropTypes.number.isRequired,
     cultivationRate: PropTypes.number.isRequired,
-    showSmallBars: PropTypes.bool
   }
 
-  const mapDispatchToProps = (dispatch) => {return {}}
+  const mapDispatchToProps = (dispatch) => {return {
+    startBreakthrough: () => dispatch(startEvent("breakthroughE1"))
+  }}
   const statRate = (stat) => stat.percent * stat.rate / 100
   const mapStateToProps = (state) => {
     return {

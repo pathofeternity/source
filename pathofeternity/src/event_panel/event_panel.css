@@ -11,9 +11,6 @@ div.event-top {
 div.event-panel {
   height: 100%;
   width: 100%;
-  box-sizing: border-box;
-  border-style: solid;
-  border-color: #cccccc;
 }
 div.btn-toolbar.event-buttonbar {
   text-align: center !important;

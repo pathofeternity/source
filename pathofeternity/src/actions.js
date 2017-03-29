@@ -1,15 +1,17 @@
+export const NO_OP = 'NO_OP'
 export const TICK = 'TICK'
 export const SET_PERCENT = 'SET_RATE'
 export const SUCCESSFUL_BREAKTHROUGH = 'SUCCESSFUL_BREAKTHROUGH'
 export const START_EVENT = 'START_EVENT'
 export const PROGRESS_EVENT = 'PROGRESS_EVENT'
-export const FINISH_EVENT = 'FINISH_EVENT'
-export const CANCEL_EVENT = 'CANCEL_EVENT'
+export const END_EVENT = 'END_EVENT'
+
+export function noOp() {
+  return { type: NO_OP }
+}
 
 export function tick() {
-  return {
-    type: TICK
-  }
+  return { type: TICK }
 }
 
 export function setPercent(statName, percent) {
@@ -21,9 +23,7 @@ export function setPercent(statName, percent) {
 }
 
 export function successfulBreakthrough() {
-  return {
-    type: SUCCESSFUL_BREAKTHROUGH
-  }
+  return { type: SUCCESSFUL_BREAKTHROUGH }
 }
 
 export function startEvent(eventName) {
@@ -33,17 +33,8 @@ export function startEvent(eventName) {
   }
 }
 export function progressEvent() {
-  return {
-    type: PROGRESS_EVENT
-  }
+  return { type: PROGRESS_EVENT }
 }
-export function finishEvent() {
-  return {
-    type: FINISH_EVENT
-  }
-}
-export function cancelEvent()  {
-  return {
-    type: CANCEL_EVENT
-  }
+export function endEvent() {
+  return { type: END_EVENT }
 }
