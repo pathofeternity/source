@@ -36,7 +36,6 @@ const initialState = {
     soul: 0
   },
   activeEvent: null,
-  eventLock: false,
   eventStep: 0,
 }
 
@@ -110,14 +109,11 @@ function setPercentReducer(state, action) {
 }
 
 function startEventReducer(state, action) {
-  if (state.activeEvent != null) {
-    return state
-  }
   return Object.assign({}, state, {activeEvent: action.eventName, eventStep: 0})
 }
 function progressEventReducer(state) {
   return Object.assign({}, state, {eventStep: state.eventStep + 1})
 }
 function endEventReducer(state) {
-  return Object.assign({}, state, {activeEvent: null, eventStep: 0, eventLock: false})
+  return Object.assign({}, state, {activeEvent: null, eventStep: 0})
 }
