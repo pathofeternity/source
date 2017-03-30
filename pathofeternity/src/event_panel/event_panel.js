@@ -19,7 +19,7 @@ const eventNextStep = (stepIndex, steps, dispatch, finishAction) => {
 class EventPanelLayout extends React.Component {
   constructor() {
     super()
-    this.state = {progress: 0}
+    this.state = {progress: 0, disableButtons: false}
   }
 
   makeBarTimeout(i) {
@@ -27,13 +27,15 @@ class EventPanelLayout extends React.Component {
   }
 
   clickSkill(stepIndex, steps, dispatch, finishAction) {
+    this.setState({disableButtons: true})
     for (var i = 1; i <= 5; i++) {
       this.makeBarTimeout(i)
     }
     setTimeout(() => {
       eventNextStep(stepIndex, steps, dispatch, finishAction)
-      this.setState({progress: 0})
+      this.setState({progress: 0, disableButtons:false})
     }, 6000)
+
   }
 
   render() {
@@ -58,8 +60,10 @@ class EventPanelLayout extends React.Component {
             <ButtonToolbar>
               <Button bsStyle="primary"
                 onClick={() => this.clickSkill(stepIndex, steps, dispatch, finishAction)}
+                disabled={this.state.disableButtons}
               >Focus</Button>
-              <Button onClick={() => dispatch(endEvent())}>Cancel</Button>
+              <Button onClick={() => dispatch(endEvent())}
+                disabled={this.state.disableButtons}>Cancel</Button>
             </ButtonToolbar>
           </div>
           <div className="event-progress-display">
