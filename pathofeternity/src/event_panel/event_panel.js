@@ -6,58 +6,83 @@ import {events} from '../events.js'
 import './event_panel.css'
 
 // May have to be changed to allow for intermediate step costs and rewards.
-const ContinueButton = (stepIndex, steps, dispatch, finishAction) => {
+const eventNextStep = (stepIndex, steps, dispatch, finishAction) => {
   if (stepIndex < steps.length - 1) {
-    return <Button onClick={() => dispatch(progressEvent())}>Continue</Button>
+    dispatch(progressEvent())
   } else {
-    return <Button onClick={() => {
-      dispatch(finishAction)
-      dispatch(endEvent())
-    }}>
-      Finish
-    </Button>
+    dispatch(finishAction)
+    dispatch(endEvent())
   }
 }
 
-const EventPanelLayout = ({steps, stepIndex, dispatch, continueEvent, finishAction}) => (
-  <div className="event-panel">
-    <div className="event-top">
-      <h2>Breakthrough to Essence 1</h2>
-      <ButtonToolbar className="event-buttonbar">
-        {steps.map((step, index) =>
-          <Button bsStyle={index === stepIndex ? "primary" : "default"}
-            key={index}
-            className="toolbar-button">
-            {step.buttonText}
-          </Button>
-        )}
 
-      </ButtonToolbar>
-    </div>
-    <div>
-      <div className="event-usable-skills">
-        <ButtonToolbar>
-          <Button bsStyle="primary">Focus</Button>
-          <Button>Cancel</Button>
-        </ButtonToolbar>
+class EventPanelLayout extends React.Component {
+  constructor() {
+    super()
+    this.state = {progress: 0, disableButtons: false}
+  }
+
+  makeBarTimeout(i) {
+    setTimeout(() => this.setState({progress: i}), i * 1000)
+  }
+
+  clickSkill(stepIndex, steps, dispatch, finishAction) {
+    this.setState({disableButtons: true})
+    for (var i = 1; i <= 5; i++) {
+      this.makeBarTimeout(i)
+    }
+    setTimeout(() => {
+      eventNextStep(stepIndex, steps, dispatch, finishAction)
+      this.setState({progress: 0, disableButtons:false})
+    }, 6000)
+
+  }
+
+  render() {
+    const {stepIndex, steps, dispatch, finishAction} = this.props
+    return (
+      <div className="event-panel">
+        <div className="event-top">
+          <h2>Breakthrough to Essence 1</h2>
+          <ButtonToolbar className="event-buttonbar">
+            {steps.map((step, index) =>
+              <Button bsStyle={index === stepIndex ? "primary" : "default"}
+                key={index}
+                className="toolbar-button">
+                {step.buttonText}
+              </Button>
+            )}
+
+          </ButtonToolbar>
+        </div>
+        <div>
+          <div className="event-usable-skills">
+            <ButtonToolbar>
+              <Button bsStyle="primary"
+                onClick={() => this.clickSkill(stepIndex, steps, dispatch, finishAction)}
+                disabled={this.state.disableButtons}
+              >Focus</Button>
+              <Button onClick={() => dispatch(endEvent())}
+                disabled={this.state.disableButtons}>Cancel</Button>
+            </ButtonToolbar>
+          </div>
+          <div className="event-progress-display">
+            Focusing Energy
+            <ProgressBar max={5} now={this.state.progress}/>
+
+
+          </div>
+
+        </div>
       </div>
-      <div className="event-progress-display">
-        Focusing Energy
-        <ProgressBar max={5} now={1}/>
-        {ContinueButton(stepIndex, steps, dispatch, finishAction)}
-
-      </div>
-
-    </div>
-  </div>
-
-)
+    )
+  }
+}
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch: dispatch,
-    continueEvent: () => dispatch(progressEvent())
   }
 }
 const mapStateToProps = (state) => {

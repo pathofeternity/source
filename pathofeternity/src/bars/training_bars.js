@@ -5,10 +5,12 @@ import { connect } from 'react-redux'
 import {ProgressBar, Button, Fade} from 'react-bootstrap'
 import {BodyBar, MindBar, SoulBar} from './small_bars.js'
 
-const spanOrButton = (value, max, rate, startBreakthrough) => {
+const spanOrButton = (value, max, rate, startBreakthrough, hasExistingEvent) => {
+
   if (value >= max) {
     return <span className="nomargin">
-      <Button onClick={startBreakthrough}>Breakthrough</Button>
+      <Button title={hasExistingEvent ? "An event is already active." : "Start Breakthrough"}
+        disabled={hasExistingEvent} onClick={startBreakthrough}>Breakthrough</Button>
     </span>
   } else {
     return <span>{value} / {max} ({rate}/sec)</span>
@@ -16,13 +18,13 @@ const spanOrButton = (value, max, rate, startBreakthrough) => {
 }
 
 const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
-  startBreakthrough}) =>  (
+  startBreakthrough, hasExistingEvent}) =>  (
   <div className="bars-component">
     <div className="bars-container">
       <h2>Cultivation</h2>
       <ProgressBar max={cultivationMax} now={cultivation}
         label={spanOrButton(cultivation, cultivationMax, cultivationRate,
-        startBreakthrough)} />
+        startBreakthrough, hasExistingEvent)} />
     </div>
     <Fade in={cultivationMax >= 100}><div>
       <BodyBar/>
@@ -46,7 +48,8 @@ const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
     return {
       cultivation: Number(state.scores.cultivation.toFixed(2)),
       cultivationMax: state.stats.cultivation.max,
-      cultivationRate: statRate(state.stats.cultivation)
+      cultivationRate: statRate(state.stats.cultivation),
+      hasExistingEvent: state.activeEvent != null
     }
   }
 
