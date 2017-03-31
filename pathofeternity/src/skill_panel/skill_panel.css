@@ -1,0 +1,27 @@
+.skill-tab-container{
+  /* Still have to do this height workaround */
+  height: calc(50vh - 55px) !important;
+  border-style: solid;
+  border-color: #cccccc;
+}
+.skill-listing {
+  float: left;
+  padding: 3px;
+  width: 60%;
+}
+.skill-selection {
+  float: left;
+  padding: 3px;
+  width: 40%;
+}
+img.skill-icon {
+  width: 32px;
+  height: 32px;
+}
+img.empty-slot {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  box-sizing: border-box;
+  border: solid #cccccc;
+}

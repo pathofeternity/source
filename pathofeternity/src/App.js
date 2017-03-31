@@ -4,6 +4,7 @@ import {Fade} from 'react-bootstrap'
 import TrainingBars from './bars/training_bars.js';
 import TabMenu from './tab_menu/tab_menu.js';
 import EventPanel from './event_panel/event_panel.js';
+import SkillPanel from './skill_panel/skill_panel.js';
 import TimerArea from './timer_area.js';
 import {tick } from './actions.js'
 import { connect } from 'react-redux'
@@ -36,7 +37,7 @@ const AppLayout = ({onClick, save, deleteSave, hasEvent}) =>  (
       </div>
       <div className="App-column">
         <div className="App-skills">
-          Skills go here.
+          <SkillPanel/>
         </div>
         <div className="App-map">
           <Fade in={hasEvent}><div><EventPanel /></div></Fade>

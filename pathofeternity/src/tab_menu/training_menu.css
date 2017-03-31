@@ -19,3 +19,6 @@
 td {
   padding: 2px !important;
 }
+.panel-group {
+  margin-bottom: 10px !important;
+}
