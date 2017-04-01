@@ -15,10 +15,12 @@
   width: 40%;
 }
 img.skill-icon {
+  margin: 5px;
   width: 32px;
   height: 32px;
 }
 img.empty-slot {
+  margin: 5px;
   width: 32px;
   height: 32px;
   display: inline-block;

@@ -5,6 +5,9 @@ export const SUCCESSFUL_BREAKTHROUGH = 'SUCCESSFUL_BREAKTHROUGH'
 export const START_EVENT = 'START_EVENT'
 export const PROGRESS_EVENT = 'PROGRESS_EVENT'
 export const END_EVENT = 'END_EVENT'
+export const GRANT_SKILL = 'GRANT_SKILL'
+export const EQUIP_SKILL = 'EQUIP_SKILL'
+export const UNEQUIP_SKILL = 'UNEQUIP_SKILL'
 
 export function noOp() {
   return { type: NO_OP }
@@ -37,4 +40,14 @@ export function progressEvent() {
 }
 export function endEvent() {
   return { type: END_EVENT }
+}
+
+export function grantSkill(skillName) {
+  return { type: GRANT_SKILL, skillName: skillName }
+}
+export function equipSkill(skillName) {
+  return { type: EQUIP_SKILL, skillName: skillName }
+}
+export function unequipSkill(skillName) {
+  return { type: UNEQUIP_SKILL, skillName: skillName }
 }

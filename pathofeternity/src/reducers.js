@@ -1,5 +1,7 @@
 import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH,
-START_EVENT, PROGRESS_EVENT, END_EVENT} from './actions.js'
+START_EVENT, PROGRESS_EVENT, END_EVENT,
+GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL} from './actions.js'
+import {skills, BATTLE, ALCHEMY, MEDITATION} from './skills.js'
 
 const initialState = {
   stats: {
@@ -37,6 +39,16 @@ const initialState = {
   },
   activeEvent: null,
   eventStep: 0,
+
+  availableSkills: [
+    "reaction", "reduction"
+  ],
+  equippedBattleSkills: [],
+  battleSkillLimit: 6,
+  equippedAlchemySkills: [],
+  alchemySkillLimit: 6,
+  equippedMeditationSkills: [],
+  meditationSkillLimit: 6,
 }
 
 // Top-level reducer.
@@ -55,6 +67,10 @@ export function pathApp(state = loadGame(), action) {
     return progressEventReducer(state)
     case END_EVENT:
     return endEventReducer(state)
+    case EQUIP_SKILL:
+    return equipSkillReducer(state, action)
+    case UNEQUIP_SKILL:
+    return unequipSkillReducer(state, action)
     default:
     return state
   }
@@ -116,4 +132,62 @@ function progressEventReducer(state) {
 }
 function endEventReducer(state) {
   return Object.assign({}, state, {activeEvent: null, eventStep: 0})
+}
+
+function grantSkillReducer(state, action) {
+  return Object.assign({}, state, {
+    availableSkills: state.availableSkills.concat([action.skillName])
+  })
+}
+function equipSkillReducer(state, action) {
+  var category = skills[action.skillName].category
+  switch (category) {
+    case BATTLE:
+    if (state.equippedBattleSkills.length >= state.battleSkillLimit) {
+      return state;
+    }
+    if (state.equippedBattleSkills.indexOf(action.skillName) != -1) {
+      return state;
+    }
+    return Object.assign({}, state, {
+      equippedBattleSkills: state.equippedBattleSkills.concat([action.skillName])
+    })
+    case ALCHEMY:
+    if (state.equippedAlchemySkills.length >= state.alchemySkillLimit) {
+      return state;
+    }
+    if (state.equippedAlchemySkills.indexOf(action.skillName) != -1) {
+      return state;
+    }
+    return Object.assign({}, state, {
+      equippedAlchemySkills: state.equippedAlchemySkills.concat([action.skillName])
+    })
+    case MEDITATION:
+    if (state.equippedMeditationSkills.length >= state.meditationSkillLimit) {
+      return state;
+    }
+    if (state.equippedMeditationSkills.indexOf(action.skillName) != -1) {
+      return state;
+    }
+    return Object.assign({}, state, {
+      equippedMeditationSkills: state.equippedMeditationSkills.concat([action.skillName])
+    })
+  }
+}
+function unequipSkillReducer(state, action) {
+  var category = skills[action.skillName].category
+  switch(category) {
+    case BATTLE:
+    return Object.assign({}, state, {
+      equippedBattleSkills: state.equippedBattleSkills.filter(item => item != action.skillName)
+    })
+    case ALCHEMY:
+    return Object.assign({}, state, {
+      equippedAlchemySkills: state.equippedAlchemySkills.filter(item => item != action.skillName)
+    })
+    case BATTLE:
+    return Object.assign({}, state, {
+      equippedMeditationSkills: state.equippedMeditationSkills.filter(item => item != action.skillName)
+    })
+  }
 }
