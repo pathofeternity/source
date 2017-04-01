@@ -28,7 +28,8 @@ class EventPanelLayout extends React.Component {
 
   clickSkill(stepIndex, steps, dispatch, finishAction) {
     this.setState({disableButtons: true})
-    for (var i = 1; i <= 5; i++) {
+    var i
+    for (i = 1; i <= 5; i++) {
       this.makeBarTimeout(i)
     }
     setTimeout(() => {

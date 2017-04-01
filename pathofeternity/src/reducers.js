@@ -97,7 +97,8 @@ function tickReducer(state) {
   var stats = state.stats
   var oldScores = state.scores
   var newScores = {}
-  for (var statName in stats) {
+  var statName
+  for (statName in stats) {
     newScores[statName] = Math.min(oldScores[statName] +
       (stats[statName].rate * stats[statName].percent / 100),
       stats[statName].max)
@@ -112,7 +113,8 @@ function setPercentReducer(state, action) {
   var newStats = {}
   var sum = 0
   // Calculate how much room we have left.
-  for (var statName in stats) {
+  var statName
+  for (statName in stats) {
     sum += stats[statName].percent
   }
   sum -= stats[action.statName].percent
