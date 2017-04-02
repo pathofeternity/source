@@ -140,6 +140,9 @@ function grantSkillReducer(state, action) {
   })
 }
 function equipSkillReducer(state, action) {
+  if (!skills[action.skillName]) {
+    return state
+  }
   var eventType = skills[action.skillName].eventType
   switch (eventType) {
     case BATTLE:
@@ -173,6 +176,9 @@ function equipSkillReducer(state, action) {
   }
 }
 function unequipSkillReducer(state, action) {
+  if (!skills[action.skillName]) {
+    return state
+  }
   var eventType = skills[action.skillName].eventType
   switch(eventType) {
     case BATTLE:
