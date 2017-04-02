@@ -13,7 +13,9 @@ const SkillDisplay = ({skillList, skillLimit, onDrop}) => {
         return <img className="empty-slot" key={index} src={require("../images/empty.png")}
           onDragOver={allowDrop} onDrop={onDrop(index)}/>
       } else {
-        return <img className="skill-icon" key={index} src={skills[item].icon} title={skills[item].name}/>
+        return <img className="skill-icon" key={index} src={skills[item].icon}
+          title={skills[item].name}
+          onDragOver={allowDrop} onDrop={onDrop(index)}/>
       }
     })
   }
@@ -24,11 +26,16 @@ const SkillDisplay = ({skillList, skillLimit, onDrop}) => {
 
 
     const SKILL_NAME = "skillName"
+    const EVENT_TYPE = "eventType"
+    const EQUIP = "equip"
+    const UNEQUIP = "unequip"
 
     const mapDispatchToSkillDisplayProps = (dispatch) => {
       return {
         onDrop: (index) => (event) =>  {
-          dispatch(equipSkill(event.dataTransfer.getData(SKILL_NAME), index))
+          if (event.dataTransfer.getData(EVENT_TYPE) == EQUIP) {
+            dispatch(equipSkill(event.dataTransfer.getData(SKILL_NAME), index))
+          }
         }
       }
     }
@@ -43,6 +50,7 @@ const SkillDisplay = ({skillList, skillLimit, onDrop}) => {
     const dragStart = (event) => {
       console.log(event.target.id)
       event.dataTransfer.setData(SKILL_NAME, event.target.id)
+      event.dataTransfer.setData(EVENT_TYPE, EQUIP)
     }
 
     const FilteredSkillListing = (skillNameList, skillType) => (
