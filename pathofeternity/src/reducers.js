@@ -140,7 +140,6 @@ function grantSkillReducer(state, action) {
   })
 }
 function equipSkillReducer(state, action) {
-  console.log(state.equippedBattleSkills)
   var eventType = skills[action.skillName].eventType
   switch (eventType) {
     case BATTLE:

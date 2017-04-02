@@ -5,70 +5,101 @@ import {skills, ATTACK_SKILL, DEFENSE_SKILL} from '../skills.js'
 import {equipSkill, unequipSkill} from '../actions.js'
 import './skill_panel.css'
 
+
+const SKILL_NAME = "skillName"
+const EVENT_TYPE = "eventType"
+const FROM_INDEX = "fromIndex"
+const EQUIP = "equip"
+const UNEQUIP = "unequip"
+const MOVE = "move"
+const DONE = "done"
+
 const allowDrop = (event) => {event.preventDefault()}
-const SkillDisplay = ({skillList, skillLimit, onDrop}) => {
+
+const unequipDragStart = (index) => (event) => {
+  event.dataTransfer.setData(SKILL_NAME, event.target.id)
+  event.dataTransfer.setData(FROM_INDEX, index)
+  event.dataTransfer.setData(EVENT_TYPE, MOVE)
+}
+
+const SkillDisplay = ({skillList, skillLimit, onDrop, onDragEnd}) => {
   return (<div>{
     skillList.map((item, index) => {
       if (item == null) {
-        return <img className="empty-slot" key={index} src={require("../images/empty.png")}
-          onDragOver={allowDrop} onDrop={onDrop(index)}/>
+        return <img className="empty-slot" key={index}
+          src={require("../images/empty.png")}
+          title="No skill" alt="No skill"
+          onDragOver={allowDrop} onDrop={onDrop(item, index)}/>
       } else {
-        return <img className="skill-icon" key={index} src={skills[item].icon}
-          title={skills[item].name}
-          onDragOver={allowDrop} onDrop={onDrop(index)}/>
+        return <img className="skill-icon" id={item}
+          key={index} src={skills[item].icon}
+          draggable="true"
+          title={skills[item].name}  alt={skills[item].name}
+          onDragStart={unequipDragStart(index)}
+          onDragEnd={onDragEnd(item, index)}
+          onDragOver={allowDrop} onDrop={onDrop(item, index)}/>
       }
     })
   }
-
-  </div>
-)
+  </div>)
 }
 
 
-    const SKILL_NAME = "skillName"
-    const EVENT_TYPE = "eventType"
-    const EQUIP = "equip"
-    const UNEQUIP = "unequip"
 
-    const mapDispatchToSkillDisplayProps = (dispatch) => {
-      return {
-        onDrop: (index) => (event) =>  {
-          if (event.dataTransfer.getData(EVENT_TYPE) == EQUIP) {
-            dispatch(equipSkill(event.dataTransfer.getData(SKILL_NAME), index))
-          }
-        }
-      }
+const mapDispatchToSkillDisplayProps = (dispatch) => {
+  const onDrop = (skillName, index) => (event) =>  {
+    console.log("Drop")
+    if (event.dataTransfer.getData(EVENT_TYPE) === EQUIP) {
+      dispatch(equipSkill(event.dataTransfer.getData(SKILL_NAME), index))
     }
-    const mapStateToBattleProps = (state) => {
-      return {
-        skillList: state.equippedBattleSkills,
-        skillLimit: state.battleSkillLimit
-      }
+    if (event.dataTransfer.getData(EVENT_TYPE) === MOVE) {
+      dispatch(unequipSkill(event.dataTransfer.getData(SKILL_NAME),
+        parseInt(event.dataTransfer.getData(FROM_INDEX), 10)))
+      dispatch(equipSkill(event.dataTransfer.getData(SKILL_NAME),
+        parseInt(index, 10)))
     }
-    const BattleSkillDisplay = connect(mapStateToBattleProps, mapDispatchToSkillDisplayProps)(SkillDisplay)
+  }
+  const onDragEnd = (skillName, index) => (event) => {
+    console.log("FIRED")
+    console.log(event.dataTransfer.getData(SKILL_NAME))
+    dispatch(unequipSkill(skillName, index))
+  }
+  return {
+    onDrop: onDrop,
+    onDragEnd: onDragEnd
+  }
+}
+const mapStateToBattleProps = (state) => {
+  return {
+    skillList: state.equippedBattleSkills,
+    skillLimit: state.battleSkillLimit
+  }
+}
+const BattleSkillDisplay = connect(mapStateToBattleProps, mapDispatchToSkillDisplayProps)(SkillDisplay)
 
-    const dragStart = (event) => {
-      console.log(event.target.id)
-      event.dataTransfer.setData(SKILL_NAME, event.target.id)
-      event.dataTransfer.setData(EVENT_TYPE, EQUIP)
+const equipDragStart = (event) => {
+  event.dataTransfer.setData(SKILL_NAME, event.target.id)
+  event.dataTransfer.setData(EVENT_TYPE, EQUIP)
+}
+
+const FilteredSkillListing = (skillNameList, skillType) => (
+  <div>
+    {
+      skillNameList.filter(skillName => skills[skillName].type === skillType)
+      .map(skillName =>
+        <div key={skills[skillName].name}
+          id={skillName}
+          onDragStart={equipDragStart}
+          draggable="true">
+          <img className="skill-icon" alt={skills[skillName]}
+            src={skills[skillName].icon} />
+          {skills[skillName].name}
+        </div>)
     }
+  </div>
+  )
 
-    const FilteredSkillListing = (skillNameList, skillType) => (
-    <div>
-      {
-        skillNameList.filter(skillName => skills[skillName].type == skillType)
-        .map(skillName =>
-          <div key={skills[skillName].name}
-            id={skillName}
-            onDragStart={dragStart}
-            draggable="true">
-            <img className="skill-icon" src={skills[skillName].icon} />{skills[skillName].name}
-          </div>)
-      }
-    </div>
-    )
-
-const SkillTabsLayout = ({availableSkills, onClick, onDrop}) => (
+  const SkillTabsLayout = ({availableSkills, onClick, onDrop}) => (
     <Tabs id="tabs">
       <Tab eventKey={1} title="Battle">
         <div className="skill-tab-container">
@@ -103,21 +134,21 @@ const SkillTabsLayout = ({availableSkills, onClick, onDrop}) => (
         </div>
       </Tab>
     </Tabs>
-)
+  )
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onClick: (skillName) => () => dispatch(equipSkill(skillName)),
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      onClick: (skillName) => () => dispatch(equipSkill(skillName)),
 
+    }
   }
-}
-const mapStateToProps = (state) => {
-  return {
-    availableSkills: state.availableSkills
+  const mapStateToProps = (state) => {
+    return {
+      availableSkills: state.availableSkills
+    }
   }
-}
 
 
-const SkillPanel = connect(mapStateToProps, mapDispatchToProps)(SkillTabsLayout)
+  const SkillPanel = connect(mapStateToProps, mapDispatchToProps)(SkillTabsLayout)
 
-export default SkillPanel
+  export default SkillPanel
