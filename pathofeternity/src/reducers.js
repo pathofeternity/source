@@ -142,8 +142,8 @@ function grantSkillReducer(state, action) {
   })
 }
 function equipSkillReducer(state, action) {
-  var category = skills[action.skillName].category
-  switch (category) {
+  var eventType = skills[action.skillName].eventType
+  switch (eventType) {
     case BATTLE:
     if (state.equippedBattleSkills.length >= state.battleSkillLimit) {
       return state;
@@ -177,8 +177,8 @@ function equipSkillReducer(state, action) {
   }
 }
 function unequipSkillReducer(state, action) {
-  var category = skills[action.skillName].category
-  switch(category) {
+  var eventType = skills[action.skillName].eventType
+  switch(eventType) {
     case BATTLE:
     return Object.assign({}, state, {
       equippedBattleSkills: state.equippedBattleSkills.filter(item => item != action.skillName)

@@ -8,13 +8,13 @@ export const MEDITATION = "MEDITATION"
 export const skills = {
   reaction: {
     name: "React-ion",
-    category: BATTLE,
+    eventType: BATTLE,
     type: ATTACK_SKILL,
     icon: require("./images/logo.svg")
   },
   reduction: {
     name: "Redux-ion",
-    category: BATTLE,
+    eventType: BATTLE,
     type: DEFENSE_SKILL,
     icon: require("./images/logo.svg")
   }
