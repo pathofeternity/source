@@ -45,9 +45,9 @@ export function endEvent() {
 export function grantSkill(skillName) {
   return { type: GRANT_SKILL, skillName: skillName }
 }
-export function equipSkill(skillName) {
-  return { type: EQUIP_SKILL, skillName: skillName }
+export function equipSkill(skillName, index) {
+  return { type: EQUIP_SKILL, skillName: skillName, index: index }
 }
-export function unequipSkill(skillName) {
-  return { type: UNEQUIP_SKILL, skillName: skillName }
+export function unequipSkill(skillName, index) {
+  return { type: UNEQUIP_SKILL, skillName: skillName, index: index }
 }

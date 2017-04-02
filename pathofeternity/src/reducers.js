@@ -3,6 +3,7 @@ START_EVENT, PROGRESS_EVENT, END_EVENT,
 GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL} from './actions.js'
 import {skills, BATTLE, ALCHEMY, MEDITATION} from './skills.js'
 
+const SKILL_LIMIT = 6
 const initialState = {
   stats: {
     cultivation: {
@@ -43,12 +44,9 @@ const initialState = {
   availableSkills: [
     "reaction", "reduction"
   ],
-  equippedBattleSkills: [],
-  battleSkillLimit: 6,
-  equippedAlchemySkills: [],
-  alchemySkillLimit: 6,
-  equippedMeditationSkills: [],
-  meditationSkillLimit: 6,
+  equippedBattleSkills: new Array(SKILL_LIMIT).fill(null),
+  equippedAlchemySkills: new Array(SKILL_LIMIT).fill(null),
+  equippedMeditationSkills: new Array(SKILL_LIMIT).fill(null),
 }
 
 // Top-level reducer.
@@ -142,38 +140,37 @@ function grantSkillReducer(state, action) {
   })
 }
 function equipSkillReducer(state, action) {
+  console.log(state.equippedBattleSkills)
   var eventType = skills[action.skillName].eventType
   switch (eventType) {
     case BATTLE:
-    if (state.equippedBattleSkills.length >= state.battleSkillLimit) {
-      return state;
-    }
-    if (state.equippedBattleSkills.indexOf(action.skillName) != -1) {
-      return state;
+    if (state.equippedBattleSkills.indexOf(action.skillName) !== -1) {
+      return state
     }
     return Object.assign({}, state, {
-      equippedBattleSkills: state.equippedBattleSkills.concat([action.skillName])
+      equippedBattleSkills: state.equippedBattleSkills.map(
+        (item, index) => index === action.index ? action.skillName : item)
     })
     case ALCHEMY:
-    if (state.equippedAlchemySkills.length >= state.alchemySkillLimit) {
-      return state;
-    }
-    if (state.equippedAlchemySkills.indexOf(action.skillName) != -1) {
-      return state;
+    if (state.equippedAlchemySkills.indexOf(action.skillName) !== -1) {
+      return state
     }
     return Object.assign({}, state, {
-      equippedAlchemySkills: state.equippedAlchemySkills.concat([action.skillName])
+      equippedAlchemySkills: state.equippedAlchemySkills.map(
+        (item, index) => index === action.index ? action.skillName : item)
     })
     case MEDITATION:
-    if (state.equippedMeditationSkills.length >= state.meditationSkillLimit) {
-      return state;
-    }
-    if (state.equippedMeditationSkills.indexOf(action.skillName) != -1) {
-      return state;
+    if (state.equippedMeditationSkills.indexOf(action.skillName) !== -1) {
+      return state
     }
     return Object.assign({}, state, {
-      equippedMeditationSkills: state.equippedMeditationSkills.concat([action.skillName])
+      equippedMeditationSkills: state.equippedMeditationSkills.map(
+        (item, index) => index === action.index ? action.skillName : item)
     })
+    default:
+    console.log("THIS SHOULD NEVER HAPPEN")
+    console.log(state)
+    console.log(action)
   }
 }
 function unequipSkillReducer(state, action) {
@@ -181,15 +178,23 @@ function unequipSkillReducer(state, action) {
   switch(eventType) {
     case BATTLE:
     return Object.assign({}, state, {
-      equippedBattleSkills: state.equippedBattleSkills.filter(item => item != action.skillName)
+      equippedBattleSkills: state.equippedBattleSkills.map(
+        (item, index) => index === action.index ? null : item)
     })
     case ALCHEMY:
     return Object.assign({}, state, {
-      equippedAlchemySkills: state.equippedAlchemySkills.filter(item => item != action.skillName)
+      equippedAlchemySkills: state.equippedAlchemySkills.map(
+        (item, index) => index === action.index ? null : item)
     })
-    case BATTLE:
+    case MEDITATION:
     return Object.assign({}, state, {
-      equippedMeditationSkills: state.equippedMeditationSkills.filter(item => item != action.skillName)
+      equippedMeditationSkills: state.equippedMeditationSkills.map(
+        (item, index) => index === action.index ? null : item)
     })
+    default:
+    console.log("THIS SHOULD NEVER HAPPEN")
+    console.log(state)
+    console.log(action)
+    return state
   }
 }
