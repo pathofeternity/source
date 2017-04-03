@@ -16,13 +16,8 @@ const DONE = "done"
 
 const allowDrop = (event) => {event.preventDefault()}
 
-const unequipDragStart = (index) => (event) => {
-  event.dataTransfer.setData(SKILL_NAME, event.target.id)
-  event.dataTransfer.setData(FROM_INDEX, index)
-  event.dataTransfer.setData(EVENT_TYPE, MOVE)
-}
 
-const SkillDisplay = ({skillList, skillLimit, onDrop, onDragEnd}) => {
+const SkillDisplay = ({skillList, skillLimit, onDrop, onDragEnd, unequipDragStart}) => {
   return (<div>{
     skillList.map((item, index) => {
       if (item == null) {
@@ -47,8 +42,16 @@ const SkillDisplay = ({skillList, skillLimit, onDrop, onDragEnd}) => {
 
 
 const mapDispatchToSkillDisplayProps = (dispatch) => {
+  var ignoreEvent
+  const unequipDragStart = (index) => (event) => {
+    ignoreEvent = false;
+    event.dataTransfer.setData(SKILL_NAME, event.target.id)
+    event.dataTransfer.setData(FROM_INDEX, index)
+    event.dataTransfer.setData(EVENT_TYPE, MOVE)
+  }
+
   const onDrop = (skillName, index) => (event) =>  {
-    console.log("Drop")
+    ignoreEvent = true;
     if (event.dataTransfer.getData(EVENT_TYPE) === EQUIP) {
       dispatch(equipSkill(event.dataTransfer.getData(SKILL_NAME), index))
     }
@@ -56,17 +59,20 @@ const mapDispatchToSkillDisplayProps = (dispatch) => {
       dispatch(unequipSkill(event.dataTransfer.getData(SKILL_NAME),
         parseInt(event.dataTransfer.getData(FROM_INDEX), 10)))
       dispatch(equipSkill(event.dataTransfer.getData(SKILL_NAME),
-        parseInt(index, 10)))
+        index))
     }
+    event.stopPropagation()
   }
   const onDragEnd = (skillName, index) => (event) => {
-    console.log("FIRED")
-    console.log(event.dataTransfer.getData(SKILL_NAME))
+    if (ignoreEvent) {
+      return
+    }
     dispatch(unequipSkill(skillName, index))
   }
   return {
     onDrop: onDrop,
-    onDragEnd: onDragEnd
+    onDragEnd: onDragEnd,
+    unequipDragStart: unequipDragStart
   }
 }
 const mapStateToBattleProps = (state) => {
