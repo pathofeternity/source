@@ -61,10 +61,13 @@ class EventPanelLayout extends React.Component {
             <ButtonToolbar>
               <Button bsStyle="primary"
                 onClick={() => this.clickSkill(stepIndex, steps, dispatch, finishAction)}
-                disabled={this.state.disableButtons}
-              >Focus</Button>
+                disabled={this.state.disableButtons}>
+                Focus
+              </Button>
               <Button onClick={() => dispatch(endEvent())}
-                disabled={this.state.disableButtons}>Cancel</Button>
+                disabled={this.state.disableButtons}>
+                Cancel
+              </Button>
             </ButtonToolbar>
           </div>
           <div className="event-progress-display">
@@ -76,26 +79,26 @@ class EventPanelLayout extends React.Component {
 
         </div>
       </div>
-    )
+      )
+    }
   }
-}
 
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch: dispatch,
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      dispatch: dispatch,
+    }
   }
-}
-const mapStateToProps = (state) => {
-  var event = state.activeEvent == null ? null : events[state.activeEvent]
-  return {
-    stepIndex: state.eventStep,
-    finishAction: event == null ? null : event.finishAction,
-    steps: event == null ? [] : event.steps
+  const mapStateToProps = (state) => {
+    var event = state.activeEvent == null ? null : events[state.activeEvent]
+    return {
+      stepIndex: state.eventStep,
+      finishAction: event == null ? null : event.finishAction,
+      steps: event == null ? [] : event.steps
+    }
   }
-}
 
 
-const EventPanel = connect(mapStateToProps, mapDispatchToProps)(EventPanelLayout)
+  const EventPanel = connect(mapStateToProps, mapDispatchToProps)(EventPanelLayout)
 
-export default EventPanel
+  export default EventPanel

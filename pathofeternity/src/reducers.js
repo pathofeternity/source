@@ -1,6 +1,7 @@
 import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH,
-START_EVENT, PROGRESS_EVENT, END_EVENT,
-GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL} from './actions.js'
+  START_EVENT, PROGRESS_EVENT, END_EVENT,
+  GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL
+} from './actions.js'
 import {skills, BATTLE, ALCHEMY, MEDITATION} from './skills.js'
 
 const SKILL_LIMIT = 6
@@ -99,7 +100,8 @@ function tickReducer(state) {
   for (statName in stats) {
     newScores[statName] = Math.min(oldScores[statName] +
       (stats[statName].rate * stats[statName].percent / 100),
-      stats[statName].max)
+      stats[statName].max
+    )
   }
   return Object.assign({}, state, {
     scores: newScores,
@@ -120,7 +122,8 @@ function setPercentReducer(state, action) {
 
   newStats = Object.assign({}, stats)
   newStats[action.statName] = Object.assign({}, stats[action.statName],
-    { percent: Math.min(remaining, action.percent)})
+    { percent: Math.min(remaining, action.percent)}
+  )
   return Object.assign({}, state, {stats: newStats})
 }
 
@@ -137,7 +140,8 @@ function endEventReducer(state) {
 function grantSkillReducer(state, action) {
   return Object.assign({}, state, {
     availableSkills: state.availableSkills.concat([action.skillName])
-  })
+  }
+)
 }
 function equipSkillReducer(state, action) {
   if (!skills[action.skillName]) {
@@ -152,7 +156,8 @@ function equipSkillReducer(state, action) {
     return Object.assign({}, state, {
       equippedBattleSkills: state.equippedBattleSkills.map(
         (item, index) => index === action.index ? action.skillName : item)
-    })
+      }
+    )
     case ALCHEMY:
     if (state.equippedAlchemySkills.indexOf(action.skillName) !== -1) {
       return state
@@ -160,7 +165,8 @@ function equipSkillReducer(state, action) {
     return Object.assign({}, state, {
       equippedAlchemySkills: state.equippedAlchemySkills.map(
         (item, index) => index === action.index ? action.skillName : item)
-    })
+      }
+    )
     case MEDITATION:
     if (state.equippedMeditationSkills.indexOf(action.skillName) !== -1) {
       return state
@@ -168,7 +174,8 @@ function equipSkillReducer(state, action) {
     return Object.assign({}, state, {
       equippedMeditationSkills: state.equippedMeditationSkills.map(
         (item, index) => index === action.index ? action.skillName : item)
-    })
+      }
+    )
     default:
     console.log("THIS SHOULD NEVER HAPPEN")
     console.log(state)
@@ -185,17 +192,20 @@ function unequipSkillReducer(state, action) {
     return Object.assign({}, state, {
       equippedBattleSkills: state.equippedBattleSkills.map(
         (item, index) => index === action.index ? null : item)
-    })
+      }
+    )
     case ALCHEMY:
     return Object.assign({}, state, {
       equippedAlchemySkills: state.equippedAlchemySkills.map(
         (item, index) => index === action.index ? null : item)
-    })
+      }
+    )
     case MEDITATION:
     return Object.assign({}, state, {
       equippedMeditationSkills: state.equippedMeditationSkills.map(
         (item, index) => index === action.index ? null : item)
-    })
+      }
+    )
     default:
     console.log("THIS SHOULD NEVER HAPPEN")
     console.log(state)
