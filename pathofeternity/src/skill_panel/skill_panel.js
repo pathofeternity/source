@@ -5,7 +5,6 @@ import {skills, ATTACK_SKILL, DEFENSE_SKILL} from '../skills.js'
 import {equipSkill, unequipSkill} from '../actions.js'
 import './skill_panel.css'
 
-
 const SKILL_NAME = "skillName"
 const EVENT_TYPE = "eventType"
 const FROM_INDEX = "fromIndex"
@@ -15,32 +14,28 @@ const MOVE = "move"
 const DONE = "done"
 
 const allowDrop = (event) => {event.preventDefault()}
-
-
 const SkillDisplay = ({skillList, skillLimit, onDrop, onDragEnd, unequipDragStart}) => {
-  return (<div>{
-    skillList.map((item, index) => {
-      if (item == null) {
-        return <img className="empty-slot" key={index}
-          src={require("../images/empty.png")}
-          title="No skill" alt="No skill"
-          onDragOver={allowDrop} onDrop={onDrop(item, index)}/>
-      } else {
-        return <img className="skill-icon" id={item}
-          key={index} src={skills[item].icon}
-          draggable="true"
-          title={skills[item].name}  alt={skills[item].name}
-          onDragStart={unequipDragStart(index)}
-          onDragEnd={onDragEnd(item, index)}
-          onDragOver={allowDrop} onDrop={onDrop(item, index)}/>
-      }
-    })
-  }
+  return (<div>
+    {
+      skillList.map((item, index) => {
+        if (item == null) {
+          return <img className="empty-slot" key={index}
+            src={require("../images/empty.png")}
+            title="No skill" alt="No skill"
+            onDragOver={allowDrop} onDrop={onDrop(item, index)}/>
+        } else {
+          return <img className="skill-icon" id={item}
+            key={index} src={skills[item].icon}
+            draggable="true"
+            title={skills[item].name}  alt={skills[item].name}
+            onDragStart={unequipDragStart(index)}
+            onDragEnd={onDragEnd(item, index)}
+            onDragOver={allowDrop} onDrop={onDrop(item, index)}/>
+        }
+      })
+    }
   </div>)
 }
-
-
-
 const mapDispatchToSkillDisplayProps = (dispatch) => {
   var ignoreEvent
   const unequipDragStart = (index) => (event) => {
@@ -57,9 +52,9 @@ const mapDispatchToSkillDisplayProps = (dispatch) => {
     }
     if (event.dataTransfer.getData(EVENT_TYPE) === MOVE) {
       dispatch(unequipSkill(event.dataTransfer.getData(SKILL_NAME),
-        parseInt(event.dataTransfer.getData(FROM_INDEX), 10)))
+      parseInt(event.dataTransfer.getData(FROM_INDEX), 10)))
       dispatch(equipSkill(event.dataTransfer.getData(SKILL_NAME),
-        index))
+      index))
     }
     event.stopPropagation()
   }
@@ -87,7 +82,6 @@ const equipDragStart = (event) => {
   event.dataTransfer.setData(SKILL_NAME, event.target.id)
   event.dataTransfer.setData(EVENT_TYPE, EQUIP)
 }
-
 const FilteredSkillListing = (skillNameList, skillType) => (
   <div>
     {
@@ -103,58 +97,64 @@ const FilteredSkillListing = (skillNameList, skillType) => (
         </div>)
     }
   </div>
-  )
+)
 
-  const SkillTabsLayout = ({availableSkills, onClick, onDrop}) => (
-    <Tabs id="tabs">
-      <Tab eventKey={1} title="Battle">
-        <div className="skill-tab-container">
-          <div className="skill-listing">
-            <Accordion>
-              <Panel
-                header={"Attack"}>
-                {FilteredSkillListing(availableSkills, ATTACK_SKILL)}
-              </Panel>
-            </Accordion>
-            <Accordion>
-              <Panel
-                header={"Defense"}>
-                {FilteredSkillListing(availableSkills, DEFENSE_SKILL)}
-              </Panel>
-            </Accordion>
+
+class SkillTabsLayout extends React.Component {
+  constructor() {
+    super()
+  }
+  render() {
+    const {availableSkills, onClick, onDrop} = this.props
+    return (
+      <Tabs id="tabs">
+        <Tab eventKey={1} title="Battle">
+          <div className="skill-tab-container">
+            <div className="skill-listing">
+              <Accordion>
+                <Panel
+                  header={"Attack"}>
+                  {FilteredSkillListing(availableSkills, ATTACK_SKILL)}
+                </Panel>
+              </Accordion>
+              <Accordion>
+                <Panel
+                  header={"Defense"}>
+                  {FilteredSkillListing(availableSkills, DEFENSE_SKILL)}
+                </Panel>
+              </Accordion>
+            </div>
+            <BattleSkillDisplay/>
           </div>
-
-          <BattleSkillDisplay/>
-        </div>
-      </Tab>
-      <Tab eventKey={2} title="Alchemy">
-        <div className="skill-tab-container">
-        </div>
-      </Tab>
-      <Tab eventKey={3} title="Meditation">
-        <div className="skill-tab-container">
-        </div>
-      </Tab>
-      <Tab eventKey={4} title="Passive">
-        <div className="skill-tab-container">
-        </div>
-      </Tab>
-    </Tabs>
-  )
-
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      onClick: (skillName) => () => dispatch(equipSkill(skillName)),
-
-    }
+        </Tab>
+        <Tab eventKey={2} title="Alchemy">
+          <div className="skill-tab-container">
+          </div>
+        </Tab>
+        <Tab eventKey={3} title="Meditation">
+          <div className="skill-tab-container">
+          </div>
+        </Tab>
+        <Tab eventKey={4} title="Passive">
+          <div className="skill-tab-container">
+          </div>
+        </Tab>
+      </Tabs>
+    )
   }
-  const mapStateToProps = (state) => {
-    return {
-      availableSkills: state.availableSkills
-    }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onClick: (skillName) => () => dispatch(equipSkill(skillName)),
+
   }
+}
+const mapStateToProps = (state) => {
+  return {
+    availableSkills: state.availableSkills
+  }
+}
 
+const SkillPanel = connect(mapStateToProps, mapDispatchToProps)(SkillTabsLayout)
 
-  const SkillPanel = connect(mapStateToProps, mapDispatchToProps)(SkillTabsLayout)
-
-  export default SkillPanel
+export default SkillPanel
