@@ -1,6 +1,6 @@
 import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH,
   START_EVENT, PROGRESS_EVENT, END_EVENT,
-  GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL
+  GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL, SELECT_SKILL
 } from './actions.js'
 import {skills, BATTLE, ALCHEMY, MEDITATION} from './skills.js'
 
@@ -48,6 +48,7 @@ const initialState = {
   equippedBattleSkills: new Array(SKILL_LIMIT).fill(null),
   equippedAlchemySkills: new Array(SKILL_LIMIT).fill(null),
   equippedMeditationSkills: new Array(SKILL_LIMIT).fill(null),
+  selectedSkill: null,
 }
 
 // Top-level reducer.
@@ -70,6 +71,8 @@ export function pathApp(state = loadGame(), action) {
     return equipSkillReducer(state, action)
     case UNEQUIP_SKILL:
     return unequipSkillReducer(state, action)
+    case SELECT_SKILL:
+    return selectSkillReducer(state, action)
     default:
     return state
   }
@@ -212,4 +215,9 @@ function unequipSkillReducer(state, action) {
     console.log(action)
     return state
   }
+}
+function selectSkillReducer(state, action) {
+  return Object.assign({}, state, {
+    selectedSkill: action.skillName
+  })
 }

@@ -8,6 +8,7 @@ export const END_EVENT = 'END_EVENT'
 export const GRANT_SKILL = 'GRANT_SKILL'
 export const EQUIP_SKILL = 'EQUIP_SKILL'
 export const UNEQUIP_SKILL = 'UNEQUIP_SKILL'
+export const SELECT_SKILL = 'SELECT_SKILL'
 
 export function noOp() {
   return { type: NO_OP }
@@ -50,4 +51,7 @@ export function equipSkill(skillName, index) {
 }
 export function unequipSkill(skillName, index) {
   return { type: UNEQUIP_SKILL, skillName: skillName, index: index }
+}
+export function selectSkill(skillName) {
+  return { type: SELECT_SKILL, skillName: skillName}
 }

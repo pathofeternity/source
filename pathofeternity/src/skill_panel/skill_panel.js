@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import {Tabs, Tab, Accordion, Panel} from 'react-bootstrap'
 import {skills, ATTACK_SKILL, DEFENSE_SKILL} from '../skills.js'
-import {equipSkill, unequipSkill} from '../actions.js'
+import {equipSkill,selectSkill, unequipSkill} from '../actions.js'
 import './skill_panel.css'
 
 
@@ -16,8 +16,7 @@ const DONE = "done"
 
 const allowDrop = (event) => {event.preventDefault()}
 
-
-const SkillDisplay = ({skillList, skillLimit, onDrop, onDragEnd, unequipDragStart}) => {
+const SkillDisplay = ({skillList, skillLimit, onDrop, onDragEnd, unequipDragStart, onClick}) => {
   return (<div>
     {
       skillList.map((item, index) => {
@@ -34,6 +33,7 @@ const SkillDisplay = ({skillList, skillLimit, onDrop, onDragEnd, unequipDragStar
             title={skills[item].name}  alt={skills[item].name}
             onDragStart={unequipDragStart(index)}
             onDragEnd={onDragEnd(item, index)}
+            onClick={onClick(item)}
             onDragOver={allowDrop} onDrop={onDrop(item, index)}
           />
         }
@@ -41,9 +41,6 @@ const SkillDisplay = ({skillList, skillLimit, onDrop, onDragEnd, unequipDragStar
     }
   </div>)
 }
-
-
-
 const mapDispatchToSkillDisplayProps = (dispatch) => {
   var ignoreEvent
   const unequipDragStart = (index) => (event) => {
@@ -75,7 +72,8 @@ const mapDispatchToSkillDisplayProps = (dispatch) => {
   return {
     onDrop: onDrop,
     onDragEnd: onDragEnd,
-    unequipDragStart: unequipDragStart
+    unequipDragStart: unequipDragStart,
+    onClick: (skillName) => () => dispatch(selectSkill(skillName)),
   }
 }
 const mapStateToBattleProps = (state) => {
@@ -91,7 +89,7 @@ const equipDragStart = (event) => {
   event.dataTransfer.setData(EVENT_TYPE, EQUIP)
 }
 
-const FilteredSkillListing = (skillNameList, skillType) => (
+const FilteredSkillListing = (skillNameList, skillType, onClick) => (
   <div>
     {
       skillNameList.filter(skillName => skills[skillName].type === skillType)
@@ -99,6 +97,7 @@ const FilteredSkillListing = (skillNameList, skillType) => (
         <div key={skills[skillName].name}
           id={skillName}
           onDragStart={equipDragStart}
+          onClick={onClick(skillName)}
           draggable="true">
           <img className="skill-icon" alt={skills[skillName]}
             src={skills[skillName].icon}
@@ -110,7 +109,22 @@ const FilteredSkillListing = (skillNameList, skillType) => (
   </div>
 )
 
-const SkillTabsLayout = ({availableSkills, onClick, onDrop}) => (
+const SelectedSkillDisplay = ({skillName}) => (
+  <div>
+    {skillName}
+  </div>
+)
+const mapDispatchToSelectedSkillProps = (dispatch) => {
+  return {}
+}
+const mapStateToSelectedSkillProps = (state) => {
+  return {
+    skillName: state.selectedSkill
+  }
+}
+const SelectedSkillComponent = connect(mapStateToSelectedSkillProps, mapDispatchToSelectedSkillProps)(SelectedSkillDisplay)
+
+const SkillTabsLayout = ({availableSkills, onClick}) => (
   <Tabs id="tabs">
     <Tab eventKey={1} title="Battle">
       <div className="skill-tab-container">
@@ -118,18 +132,19 @@ const SkillTabsLayout = ({availableSkills, onClick, onDrop}) => (
           <Accordion>
             <Panel
               header={"Attack"}>
-              {FilteredSkillListing(availableSkills, ATTACK_SKILL)}
+              {FilteredSkillListing(availableSkills, ATTACK_SKILL, onClick)}
             </Panel>
           </Accordion>
           <Accordion>
             <Panel
               header={"Defense"}>
-              {FilteredSkillListing(availableSkills, DEFENSE_SKILL)}
+              {FilteredSkillListing(availableSkills, DEFENSE_SKILL, onClick)}
             </Panel>
           </Accordion>
         </div>
 
         <BattleSkillDisplay/>
+        <SelectedSkillComponent/>
       </div>
     </Tab>
     <Tab eventKey={2} title="Alchemy">
@@ -149,7 +164,7 @@ const SkillTabsLayout = ({availableSkills, onClick, onDrop}) => (
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onClick: (skillName) => () => dispatch(equipSkill(skillName)),
+    onClick: (skillName) => () => dispatch(selectSkill(skillName)),
 
   }
 }
