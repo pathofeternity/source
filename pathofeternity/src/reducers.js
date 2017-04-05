@@ -194,19 +194,19 @@ function unequipSkillReducer(state, action) {
     case BATTLE:
     return Object.assign({}, state, {
       equippedBattleSkills: state.equippedBattleSkills.map(
-        (item, index) => index === action.index ? null : item)
+        (item) => item === action.skillName ? null : item)
       }
     )
     case ALCHEMY:
     return Object.assign({}, state, {
       equippedAlchemySkills: state.equippedAlchemySkills.map(
-        (item, index) => index === action.index ? null : item)
+        (item) => item === action.skillName ? null : item)
       }
     )
     case MEDITATION:
     return Object.assign({}, state, {
       equippedMeditationSkills: state.equippedMeditationSkills.map(
-        (item, index) => index === action.index ? null : item)
+        (item) => item === action.skillName ? null : item)
       }
     )
     default:

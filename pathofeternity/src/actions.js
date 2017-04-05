@@ -49,8 +49,8 @@ export function grantSkill(skillName) {
 export function equipSkill(skillName, index) {
   return { type: EQUIP_SKILL, skillName: skillName, index: index }
 }
-export function unequipSkill(skillName, index) {
-  return { type: UNEQUIP_SKILL, skillName: skillName, index: index }
+export function unequipSkill(skillName) {
+  return { type: UNEQUIP_SKILL, skillName: skillName}
 }
 export function selectSkill(skillName) {
   return { type: SELECT_SKILL, skillName: skillName}
