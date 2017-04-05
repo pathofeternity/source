@@ -3,85 +3,12 @@ import { connect } from 'react-redux'
 import {Tabs, Tab, Accordion, Panel, Button} from 'react-bootstrap'
 import {skills, ATTACK_SKILL, DEFENSE_SKILL, BATTLE, MEDITATION, ALCHEMY} from '../skills.js'
 import {equipSkill,selectSkill, unequipSkill} from '../actions.js'
+import {BattleSkillDisplay} from './skill_icons_display.js'
+import {SKILL_NAME, EVENT_TYPE, EQUIP} from './event_constants.js'
 import './skill_panel.css'
 
 
-const SKILL_NAME = "skillName"
-const EVENT_TYPE = "eventType"
-const FROM_INDEX = "fromIndex"
-const EQUIP = "equip"
-const UNEQUIP = "unequip"
-const MOVE = "move"
-const DONE = "done"
 
-const allowDrop = (event) => {event.preventDefault()}
-
-const SkillDisplay = ({skillList, skillLimit, onDrop, onDragEnd, unequipDragStart, onClick}) => {
-  return (<div>
-    {
-      skillList.map((item, index) => {
-        if (item == null) {
-          return <img className="empty-slot" key={index}
-            src={require("../images/empty.png")}
-            title="No skill" alt="No skill"
-            onDragOver={allowDrop} onDrop={onDrop(item, index)}
-          />
-        } else {
-          return <img className="skill-icon" id={item}
-            key={index} src={skills[item].icon}
-            draggable="true"
-            title={skills[item].name}  alt={skills[item].name}
-            onDragStart={unequipDragStart(index)}
-            onDragEnd={onDragEnd(item)}
-            onClick={onClick(item)}
-            onDragOver={allowDrop} onDrop={onDrop(item, index)}
-          />
-        }
-      })
-    }
-  </div>)
-}
-const mapDispatchToSkillDisplayProps = (dispatch) => {
-  var ignoreEvent
-  const unequipDragStart = (index) => (event) => {
-    ignoreEvent = false;
-    event.dataTransfer.setData(SKILL_NAME, event.target.id)
-    event.dataTransfer.setData(FROM_INDEX, index)
-    event.dataTransfer.setData(EVENT_TYPE, MOVE)
-  }
-
-  const onDrop = (skillName, index) => (event) =>  {
-    ignoreEvent = true;
-    if (event.dataTransfer.getData(EVENT_TYPE) === EQUIP) {
-      dispatch(equipSkill(event.dataTransfer.getData(SKILL_NAME), index))
-    }
-    if (event.dataTransfer.getData(EVENT_TYPE) === MOVE) {
-      dispatch(unequipSkill(event.dataTransfer.getData(SKILL_NAME)))
-      dispatch(equipSkill(event.dataTransfer.getData(SKILL_NAME),
-      index))
-    }
-    event.stopPropagation()
-  }
-  const onDragEnd = (skillName) => (event) => {
-    if (ignoreEvent) {
-      return
-    }
-    dispatch(unequipSkill(skillName))
-  }
-  return {
-    onDrop: onDrop,
-    onDragEnd: onDragEnd,
-    unequipDragStart: unequipDragStart,
-    onClick: (skillName) => () => dispatch(selectSkill(skillName)),
-  }
-}
-const mapStateToBattleProps = (state) => {
-  return {
-    skillList: state.equippedBattleSkills,
-    skillLimit: state.battleSkillLimit
-  }
-}
-const BattleSkillDisplay = connect(mapStateToBattleProps, mapDispatchToSkillDisplayProps)(SkillDisplay)
 
 const equipDragStart = (event) => {
   event.dataTransfer.setData(SKILL_NAME, event.target.id)
