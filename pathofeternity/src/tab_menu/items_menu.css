@@ -1,0 +1,23 @@
+.items-column-container {
+  float: left;
+  width: calc(50% - 6px);
+  margin-left: 3px;
+  margin-right: 3px;
+  height: 100%;
+}
+.small-slider {
+    width: 50%;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: inline-block;
+}
+.thin {
+  height:10%;
+}
+.thick {
+  overflow-y: auto;
+  height: calc(80% - 12px);
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: #cccccc;
+}
