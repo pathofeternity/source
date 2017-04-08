@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import {skills} from '../skills.js'
+import {SKILLS} from '../skills.js'
 import {SKILL_NAME, FROM_INDEX, EVENT_TYPE, MOVE, EQUIP} from './event_constants.js'
 import {equipSkill,selectSkill, unequipSkill} from '../actions.js'
 
@@ -18,9 +18,9 @@ const SkillIconsLayout = ({skillList, skillLimit, onDrop, onDragEnd, unequipDrag
           />
         } else {
           return <img className="skill-icon" id={item}
-            key={index} src={skills[item].icon}
+            key={index} src={SKILLS[item].icon}
             draggable="true"
-            title={skills[item].name}  alt={skills[item].name}
+            title={SKILLS[item].name}  alt={SKILLS[item].name}
             onDragStart={unequipDragStart(index)}
             onDragEnd={onDragEnd(item)}
             onClick={onClick(item)}

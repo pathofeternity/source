@@ -1,8 +1,9 @@
 import {successfulBreakthrough} from './actions.js'
 
-export const events = {
+export const EVENTS = {
   breakthroughE1: {
     name: "Breakthrough to Essence 1",
+    listDisplay: false,
     steps: [
       {
         buttonText: "Focus Mind",
@@ -14,5 +15,15 @@ export const events = {
       }
     ],
     finishAction: successfulBreakthrough(),
+  },
+  gatherHerbs: {
+    name: "Gather Herbs",
+    steps: [
+      {
+        buttonText: "Gather Herbs",
+        name: "Gathering Herbs",
+      },
+    ],
+    finishAction: null,
   }
 }

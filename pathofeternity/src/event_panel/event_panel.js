@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import {ButtonToolbar, Button,  ProgressBar} from 'react-bootstrap'
 import {progressEvent, endEvent} from '../actions.js'
-import {events} from '../events.js'
+import {EVENTS} from '../events.js'
 import './event_panel.css'
 
 // May have to be changed to allow for intermediate step costs and rewards.
@@ -90,7 +90,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 const mapStateToProps = (state) => {
-  var event = state.activeEvent == null ? null : events[state.activeEvent]
+  var event = state.activeEvent == null ? null : EVENTS[state.activeEvent]
   return {
     stepIndex: state.eventStep,
     finishAction: event == null ? null : event.finishAction,

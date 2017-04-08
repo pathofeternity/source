@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
 import './items_menu.css'
 import { connect } from 'react-redux'
-import {Button, Accordion} from 'react-bootstrap'
-import {setPercent} from '../actions.js'
+import {Button} from 'react-bootstrap'
 
 // Actually the right side of the training menu, includes foundation slider.
 const ItemsMenuLayout = ({cultivation, body, mind, soul, onChange}) => (

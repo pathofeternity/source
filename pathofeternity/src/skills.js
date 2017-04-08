@@ -5,7 +5,7 @@ export const BATTLE = "BATTLE"
 export const ALCHEMY = "ALCHEMY"
 export const MEDITATION = "MEDITATION"
 
-export const skills = {
+export const SKILLS = {
   reaction: {
     name: "React-ion",
     eventType: BATTLE,

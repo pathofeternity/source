@@ -2,7 +2,7 @@ import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH,
   START_EVENT, PROGRESS_EVENT, END_EVENT,
   GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL, SELECT_SKILL
 } from './actions.js'
-import {skills, BATTLE, ALCHEMY, MEDITATION} from './skills.js'
+import {SKILLS, BATTLE, ALCHEMY, MEDITATION} from './skills.js'
 
 const SKILL_LIMIT = 6
 const initialState = {
@@ -49,6 +49,9 @@ const initialState = {
   equippedAlchemySkills: new Array(SKILL_LIMIT).fill(null),
   equippedMeditationSkills: new Array(SKILL_LIMIT).fill(null),
   selectedSkill: null,
+
+  inventory: {
+  },
 }
 
 // Top-level reducer.
@@ -147,10 +150,10 @@ function grantSkillReducer(state, action) {
 )
 }
 function equipSkillReducer(state, action) {
-  if (!skills[action.skillName]) {
+  if (!SKILLS[action.skillName]) {
     return state
   }
-  var eventType = skills[action.skillName].eventType
+  var eventType = SKILLS[action.skillName].eventType
   switch (eventType) {
     case BATTLE:
     if (state.equippedBattleSkills.indexOf(action.skillName) !== -1) {
@@ -186,10 +189,10 @@ function equipSkillReducer(state, action) {
   }
 }
 function unequipSkillReducer(state, action) {
-  if (!skills[action.skillName]) {
+  if (!SKILLS[action.skillName]) {
     return state
   }
-  var eventType = skills[action.skillName].eventType
+  var eventType = SKILLS[action.skillName].eventType
   switch(eventType) {
     case BATTLE:
     return Object.assign({}, state, {

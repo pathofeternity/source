@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import {Tabs, Tab, Accordion, Panel} from 'react-bootstrap'
-import {skills, ATTACK_SKILL, DEFENSE_SKILL} from '../skills.js'
+import {SKILLS, ATTACK_SKILL, DEFENSE_SKILL} from '../skills.js'
 import {selectSkill} from '../actions.js'
 import {BattleSkillDisplay} from './skill_icons_display.js'
 import {BattleSelectedSkill} from './selected_skill_display.js'
@@ -16,17 +16,17 @@ const equipDragStart = (event) => {
 const FilteredSkillListing = (skillNameList, skillType, onClick) => (
   <div>
     {
-      skillNameList.filter(skillName => skills[skillName].type === skillType)
+      skillNameList.filter(skillName => SKILLS[skillName].type === skillType)
       .map(skillName =>
-        <div key={skills[skillName].name}
+        <div key={SKILLS[skillName].name}
           id={skillName}
           onDragStart={equipDragStart}
           onClick={onClick(skillName)}
           draggable="true">
-          <img className="skill-icon" alt={skills[skillName]}
-            src={skills[skillName].icon}
+          <img className="skill-icon" alt={SKILLS[skillName]}
+            src={SKILLS[skillName].icon}
           />
-          {skills[skillName].name}
+          {SKILLS[skillName].name}
         </div>
       )
     }

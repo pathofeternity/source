@@ -6,6 +6,7 @@ import TabMenu from './tab_menu/tab_menu.js';
 import EventPanel from './event_panel/event_panel.js';
 import SkillPanel from './skill_panel/skill_panel.js';
 import TimerArea from './timer_area.js';
+import EventListing from './event_listing/event_listing.js';
 import {tick } from './actions.js'
 import { connect } from 'react-redux'
 
@@ -40,7 +41,9 @@ const AppLayout = ({onClick, save, deleteSave, hasEvent}) =>  (
           <SkillPanel/>
         </div>
         <div className="App-map">
-          <Fade in={hasEvent}><div><EventPanel /></div></Fade>
+          {
+            hasEvent ? <EventPanel /> : <EventListing />
+          }
         </div>
       </div>
     </div>

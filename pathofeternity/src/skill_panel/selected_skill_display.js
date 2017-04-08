@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import {Button} from 'react-bootstrap'
-import {skills, BATTLE, MEDITATION, ALCHEMY} from '../skills.js'
+import {SKILLS, BATTLE, MEDITATION, ALCHEMY} from '../skills.js'
 import {equipSkill, unequipSkill} from '../actions.js'
 
 const SelectedSkillLayout = ({skillName, skillList, eventType, dispatchAdd, dispatchRemove}) => {
   if (!skillName) {
     return <div></div>
   }
-  if (skills[skillName].eventType !== eventType) {
+  if (SKILLS[skillName].eventType !== eventType) {
     return <div></div>
   }
   if (skillList.indexOf(skillName) === -1) {
