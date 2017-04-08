@@ -1,7 +1,7 @@
 import React from 'react';
 import './items_menu.css'
 import { connect } from 'react-redux'
-import {useItemAction} from '../actions.js'
+import {useItem} from '../actions.js'
 import {Button} from 'react-bootstrap'
 import {ITEMS} from '../items.js'
 
@@ -23,7 +23,7 @@ class InstantUseLayout extends React.Component {
   }
   useItem() {
     const {dispatch, inventory, item} = this.props
-    dispatch(useItemAction(this.props.item, this.state.quantity))
+    dispatch(useItem(this.props.item, this.state.quantity))
 
     var limit = inventory[item] - this.state.quantity
     var newQuantity = Math.min(this.state.quantity, limit)
@@ -31,7 +31,7 @@ class InstantUseLayout extends React.Component {
 
     this.setState({quantity: newQuantity})
   }
-  
+
   render() {
     const {inventory, item} = this.props
     if (inventory[item] !== undefined) {

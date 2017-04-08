@@ -58,10 +58,10 @@ export function selectSkill(skillName) {
   return { type: SELECT_SKILL, skillName: skillName}
 }
 
-export function grantItemAction(itemName, quantity) {
+export function grantItem(itemName, quantity) {
   return {type: GRANT_ITEM, itemName: itemName, quantity: quantity}
 }
-export function useItemAction(itemName, quantity) {
+export function useItem(itemName, quantity) {
   return {
     type: USE_ITEM,
     itemName: itemName,

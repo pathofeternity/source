@@ -1,4 +1,4 @@
-import {successfulBreakthrough} from './actions.js'
+import {successfulBreakthrough, grantItem} from './actions.js'
 
 export const EVENTS = {
   breakthroughE1: {
@@ -6,12 +6,14 @@ export const EVENTS = {
     listDisplay: false,
     steps: [
       {
-        buttonText: "Focus Mind",
-        name: "Preparing Mind",
+        titleText: "Focus Mind",
+        displayText: "Preparing Mind",
+        defaultActionName: "Focus",
       },
       {
-        buttonText: "Focus Energy",
-        name: "Focusing Energy",
+        titleText: "Focus Energy",
+        displayText: "Focusing Energy",
+        defaultActionName: "Focus",
       }
     ],
     finishAction: successfulBreakthrough(),
@@ -20,10 +22,11 @@ export const EVENTS = {
     name: "Gather Herbs",
     steps: [
       {
-        buttonText: "Gather Herbs",
-        name: "Gathering Herbs",
+        titleText: "Gather Herbs",
+        displayText: "Gathering Herbs",
+        defaultActionName: "Gather Herbs",
       },
     ],
-    finishAction: null,
-  }
+    finishAction: grantItem('herb', 2),
+  },
 }

@@ -39,17 +39,17 @@ class EventPanelLayout extends React.Component {
   }
 
   render() {
-    const {stepIndex, steps, dispatch, finishAction} = this.props
+    const {stepIndex, steps, dispatch, finishAction, eventTitle} = this.props
     return (
       <div className="event-panel">
         <div className="event-top">
-          <h2>Breakthrough to Essence 1</h2>
+          <h2>{eventTitle}</h2>
           <ButtonToolbar className="event-buttonbar">
             {steps.map((step, index) =>
               <Button bsStyle={index === stepIndex ? "primary" : "default"}
                 key={index}
                 className="toolbar-button">
-                {step.buttonText}
+                {step.titleText}
               </Button>
             )}
 
@@ -61,7 +61,7 @@ class EventPanelLayout extends React.Component {
               <Button bsStyle="primary"
                 onClick={() => this.clickSkill(stepIndex, steps, dispatch, finishAction)}
                 disabled={this.state.disableButtons}>
-                Focus
+                {steps[stepIndex].defaultActionName}
               </Button>
               <Button onClick={() => dispatch(endEvent())}
                 disabled={this.state.disableButtons}>
@@ -70,7 +70,7 @@ class EventPanelLayout extends React.Component {
             </ButtonToolbar>
           </div>
           <div className="event-progress-display">
-            Focusing Energy
+            <h3>{steps[stepIndex].displayText}</h3>
             <ProgressBar max={5} now={this.state.progress}/>
 
 
@@ -91,6 +91,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   var event = state.activeEvent == null ? null : EVENTS[state.activeEvent]
   return {
+    eventTitle: event.name,
     stepIndex: state.eventStep,
     finishAction: event == null ? null : event.finishAction,
     steps: event == null ? [] : event.steps

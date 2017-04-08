@@ -2,7 +2,7 @@ import React from 'react';
 import './event_listing.css';
 import {Button} from 'react-bootstrap'
 import { connect } from 'react-redux'
-import {grantItemAction} from '../actions.js'
+import {startEvent} from '../actions.js'
 
 /*
   This file technically defines two components:
@@ -12,20 +12,22 @@ import {grantItemAction} from '../actions.js'
 */
 
 // Uses block arrow syntax to restrict the scope to this file.
-const EventListingLayout = ({onClick}) =>  (
+const EventListingLayout = ({maxCultivation, onClick}) =>  (
+
     <div>
-      <Button onClick={onClick}>Gather Herbs</Button>
+      {maxCultivation > 100 ? <Button onClick={onClick}>Gather Herbs</Button> : null}
     </div>
   )
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onClick: () => dispatch(grantItemAction('herb', 2))
+    onClick: () => dispatch(startEvent('gatherHerbs'))
   }
 }
 const mapStateToProps = (state) => {
   return {
+    maxCultivation: state.stats.cultivation.max,
   }
 }
 
