@@ -33,10 +33,9 @@ class EventPanelLayout extends React.Component {
       this.makeBarTimeout(i)
     }
     setTimeout(() => {
-      eventNextStep(stepIndex, steps, dispatch, finishAction)
       this.setState({progress: 0, disableButtons:false})
+      eventNextStep(stepIndex, steps, dispatch, finishAction)
     }, 6000)
-
   }
 
   render() {
