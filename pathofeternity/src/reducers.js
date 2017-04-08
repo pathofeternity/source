@@ -58,7 +58,6 @@ const initialState = {
 
 // Top-level reducer.
 export function pathApp(state = loadGame(), action) {
-
   switch (action.type) {
     case TICK:
     return tickReducer(state)
@@ -244,6 +243,7 @@ function grantItemReducer(state, action) {
   })
 }
 function useItemReducer(state, action) {
+  console.log(action)
   var itemName = action.itemName
   return ITEMS[itemName].onUse(state, action.quantity)
 }

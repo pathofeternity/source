@@ -1,10 +1,65 @@
 import React from 'react';
 import './items_menu.css'
 import { connect } from 'react-redux'
+import {useItemAction} from '../actions.js'
 import {Button} from 'react-bootstrap'
 import {ITEMS} from '../items.js'
 
+class InstantUseLayout extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {quantity: 1}
+  }
 
+  changeQuantity(event) {
+    this.setState({quantity: event.target.value})
+  }
+  fixQuantity(event) {
+      var quantity = event.target.value
+      const {inventory, item} = this.props
+      var newQuantity = Math.min(quantity, inventory[item])
+      newQuantity = Math.max(1, quantity)
+      this.setState({quantity:newQuantity})
+  }
+  useItem() {
+    const {dispatch, inventory, item} = this.props
+    dispatch(useItemAction(this.props.item, this.state.quantity))
+
+    var limit = inventory[item] - this.state.quantity
+    var newQuantity = Math.min(this.state.quantity, limit)
+    newQuantity = Math.max(newQuantity, 1)
+
+    this.setState({quantity: newQuantity})
+  }
+  
+  render() {
+    const {inventory, item} = this.props
+    if (inventory[item] !== undefined) {
+      return <div>
+        {ITEMS[item].displayName} x{inventory[item]}
+        <Button onClick={() => {this.useItem()}}
+          disabled={this.state.quantity > inventory[item]}
+        >Use</Button>
+        <input type="number"
+          onChange={(event) => {this.changeQuantity(event)}}
+          onBlur={event => {this.fixQuantity(event)}}
+          min="1" value={this.state.quantity} max={inventory[item]}/>
+      </div>
+    }
+    return null
+  }
+}
+const mapDispatchToEntryProps = (dispatch) => {
+  return {
+    dispatch: dispatch
+  }
+}
+const mapStateToEntryProps = (state) => {
+  return {
+    inventory: state.inventory
+  }
+}
+const InstantUseEntry = connect(mapStateToEntryProps, mapDispatchToEntryProps)(InstantUseLayout)
 
 // Actually the right side of the training menu, includes foundation slider.
 class ItemsMenuLayout extends React.Component {
@@ -13,22 +68,9 @@ class ItemsMenuLayout extends React.Component {
     var stateBuilder = {}
     Object.keys(ITEMS).forEach(item => {stateBuilder[item] = 1})
     this.state = stateBuilder
-    console.log(this.state)
   }
-  itemEntry(item, index, inventory) {
 
-
-    if (inventory[item]) {
-      return <div key={index}>
-        {ITEMS[item].displayName} x{inventory[item]}
-        <Button>Use</Button>
-        <input type="number" defaultValue="1" min="1" max={inventory[item]}/>
-      </div>
-    }
-    return null
-  }
   render() {
-    const {inventory} = this.props
     return (
       <div className="items-column-container">
         <div className="thin"><h3>Foundation and bar</h3></div>
@@ -41,7 +83,7 @@ class ItemsMenuLayout extends React.Component {
         </div>
         <div className="thick">
           {
-            Object.keys(ITEMS).map((item, index) => this.itemEntry(item, index, inventory))
+            Object.keys(ITEMS).map((item, index) => <InstantUseEntry key={index} item={item} />)
           }
         </div>
       </div>
@@ -59,8 +101,6 @@ const mapStateToProps = (state) => {
     inventory: state.inventory
   }
 }
-
-
 const ItemsMenu = connect(mapStateToProps, mapDispatchToProps)(ItemsMenuLayout)
 
 export default ItemsMenu
