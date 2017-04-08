@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import './App.css';
-import {Fade} from 'react-bootstrap'
 import TrainingBars from './bars/training_bars.js';
 import TabMenu from './tab_menu/tab_menu.js';
 import EventPanel from './event_panel/event_panel.js';

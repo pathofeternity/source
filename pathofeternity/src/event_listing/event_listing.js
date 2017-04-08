@@ -1,7 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import './event_listing.css';
 import {Button} from 'react-bootstrap'
 import { connect } from 'react-redux'
+import {grantItemAction} from '../actions.js'
 
 /*
   This file technically defines two components:
@@ -11,16 +12,16 @@ import { connect } from 'react-redux'
 */
 
 // Uses block arrow syntax to restrict the scope to this file.
-const EventListingLayout = () =>  (
+const EventListingLayout = ({onClick}) =>  (
     <div>
-      <Button>Gather Herbs</Button>
+      <Button onClick={onClick}>Gather Herbs</Button>
     </div>
   )
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    onClick: () => dispatch(grantItemAction('herb', 2))
   }
 }
 const mapStateToProps = (state) => {

@@ -10,6 +10,7 @@ export const EQUIP_SKILL = 'EQUIP_SKILL'
 export const UNEQUIP_SKILL = 'UNEQUIP_SKILL'
 export const SELECT_SKILL = 'SELECT_SKILL'
 export const GRANT_ITEM = 'GRANT_ITEM'
+export const USE_ITEM = 'USE_ITEM'
 
 export function noOp() {
   return { type: NO_OP }
@@ -59,4 +60,11 @@ export function selectSkill(skillName) {
 
 export function grantItemAction(itemName, quantity) {
   return {type: GRANT_ITEM, itemName: itemName, quantity: quantity}
+}
+export function useItemAction(itemName, quantity) {
+  return {
+    type: USE_ITEM,
+    itemName: itemName,
+    quantity: quantity ? quantity : 1
+  }
 }

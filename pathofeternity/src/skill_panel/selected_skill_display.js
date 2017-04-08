@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import {Button} from 'react-bootstrap'
-import {SKILLS, BATTLE, MEDITATION, ALCHEMY} from '../skills.js'
+import {SKILLS, BATTLE /*, MEDITATION, ALCHEMY*/} from '../skills.js'
 import {equipSkill, unequipSkill} from '../actions.js'
 
 const SelectedSkillLayout = ({skillName, skillList, eventType, dispatchAdd, dispatchRemove}) => {

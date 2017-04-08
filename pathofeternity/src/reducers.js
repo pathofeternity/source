@@ -1,7 +1,9 @@
 import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH,
   START_EVENT, PROGRESS_EVENT, END_EVENT,
-  GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL, SELECT_SKILL
+  GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL, SELECT_SKILL,
+  GRANT_ITEM, USE_ITEM
 } from './actions.js'
+import {ITEMS} from './items.js'
 import {SKILLS, BATTLE, ALCHEMY, MEDITATION} from './skills.js'
 
 const SKILL_LIMIT = 6
@@ -76,6 +78,10 @@ export function pathApp(state = loadGame(), action) {
     return unequipSkillReducer(state, action)
     case SELECT_SKILL:
     return selectSkillReducer(state, action)
+    case GRANT_ITEM:
+    return grantItemReducer(state, action)
+    case USE_ITEM:
+    return useItemReducer(state, action)
     default:
     return state
   }
@@ -223,4 +229,21 @@ function selectSkillReducer(state, action) {
   return Object.assign({}, state, {
     selectedSkill: action.skillName
   })
+}
+function grantItemReducer(state, action) {
+  var itemName = action.itemName
+  var currentInventory = Object.assign({}, state.inventory)
+  if (state.inventory[itemName]) {
+    currentInventory[itemName] += action.quantity
+  }
+  else {
+    currentInventory[itemName] = action.quantity
+  }
+  return Object.assign({}, state, {
+    inventory: currentInventory
+  })
+}
+function useItemReducer(state, action) {
+  var itemName = action.itemName
+  return ITEMS[itemName].onUse(state, action.quantity)
 }
