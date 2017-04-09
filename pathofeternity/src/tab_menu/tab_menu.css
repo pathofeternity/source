@@ -1,4 +1,7 @@
 .tab-container{
   /* Still have to do this height workaround */
   height: calc(100vh - 300px) !important;
+  border-color: #cccccc;
+  border-style: solid;
+  padding: 3px;
 }

@@ -1,11 +1,8 @@
 .training-container {
   float: left;
   width: calc(50% - 6px);
-  margin-left: 3px;
-  margin-right: 3px;
+  margin-right: 6px;
   height: 100%;
-  border-style: solid;
-  border-color: #cccccc;
 }
 .panel-heading a:after {
     font-family:'Glyphicons Halflings';

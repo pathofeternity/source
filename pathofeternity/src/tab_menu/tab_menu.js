@@ -13,7 +13,10 @@ const TabLayout = () => (
           <ItemsMenu />
         </div>
       </Tab>
-      <Tab eventKey={2} title="Sects">Tab 2 content</Tab>
+      <Tab eventKey={2} title="Sects">
+        <div className="tab-container">Tab 2 content
+        </div>
+      </Tab>
       <Tab eventKey={3} title="Elements">Tab 3 content</Tab>
     </Tabs>
 
