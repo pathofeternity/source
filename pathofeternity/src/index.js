@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import { pathApp } from './reducers'
+import { pathApp } from './reducers/reducers.js'
 
 let store = createStore(pathApp)
 
