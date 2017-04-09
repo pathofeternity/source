@@ -12,26 +12,26 @@ const initialState = {
     cultivation: {
       trainingName: 'Meditation',
       max: 10,
-      rate: 400,
-      percent: 25
+      rate: 1,
+      percent: 100
     },
     body: {
       trainingName: 'Physical Training',
       max: 100,
       rate: 1,
-      percent: 25
+      percent: 0
     },
     mind: {
       trainingName: 'Mental Training',
       max: 100,
       rate: 1,
-      percent: 25
+      percent: 0
     },
     soul: {
       trainingName: 'Soul Training',
       max: 100,
       rate: 1,
-      percent: 25
+      percent: 0
     }
   },
   // Separate scores so we don't reallocate all stats every time.
@@ -60,29 +60,29 @@ const initialState = {
 export function pathApp(state = loadGame(), action) {
   switch (action.type) {
     case TICK:
-    return tickReducer(state)
+      return tickReducer(state)
     case SET_PERCENT:
-    return setPercentReducer(state, action)
+      return setPercentReducer(state, action)
     case SUCCESSFUL_BREAKTHROUGH:
-    return successfulBreakthroughReducer(state)
+      return successfulBreakthroughReducer(state)
     case START_EVENT:
-    return startEventReducer(state, action)
+      return startEventReducer(state, action)
     case PROGRESS_EVENT:
-    return progressEventReducer(state)
+      return progressEventReducer(state)
     case END_EVENT:
-    return endEventReducer(state)
+      return endEventReducer(state)
     case EQUIP_SKILL:
-    return equipSkillReducer(state, action)
+      return equipSkillReducer(state, action)
     case UNEQUIP_SKILL:
-    return unequipSkillReducer(state, action)
+      return unequipSkillReducer(state, action)
     case SELECT_SKILL:
-    return selectSkillReducer(state, action)
+      return selectSkillReducer(state, action)
     case GRANT_ITEM:
-    return grantItemReducer(state, action)
+      return grantItemReducer(state, action)
     case USE_ITEM:
-    return useItemReducer(state, action)
+      return useItemReducer(state, action)
     default:
-    return state
+      return state
   }
 }
 function loadGame() {
@@ -109,8 +109,8 @@ function tickReducer(state) {
   var newScores = {}
   var statName
   for (statName in stats) {
-    newScores[statName] = Math.min(oldScores[statName] +
-      (stats[statName].rate * stats[statName].percent / 100),
+    newScores[statName] = Math.min(
+      oldScores[statName] + (stats[statName].rate * stats[statName].percent / 100),
       stats[statName].max
     )
   }
@@ -161,36 +161,36 @@ function equipSkillReducer(state, action) {
   var eventType = SKILLS[action.skillName].eventType
   switch (eventType) {
     case BATTLE:
-    if (state.equippedBattleSkills.indexOf(action.skillName) !== -1) {
-      return state
-    }
-    return Object.assign({}, state, {
-      equippedBattleSkills: state.equippedBattleSkills.map(
-        (item, index) => index === action.index ? action.skillName : item)
+      if (state.equippedBattleSkills.indexOf(action.skillName) !== -1) {
+        return state
       }
-    )
+      return Object.assign({}, state, {
+        equippedBattleSkills: state.equippedBattleSkills.map(
+          (item, index) => index === action.index ? action.skillName : item)
+        }
+      )
     case ALCHEMY:
-    if (state.equippedAlchemySkills.indexOf(action.skillName) !== -1) {
-      return state
-    }
-    return Object.assign({}, state, {
-      equippedAlchemySkills: state.equippedAlchemySkills.map(
-        (item, index) => index === action.index ? action.skillName : item)
+      if (state.equippedAlchemySkills.indexOf(action.skillName) !== -1) {
+        return state
       }
-    )
+      return Object.assign({}, state, {
+        equippedAlchemySkills: state.equippedAlchemySkills.map(
+          (item, index) => index === action.index ? action.skillName : item)
+        }
+      )
     case MEDITATION:
-    if (state.equippedMeditationSkills.indexOf(action.skillName) !== -1) {
-      return state
-    }
-    return Object.assign({}, state, {
-      equippedMeditationSkills: state.equippedMeditationSkills.map(
-        (item, index) => index === action.index ? action.skillName : item)
+      if (state.equippedMeditationSkills.indexOf(action.skillName) !== -1) {
+        return state
       }
-    )
+      return Object.assign({}, state, {
+        equippedMeditationSkills: state.equippedMeditationSkills.map(
+          (item, index) => index === action.index ? action.skillName : item)
+        }
+      )
     default:
-    console.log("THIS SHOULD NEVER HAPPEN")
-    console.log(state)
-    console.log(action)
+      console.log("THIS SHOULD NEVER HAPPEN")
+      console.log(state)
+      console.log(action)
   }
 }
 function unequipSkillReducer(state, action) {
@@ -200,28 +200,28 @@ function unequipSkillReducer(state, action) {
   var eventType = SKILLS[action.skillName].eventType
   switch(eventType) {
     case BATTLE:
-    return Object.assign({}, state, {
-      equippedBattleSkills: state.equippedBattleSkills.map(
-        (item) => item === action.skillName ? null : item)
-      }
-    )
+      return Object.assign({}, state, {
+        equippedBattleSkills: state.equippedBattleSkills.map(
+          (item) => item === action.skillName ? null : item)
+        }
+      )
     case ALCHEMY:
-    return Object.assign({}, state, {
-      equippedAlchemySkills: state.equippedAlchemySkills.map(
-        (item) => item === action.skillName ? null : item)
-      }
-    )
+      return Object.assign({}, state, {
+        equippedAlchemySkills: state.equippedAlchemySkills.map(
+          (item) => item === action.skillName ? null : item)
+        }
+      )
     case MEDITATION:
-    return Object.assign({}, state, {
-      equippedMeditationSkills: state.equippedMeditationSkills.map(
-        (item) => item === action.skillName ? null : item)
-      }
-    )
+      return Object.assign({}, state, {
+        equippedMeditationSkills: state.equippedMeditationSkills.map(
+          (item) => item === action.skillName ? null : item)
+        }
+      )
     default:
-    console.log("THIS SHOULD NEVER HAPPEN")
-    console.log(state)
-    console.log(action)
-    return state
+      console.log("THIS SHOULD NEVER HAPPEN")
+      console.log(state)
+      console.log(action)
+      return state
   }
 }
 function selectSkillReducer(state, action) {

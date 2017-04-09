@@ -4,6 +4,7 @@ import {startEvent} from '../actions.js'
 import { connect } from 'react-redux'
 import {ProgressBar, Button, Fade} from 'react-bootstrap'
 import {BodyBar, MindBar, SoulBar} from './small_bars.js'
+import {levelName} from '../library.js'
 
 const spanOrButton = (value, max, rate, startBreakthrough, hasExistingEvent) => {
 
@@ -21,14 +22,18 @@ const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
   startBreakthrough, hasExistingEvent}) =>  (
   <div className="bars-component">
     <div className="bars-container">
-      <h2>Cultivation</h2>
+      <h2>Cultivation - {levelName(cultivation)}</h2>
       <ProgressBar max={cultivationMax} now={cultivation}
         label={spanOrButton(cultivation, cultivationMax, cultivationRate,
         startBreakthrough, hasExistingEvent)} />
     </div>
-    <Fade in={cultivationMax >= 100}><div>
+    <Fade in={cultivationMax >= 1e2}><div>
       <BodyBar/>
+    </div></Fade>
+    <Fade in={cultivationMax >= 1e6}><div>
       <MindBar/>
+    </div></Fade>
+    <Fade in={cultivationMax >= 1e26}><div>
       <SoulBar/>
     </div></Fade>
 
