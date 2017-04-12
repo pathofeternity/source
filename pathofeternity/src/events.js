@@ -1,4 +1,5 @@
 import {successfulBreakthrough, grantItem} from './actions.js'
+import {BATTLE, ALCHEMY, MEDITATION} from './skills.js'
 
 export const EVENTS = {
   breakthroughE1: {
@@ -6,18 +7,20 @@ export const EVENTS = {
     listDisplay: false,
     steps: [
       {
+        type: MEDITATION,
         titleText: "Focus Mind",
         displayText: "Preparing Mind",
         defaultActionName: "Focus",
-        skillRequired: false,
-        cost: {},
+        showDefaultAction: true,
+        cost: (skillName) => {},
       },
       {
+        type: MEDITATION,
         titleText: "Focus Energy",
         displayText: "Focusing Energy",
         defaultActionName: "Focus",
-        skillRequired: false,
-        cost: {},
+        showDefaultAction: true,
+        cost: (skillName) => {},
         finishAction: (skillName) => successfulBreakthrough(),
       }
     ],
@@ -26,11 +29,12 @@ export const EVENTS = {
     name: "Gather Herbs",
     steps: [
       {
+        type: BATTLE,
         titleText: "Gather Herbs",
         displayText: "Gathering Herbs",
         defaultActionName: "Gather Herbs",
-        skillRequired: false,
-        cost: {},
+        showDefaultAction: true,
+        cost: (skillName) => {},
         finishAction: (skillName) => grantItem('herb', 2),
       },
     ],

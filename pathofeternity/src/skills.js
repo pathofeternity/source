@@ -5,6 +5,9 @@ export const BATTLE = "BATTLE"
 export const ALCHEMY = "ALCHEMY"
 export const MEDITATION = "MEDITATION"
 
+export const SLASHING = "slashing"
+export const FIRE = "fire"
+
 export const SKILLS = {
   reaction: {
     name: "React-ion",
@@ -24,14 +27,14 @@ export const SKILLS = {
     name: "Burn things",
     eventType: BATTLE,
     type: ATTACK_SKILL,
-    tags: ["fire"],
+    tags: [FIRE],
     icon: require("./images/logo.svg")
   },
   slashing: {
     name: "Sword techniques",
     eventType: BATTLE,
     type: ATTACK_SKILL,
-    tags: ["slashing"],
+    tags: [SLASHING],
     icon: require("./images/logo.svg")
   }
 }

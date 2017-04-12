@@ -13,7 +13,7 @@ const initialState = {
   stats: {
     cultivation: {
       trainingName: 'Meditation',
-      max: 10,
+      max: 10000,
       rate: 1,
       percent: 100
     },
@@ -47,7 +47,7 @@ const initialState = {
   eventStep: 0,
 
   availableSkills: [
-    "reaction", "reduction"
+    "reaction", "reduction", "burning", "slashing"
   ],
   equippedBattleSkills: new Array(SKILL_LIMIT).fill(null),
   equippedAlchemySkills: new Array(SKILL_LIMIT).fill(null),
