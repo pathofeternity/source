@@ -10,7 +10,9 @@ const eventNextStep = (stepIndex, steps, dispatch, finishAction) => {
   if (stepIndex < steps.length - 1) {
     dispatch(progressEvent())
   } else {
-    dispatch(finishAction)
+    if (finishAction) {
+      dispatch(finishAction(""))
+    }
     dispatch(endEvent())
   }
 }
@@ -90,10 +92,11 @@ const mapDispatchToProps = (dispatch) => {
 }
 const mapStateToProps = (state) => {
   var event = state.activeEvent == null ? null : EVENTS[state.activeEvent]
+  var stepIndex = state.eventStep
   return {
-    eventTitle: event.name,
-    stepIndex: state.eventStep,
-    finishAction: event == null ? null : event.finishAction,
+    eventTitle: event == null ? null : event.name,
+    stepIndex: stepIndex,
+    finishAction: event == null ? null : event.steps[stepIndex].finishAction,
     steps: event == null ? [] : event.steps
   }
 }

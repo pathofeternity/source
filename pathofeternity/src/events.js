@@ -9,14 +9,18 @@ export const EVENTS = {
         titleText: "Focus Mind",
         displayText: "Preparing Mind",
         defaultActionName: "Focus",
+        skillRequired: false,
+        cost: {},
       },
       {
         titleText: "Focus Energy",
         displayText: "Focusing Energy",
         defaultActionName: "Focus",
+        skillRequired: false,
+        cost: {},
+        finishAction: (skillName) => successfulBreakthrough(),
       }
     ],
-    finishAction: successfulBreakthrough(),
   },
   gatherHerbs: {
     name: "Gather Herbs",
@@ -25,8 +29,10 @@ export const EVENTS = {
         titleText: "Gather Herbs",
         displayText: "Gathering Herbs",
         defaultActionName: "Gather Herbs",
+        skillRequired: false,
+        cost: {},
+        finishAction: (skillName) => grantItem('herb', 2),
       },
     ],
-    finishAction: grantItem('herb', 2),
   },
 }
