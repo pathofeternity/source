@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux'
 import {ButtonToolbar, Button,  ProgressBar} from 'react-bootstrap'
 import {progressEvent, endEvent} from '../actions.js'
-import {EVENTS} from '../events.js'
-import {BATTLE, ALCHEMY, MEDITATION} from '../skills.js'
+import {EVENTS, DEFAULT} from '../events.js'
+import {SKILLS, BATTLE, ALCHEMY, MEDITATION} from '../skills.js'
 import './event_panel.css'
 
 // May have to be changed to allow for intermediate step costs and rewards.
@@ -20,11 +20,11 @@ class EventPanelLayout extends React.Component {
     setTimeout(() => this.setState({progress: i}), i * 1000)
   }
 
-  eventNextStep(stepIndex, skillName) {
-    const {steps, dispatch} = this.props
-    var step = steps[stepIndex]
-    if (step.finishAction) {
-      dispatch(step.finishAction(skillName))
+  eventNextStep(skillName) {
+    const {steps, currentStep, stepIndex, dispatch} = this.props
+    // Ensure we don't invoke undefined.
+    if (currentStep.finishAction) {
+      dispatch(currentStep.finishAction(skillName))
     }
     if (stepIndex < steps.length - 1) {
       dispatch(progressEvent())
@@ -33,9 +33,13 @@ class EventPanelLayout extends React.Component {
     }
   }
 
-  clickSkill(stepIndex, skillName) {
-    const {steps, dispatch} = this.props
-    // cost gets handled here.
+  clickSkill(skillName) {
+    const {currentStep} = this.props
+    var costFunction = currentStep.cost
+    if (costFunction) {
+      // handle cost
+      var cost = costFunction(skillName)
+    }
     this.setState({disableButtons: true})
     var i
     for (i = 1; i <= 5; i++) {
@@ -43,13 +47,29 @@ class EventPanelLayout extends React.Component {
     }
     setTimeout(() => {
       this.setState({progress: 0, disableButtons:false})
-      this.eventNextStep(stepIndex, skillName)
+      this.eventNextStep(skillName)
     }, 6000)
   }
 
+  canUseSkill(skillName) {
+    const {currentStep} = this.props
+    var legalSkillIndicator = currentStep.legalSkillIndicator
+    if (!legalSkillIndicator) {
+      return false
+    }
+    return legalSkillIndicator(skillName)
+  }
+
+  renderSkillButton(skill, index) {
+    if (skill === null) {return null}
+    return <Button key={index}
+      onClick={() => this.clickSkill(skill)}
+      disabled={this.state.disableButtons || !this.canUseSkill(skill)}>
+      {SKILLS[skill].name}
+    </Button>
+  }
   render() {
-    const {stepIndex, steps, dispatch, equippedSkills, eventTitle} = this.props
-    var currentStep = steps[stepIndex]
+    const {stepIndex, currentStep, steps, dispatch, equippedSkills, eventTitle} = this.props
     return (
       <div className="event-panel">
         <div className="event-top">
@@ -71,18 +91,14 @@ class EventPanelLayout extends React.Component {
               {
                 currentStep.showDefaultAction ?
                   <Button bsStyle="primary"
-                    onClick={() => this.clickSkill(stepIndex, "default")}
+                    onClick={() => this.clickSkill(DEFAULT)}
                     disabled={this.state.disableButtons}>
                     {steps[stepIndex].defaultActionName}
                   </Button>
                   : null
               }
               {
-                equippedSkills.map((skill, index) => {
-                  if (skill === null) {return null}
-                    return <Button key={index}>{skill}</Button>
-                })
-
+                equippedSkills.map((skill, index) => this.renderSkillButton(skill, index))
               }
               <Button onClick={() => dispatch(endEvent())}
                 disabled={this.state.disableButtons}>
@@ -126,6 +142,7 @@ const mapStateToProps = (state) => {
   }
   return {
     equippedSkills: equippedSkills,
+    currentStep: currentStep,
     eventTitle: event == null ? null : event.name,
     stepIndex: stepIndex,
     finishAction: event == null ? null : event.steps[stepIndex].finishAction,

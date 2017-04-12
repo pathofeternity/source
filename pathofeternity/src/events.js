@@ -1,5 +1,7 @@
 import {successfulBreakthrough, grantItem} from './actions.js'
-import {BATTLE, ALCHEMY, MEDITATION} from './skills.js'
+import {SKILLS, BATTLE, MEDITATION, SLASHING} from './skills.js'
+
+export const DEFAULT = "default"
 
 export const EVENTS = {
   breakthroughE1: {
@@ -12,7 +14,6 @@ export const EVENTS = {
         displayText: "Preparing Mind",
         defaultActionName: "Focus",
         showDefaultAction: true,
-        cost: (skillName) => {},
       },
       {
         type: MEDITATION,
@@ -20,7 +21,6 @@ export const EVENTS = {
         displayText: "Focusing Energy",
         defaultActionName: "Focus",
         showDefaultAction: true,
-        cost: (skillName) => {},
         finishAction: (skillName) => successfulBreakthrough(),
       }
     ],
@@ -34,8 +34,19 @@ export const EVENTS = {
         displayText: "Gathering Herbs",
         defaultActionName: "Gather Herbs",
         showDefaultAction: true,
-        cost: (skillName) => {},
-        finishAction: (skillName) => grantItem('herb', 2),
+        legalSkillIndicator: (skillName) => {
+          var skill = SKILLS[skillName]
+          if (!skill) { return false }
+          return skill.tags.indexOf(SLASHING) !== -1
+        },
+        finishAction: (skillName) => {
+          var skill = SKILLS[skillName]
+          var numHerbs = 2
+          if (skill && skill.tags.indexOf(SLASHING) !== -1) {
+            numHerbs = 3
+          }
+          return grantItem('herb', numHerbs)
+        },
       },
     ],
   },
