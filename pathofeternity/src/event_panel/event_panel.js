@@ -33,9 +33,28 @@ class EventPanelLayout extends React.Component {
     }
   }
 
+  canPayCost(skillName) {
+    const {currentStep, scores, inventory} = this.props
+    var costFunction = currentStep.costFunction
+    if (!costFunction) { return true }
+    var cost = costFunction(skillName)
+    if (cost.itemCosts) {
+    }
+    if (cost.statCosts) {
+      var stat
+      for (stat of Object.keys(cost.statCosts)) {
+        if (scores[stat] < cost.statCosts[stat]) {
+          return false;
+        }
+      }
+    }
+
+    return true
+  }
+
   clickSkill(skillName) {
     const {currentStep} = this.props
-    var costFunction = currentStep.cost
+    var costFunction = currentStep.costFunction
     if (costFunction) {
       // handle cost
       var cost = costFunction(skillName)
@@ -64,7 +83,7 @@ class EventPanelLayout extends React.Component {
     if (skill === null) {return null}
     return <Button key={index}
       onClick={() => this.clickSkill(skill)}
-      disabled={this.state.disableButtons || !this.canUseSkill(skill)}>
+      disabled={this.state.disableButtons || !this.canUseSkill(skill) || !this.canPayCost(skill)}>
       {SKILLS[skill].name}
     </Button>
   }
@@ -92,7 +111,7 @@ class EventPanelLayout extends React.Component {
                 currentStep.showDefaultAction ?
                   <Button bsStyle="primary"
                     onClick={() => this.clickSkill(DEFAULT)}
-                    disabled={this.state.disableButtons}>
+                    disabled={this.state.disableButtons || !this.canPayCost(DEFAULT)}>
                     {steps[stepIndex].defaultActionName}
                   </Button>
                   : null
@@ -146,7 +165,9 @@ const mapStateToProps = (state) => {
     eventTitle: event == null ? null : event.name,
     stepIndex: stepIndex,
     finishAction: event == null ? null : event.steps[stepIndex].finishAction,
-    steps: event == null ? [] : event.steps
+    steps: event == null ? [] : event.steps,
+    inventory: state.inventory,
+    scores: state.scores
   }
 }
 
