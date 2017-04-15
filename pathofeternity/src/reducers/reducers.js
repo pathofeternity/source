@@ -13,7 +13,7 @@ const initialState = {
   stats: {
     cultivation: {
       trainingName: 'Meditation',
-      max: 10000,
+      max: 10,
       rate: 1,
       percent: 100
     },
