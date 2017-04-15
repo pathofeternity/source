@@ -50,7 +50,7 @@ const mapDispatchToSkillDisplayProps = (dispatch) => {
       dispatch(equipSkill(event.dataTransfer.getData(SKILL_NAME),
       index))
     }
-    event.stopPropagation()
+    event.preventDefault()
   }
   const onDragEnd = (skillName) => (event) => {
     if (ignoreEvent) {

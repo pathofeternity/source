@@ -25,7 +25,7 @@ const FilteredSkillListing = (skillNameList, skillType, onClick) => (
           onClick={onClick(skillName)}
           draggable="true">
           <img className="skill-icon" alt={SKILLS[skillName]}
-            src={SKILLS[skillName].icon}
+            src={SKILLS[skillName].icon} draggable="false"
           />
           {SKILLS[skillName].name}
         </div>
