@@ -1,3 +1,5 @@
+import {SKILLS, PASSIVE} from '../skills.js'
+
 export function successfulBreakthroughReducer(state) {
   return Object.assign({}, state, {
     stats: Object.assign({}, state.stats, {
@@ -12,10 +14,22 @@ export function tickReducer(state) {
   var stats = state.stats
   var oldScores = state.scores
   var newScores = {}
+  var multiplier = state.availableSkills
+      .map(skillName => SKILLS[skillName])
+      .filter(skill => skill.eventType === PASSIVE)
+      .reduce((result, skill) => {
+        var stat
+        for (stat of Object.keys(skill.multiplier)) {
+          result[stat] *= skill.multiplier[stat]
+        }
+        return result
+      }, {cultivation: 1, body: 1, mind: 1, soul: 1})
+
+
   var statName
   for (statName in stats) {
     newScores[statName] = Math.min(
-      oldScores[statName] + (stats[statName].rate * stats[statName].percent / 100),
+      oldScores[statName] + (stats[statName].rate * multiplier[statName] * stats[statName].percent / 100),
       stats[statName].max
     )
   }
