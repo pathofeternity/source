@@ -73,7 +73,7 @@ export const EVENTS = {
           return grantItem('herb', numHerbs)
         },
         costFunction: (skillName) => {
-          if (skillName == DEFAULT) {
+          if (skillName === DEFAULT) {
             return {statCosts: { body: 30}}
           }
             return {statCosts: { body: 10}}

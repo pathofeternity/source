@@ -34,7 +34,7 @@ class EventPanelLayout extends React.Component {
   }
 
   canPayCost(skillName) {
-    const {currentStep, scores, inventory} = this.props
+    const {currentStep, scores} = this.props
     var costFunction = currentStep.costFunction
     if (!costFunction) { return true }
     var cost = costFunction(skillName)

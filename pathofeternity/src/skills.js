@@ -46,6 +46,7 @@ export const SKILLS = {
     name: "Heavy Lifting",
     description: "Increases body training rate by 50%",
     eventType: PASSIVE,
+    type: PASSIVE,
     icon: require("./images/logo.svg"),
     multiplier: {body: 1.5}
   }

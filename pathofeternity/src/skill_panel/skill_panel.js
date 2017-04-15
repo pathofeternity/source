@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import {Tabs, Tab, Accordion, Panel} from 'react-bootstrap'
-import {SKILLS, ATTACK_SKILL, DEFENSE_SKILL} from '../skills.js'
+import {SKILLS, ATTACK_SKILL, DEFENSE_SKILL, PASSIVE} from '../skills.js'
 import {selectSkill} from '../actions.js'
 import {BattleSkillDisplay} from './skill_icons_display.js'
 import {BattleSelectedSkill} from './selected_skill_display.js'
+import {PassiveSelectedSkill} from './passive_selected_skill.js'
 import {SKILL_NAME, EVENT_TYPE, EQUIP} from './event_constants.js'
 import './skill_panel.css'
 
@@ -67,6 +68,12 @@ const SkillTabsLayout = ({availableSkills, onClick}) => (
     </Tab>
     <Tab eventKey={4} title="Passive">
       <div className="skill-tab-container">
+        <div className="skill-listing">
+          <Panel header={"Passives"}>
+            {FilteredSkillListing(availableSkills, PASSIVE, onClick)}
+          </Panel>
+        </div>
+        <PassiveSelectedSkill/>
       </div>
     </Tab>
   </Tabs>

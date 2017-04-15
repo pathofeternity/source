@@ -13,15 +13,15 @@ const SelectedSkillLayout = ({skillName, skillList, eventType, dispatchAdd, disp
   }
   if (skillList.indexOf(skillName) === -1) {
     return <div>
-      {skillName}
-      <div>Skill description would go here if we had them.</div>
+      {SKILLS[skillName].name}
+      <div>{SKILLS[skillName].description}</div>
       <Button onClick={dispatchAdd(skillName, skillList.indexOf(null))}
         disabled={skillList.indexOf(null) === -1}>Add</Button>
     </div>
   }
   return <div>
-    {skillName}
-    <div>Skill description would go here if we had them.</div>
+    {SKILLS[skillName].name}
+    <div>{SKILLS[skillName].description}</div>
     <Button onClick={dispatchRemove(skillName)}>Remove</Button>
   </div>
 }

@@ -4,14 +4,6 @@ import {Button} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import {startEvent} from '../actions.js'
 
-/*
-This file technically defines two components:
-AppLayout, a presentational component (displays whatever it gets in props)
-and
-App, a container component (created by connect(), provides props)
-*/
-
-// Uses block arrow syntax to restrict the scope to this file.
 const EventListingLayout = ({maxCultivation, onClick}) =>  (
 
   <div>
