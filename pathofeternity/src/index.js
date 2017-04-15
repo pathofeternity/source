@@ -9,6 +9,7 @@ import { pathApp } from './reducers/reducers.js'
 
 let store = createStore(pathApp)
 
+document.title = "Path of Eternity"
 ReactDOM.render(
   <Provider store={store}>
     <App />
