@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import {ButtonToolbar, Button,  ProgressBar} from 'react-bootstrap'
-import {progressEvent, endEvent} from '../actions.js'
+import {progressEvent, endEvent, deductCost} from '../actions.js'
 import {EVENTS, DEFAULT} from '../events.js'
 import {SKILLS, BATTLE, ALCHEMY, MEDITATION} from '../skills.js'
 import './event_panel.css'
@@ -53,11 +53,11 @@ class EventPanelLayout extends React.Component {
   }
 
   clickSkill(skillName) {
-    const {currentStep} = this.props
+    const {currentStep, dispatch} = this.props
     var costFunction = currentStep.costFunction
     if (costFunction) {
       // handle cost
-      var cost = costFunction(skillName)
+      dispatch(deductCost(costFunction(skillName)))
     }
     this.setState({disableButtons: true})
     var i

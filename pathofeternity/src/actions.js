@@ -11,6 +11,7 @@ export const UNEQUIP_SKILL = 'UNEQUIP_SKILL'
 export const SELECT_SKILL = 'SELECT_SKILL'
 export const GRANT_ITEM = 'GRANT_ITEM'
 export const USE_ITEM = 'USE_ITEM'
+export const DEDUCT_COST = 'DEDUCT_COST'
 
 export function noOp() {
   return { type: NO_OP }
@@ -67,4 +68,8 @@ export function useItem(itemName, quantity) {
     itemName: itemName,
     quantity: quantity ? quantity : 1
   }
+}
+
+export function deductCost(cost) {
+  return {type: DEDUCT_COST, cost: cost}
 }
