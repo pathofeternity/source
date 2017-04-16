@@ -10,7 +10,7 @@ const PassiveSelectedSkillLayout = ({skillName, skillList, eventType}) => {
     return <div></div>
   }
   return <div>
-    {skillName}
+    {SKILLS[skillName].name}
     <div>{SKILLS[skillName].description}</div>
   </div>
 }
