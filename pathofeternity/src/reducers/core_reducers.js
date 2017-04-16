@@ -56,3 +56,13 @@ export function setPercentReducer(state, action) {
   )
   return Object.assign({}, state, {stats: newStats})
 }
+export function hidePopupReducer(state) {
+  return Object.assign({}, state, {
+    popup: Object.assign({}, state.popup, {show: false})
+  })
+}
+export function showPopupReducer(state, action) {
+  return Object.assign({}, state, {
+    popup: {show: true, message: action.message, title: action.title}
+  })
+}

@@ -1,11 +1,11 @@
 import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH,
   START_EVENT, PROGRESS_EVENT, END_EVENT,
   GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL, SELECT_SKILL,
-  GRANT_ITEM, USE_ITEM, DEDUCT_COST
+  GRANT_ITEM, USE_ITEM, DEDUCT_COST, SHOW_POPUP, HIDE_POPUP
 } from '../actions.js'
 import {startEventReducer, progressEventReducer, endEventReducer, deductCostReducer} from './event_reducers.js'
 import {grantSkillReducer, equipSkillReducer, unequipSkillReducer, selectSkillReducer} from './skill_reducers.js'
-import {tickReducer, setPercentReducer, successfulBreakthroughReducer} from './core_reducers.js'
+import {tickReducer, setPercentReducer, successfulBreakthroughReducer, showPopupReducer, hidePopupReducer} from './core_reducers.js'
 import {grantItemReducer, useItemReducer} from './item_reducers.js'
 
 const SKILL_LIMIT = 6
@@ -54,6 +54,11 @@ const initialState = {
   equippedMeditationSkills: new Array(SKILL_LIMIT).fill(null),
   selectedSkill: null,
 
+  popup: {
+    show: false,
+    message: null,
+    title: null,
+  },
   inventory: {
   },
 }
@@ -85,6 +90,10 @@ export function pathApp(state = loadGame(), action) {
       return useItemReducer(state, action)
     case DEDUCT_COST:
       return deductCostReducer(state, action)
+    case SHOW_POPUP:
+      return showPopupReducer(state, action)
+    case HIDE_POPUP:
+      return hidePopupReducer(state)
     default:
       return state
   }

@@ -1,12 +1,13 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import './App.css';
 import TrainingBars from './bars/training_bars.js';
 import TabMenu from './tab_menu/tab_menu.js';
 import EventPanel from './event_panel/event_panel.js';
 import SkillPanel from './skill_panel/skill_panel.js';
 import TimerArea from './timer_area.js';
+import Popup from './popup.js';
 import EventListing from './event_listing/event_listing.js';
-import {tick } from './actions.js'
+import {tick, showPopup} from './actions.js'
 import { connect } from 'react-redux'
 
 /*
@@ -17,40 +18,39 @@ import { connect } from 'react-redux'
 */
 
 // Uses block arrow syntax to restrict the scope to this file.
-const AppLayout = ({onClick, save, deleteSave, hasEvent}) =>  (
-    <div className="App-container">
-      <div className="App-column">
-        <div className="App-stats">
-          <div className="App-bars">
-            <TrainingBars />
-          </div>
-          <div className="App-timer">
-            <button onClick={onClick} >TICK (for manual debugging)</button>
-            <button onClick={save}>Save</button>
-            <button onClick={deleteSave}>Delete Save</button>
-            <TimerArea/>
-          </div>
+const AppLayout = ({onClick, save, deleteSave, hasEvent, showPopup}) =>  (
+
+  <div className="App-container">
+    <Popup />
+    <div className="App-column">
+      <div className="App-stats">
+        <div className="App-bars">
+          <TrainingBars />
         </div>
-        <div className="App-menu">
-          <TabMenu />
+        <div className="App-timer">
+          <button onClick={onClick} >TICK (for manual debugging)</button>
+          <button onClick={save}>Save</button>
+          <button onClick={deleteSave}>Delete Save</button>
+          <button onClick={showPopup}>Open Popup</button>
+          <TimerArea/>
         </div>
       </div>
-      <div className="App-column">
-        <div className="App-skills">
-          <SkillPanel/>
-        </div>
-        <div className="App-map">
-          {
-            hasEvent ? <EventPanel /> : <EventListing />
-          }
-        </div>
+      <div className="App-menu">
+        <TabMenu />
       </div>
     </div>
+    <div className="App-column">
+      <div className="App-skills">
+        <SkillPanel/>
+      </div>
+      <div className="App-map">
+        {
+          hasEvent ? <EventPanel /> : <EventListing />
+        }
+      </div>
+    </div>
+  </div>
   )
-
-AppLayout.propTypes = {
-  onClick: PropTypes.func.isRequired
-}
 
 /*
   The extra curly braces and return are necessary due to quirks in block syntax.
@@ -59,7 +59,8 @@ AppLayout.propTypes = {
 */
 const mapDispatchToProps = (dispatch) => {
   return {
-    onClick: () => { dispatch(tick())}
+    onClick: () => dispatch(tick()),
+    showPopup: () => dispatch(showPopup("Sample title", "Message goes here"))
   }
 }
 const mapStateToProps = (state) => {

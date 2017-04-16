@@ -12,6 +12,8 @@ export const SELECT_SKILL = 'SELECT_SKILL'
 export const GRANT_ITEM = 'GRANT_ITEM'
 export const USE_ITEM = 'USE_ITEM'
 export const DEDUCT_COST = 'DEDUCT_COST'
+export const SHOW_POPUP = 'SHOW_POPUP'
+export const HIDE_POPUP = 'HIDE_POPUP'
 
 export function noOp() {
   return { type: NO_OP }
@@ -72,4 +74,10 @@ export function useItem(itemName, quantity) {
 
 export function deductCost(cost) {
   return {type: DEDUCT_COST, cost: cost}
+}
+export function hidePopup() {
+  return {type: HIDE_POPUP}
+}
+export function showPopup(title, message) {
+  return {type: SHOW_POPUP, title: title, message: message}
 }
