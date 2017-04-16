@@ -10,22 +10,6 @@ export const SLASHING = "slashing"
 export const FIRE = "fire"
 
 export const SKILLS = {
-  reaction: {
-    name: "React-ion",
-    description: "Does nothing",
-    eventType: BATTLE,
-    type: ATTACK_SKILL,
-    tags: [],
-    icon: require("./images/logo.svg")
-  },
-  reduction: {
-    name: "Redux-ion",
-    description: "Does nothing",
-    eventType: BATTLE,
-    type: DEFENSE_SKILL,
-    tags: [],
-    icon: require("./images/logo.svg")
-  },
   burning: {
     name: "Burn things",
     description: "Does nothing",
