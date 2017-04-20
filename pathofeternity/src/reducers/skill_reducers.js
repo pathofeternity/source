@@ -1,8 +1,11 @@
 import {SKILLS, BATTLE, ALCHEMY, MEDITATION} from '../skills.js'
 
 export function grantSkillReducer(state, action) {
+  var newSkill = {}
+  newSkill[action.skillName] = {level: 0, xp: 0}
   return Object.assign({}, state, {
-    availableSkills: state.availableSkills.concat([action.skillName])
+    availableSkills: Object.assign(
+      {}, state.availableSkills, newSkill)
   })
 }
 

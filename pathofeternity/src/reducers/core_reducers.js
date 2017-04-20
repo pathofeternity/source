@@ -14,7 +14,7 @@ export function tickReducer(state) {
   var stats = state.stats
   var oldScores = state.scores
   var newScores = {}
-  var multiplier = state.availableSkills
+  var multiplier = Object.keys(state.availableSkills)
       .map(skillName => SKILLS[skillName])
       .filter(skill => skill.eventType === PASSIVE)
       .reduce((result, skill) => {

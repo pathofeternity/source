@@ -17,7 +17,8 @@ const equipDragStart = (event) => {
 const FilteredSkillListing = (skillNameList, skillType, onClick) => (
   <div>
     {
-      skillNameList.filter(skillName => SKILLS[skillName].type === skillType)
+      Object.keys(skillNameList)
+      .filter(skillName => SKILLS[skillName].type === skillType)
       .map(skillName =>
         <div key={SKILLS[skillName].name}
           id={skillName}

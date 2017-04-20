@@ -46,9 +46,11 @@ const initialState = {
   activeEvent: null,
   eventStep: 0,
 
-  availableSkills: [
-     "burning", "slashing", "samplePassive"
-  ],
+  availableSkills: {
+    burning: {level: 0, xp: 0},
+    slashing: {level: 0, xp: 0},
+    samplePassive: {level: 0, xp: 0},
+  },
   equippedBattleSkills: new Array(SKILL_LIMIT).fill(null),
   equippedAlchemySkills: new Array(SKILL_LIMIT).fill(null),
   equippedMeditationSkills: new Array(SKILL_LIMIT).fill(null),
