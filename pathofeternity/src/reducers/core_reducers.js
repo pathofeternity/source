@@ -40,21 +40,38 @@ export function tickReducer(state) {
 
 export function setPercentReducer(state, action) {
   var stats = state.stats
-  var newStats = {}
+  var skills = state.availableSkills
   var sum = 0
   // Calculate how much room we have left.
   var statName
   for (statName in stats) {
     sum += stats[statName].percent
   }
-  sum -= stats[action.statName].percent
+  console.log(sum)
+  var skillName
+  for (skillName in skills) {
+    sum += skills[skillName].percent
+  }
+  if (stats[action.statName]) {
+    sum -= stats[action.statName].percent
+  } else { //the stat is XP for a skill.
+    sum -= skills[action.statName].percent
+  }
   var remaining = 100 - sum
 
-  newStats = Object.assign({}, stats)
-  newStats[action.statName] = Object.assign({}, stats[action.statName],
-    { percent: Math.min(remaining, action.percent)}
-  )
-  return Object.assign({}, state, {stats: newStats})
+  var newValue = Math.min(remaining, action.percent)
+  var newStats = Object.assign({}, stats)
+  var newSkills = Object.assign({}, skills)
+  if (stats[action.statName]) {
+    newStats[action.statName] = Object.assign({}, stats[action.statName],
+      { percent: newValue}
+    )
+  } else {
+    newSkills[action.statName] = Object.assign({}, skills[action.statName],
+      { percent: newValue}
+    )
+  }
+  return Object.assign({}, state, {stats: newStats, availableSkills: newSkills})
 }
 export function hidePopupReducer(state) {
   return Object.assign({}, state, {
