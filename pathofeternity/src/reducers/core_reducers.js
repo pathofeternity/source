@@ -19,13 +19,15 @@ export function tickReducer(state) {
   var multiplier = Object.keys(state.availableSkills)
       .filter(skill => SKILLS[skill].eventType === PASSIVE)
       .reduce((result, skill) => {
-        if (!skill.multiplierFunction ) {
+        console.log(skill)
+        if (!SKILLS[skill].multiplierFunction ) {
           return result
         }
-        var multiplier = SKILLS[skill].multiplierFunction(availableSkills[skill].level)
+        var modifier = SKILLS[skill].multiplierFunction(availableSkills[skill].level)
+        console.log(modifier)
         var stat
-        for (stat of Object.keys(multiplier)) {
-          result[stat] = (result[stat] ? result[stat] : 1) * skill.multiplier[stat]
+        for (stat of Object.keys(modifier)) {
+          result[stat] = (result[stat] ? result[stat] : 1) * modifier[stat]
         }
         return result
       }, {cultivation: 1, body: 1, mind: 1, soul: 1})
@@ -39,7 +41,7 @@ export function tickReducer(state) {
       stats[statName].max
     )
   }
-  //TODO: handle leveling up skills and disabling things after reaching max level. 
+  //TODO: handle leveling up skills and disabling things after reaching max level.
   var skillName
   for (skillName in availableSkills) {
     var xpMultiplier = multiplier[skillName] ? multiplier[skillName] : 1
