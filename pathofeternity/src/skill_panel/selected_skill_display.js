@@ -22,7 +22,7 @@ const SelectedSkillLayout = ({score, skillName, skillList, skillStats, eventType
   }
   return <div>
     {skillObject.name} Level {skillStats.level}
-    <div>XP: {score} / {skillObject.xpRequiredFunction(skillStats.level)} </div>
+    <div>XP: {score.toFixed(2)} / {skillObject.xpRequiredFunction(skillStats.level)} </div>
     <div>{skillObject.description}</div>
     {eventType !== PASSIVE ? makeButton(skillName, skillList, dispatchAdd, dispatchRemove) : null}
   </div>

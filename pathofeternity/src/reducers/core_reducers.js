@@ -47,7 +47,6 @@ export function setPercentReducer(state, action) {
   for (statName in stats) {
     sum += stats[statName].percent
   }
-  console.log(sum)
   var skillName
   for (skillName in skills) {
     sum += skills[skillName].percent
