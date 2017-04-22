@@ -16,6 +16,7 @@ export const SKILLS = {
     eventType: BATTLE,
     type: ATTACK_SKILL,
     tags: [FIRE],
+    xpRequiredFunction: (level) => 10,
     icon: require("./images/logo.svg")
   },
   slashing: {
@@ -24,6 +25,7 @@ export const SKILLS = {
     eventType: BATTLE,
     type: ATTACK_SKILL,
     tags: [SLASHING],
+    xpRequiredFunction: (level) => 10,
     icon: require("./images/logo.svg")
   },
   samplePassive: {
@@ -31,8 +33,9 @@ export const SKILLS = {
     description: "Increases body training rate by 50%",
     eventType: PASSIVE,
     type: PASSIVE,
+    xpRequiredFunction: (level) => 10,
     icon: require("./images/logo.svg"),
-    multiplier: {body: 1.5}
+    multiplierFunction: (level) => {return {body: 1.5}}
   },
   cultivationProficiency: {
     name: "Cultivation Proficiency",

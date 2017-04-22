@@ -17,11 +17,14 @@ export function tickReducer(state) {
   var oldScores = state.scores
   var newScores = {}
   var multiplier = Object.keys(state.availableSkills)
-      .map(skillName => SKILLS[skillName])
-      .filter(skill => skill.eventType === PASSIVE)
+      .filter(skill => SKILLS[skill].eventType === PASSIVE)
       .reduce((result, skill) => {
+        if (!skill.multiplierFunction ) {
+          return result
+        }
+        var multiplier = SKILLS[skill].multiplierFunction(availableSkills[skill].level)
         var stat
-        for (stat of Object.keys(skill.multiplier)) {
+        for (stat of Object.keys(multiplier)) {
           result[stat] = (result[stat] ? result[stat] : 1) * skill.multiplier[stat]
         }
         return result
@@ -36,10 +39,12 @@ export function tickReducer(state) {
       stats[statName].max
     )
   }
+  //TODO: handle leveling up skills and disabling things after reaching max level. 
   var skillName
   for (skillName in availableSkills) {
-    // handle multiplier. 
-    // add to scores.
+    var xpMultiplier = multiplier[skillName] ? multiplier[skillName] : 1
+    var thisSkill = availableSkills[skillName]
+    newScores[skillName] = oldScores[skillName] + (thisSkill.rate * xpMultiplier * thisSkill.percent / 100)
   }
 
   return Object.assign({}, state, {

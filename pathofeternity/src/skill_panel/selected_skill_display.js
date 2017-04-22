@@ -1,28 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import {Button} from 'react-bootstrap'
-import {SKILLS, BATTLE /*, MEDITATION, ALCHEMY*/} from '../skills.js'
+import {SKILLS, BATTLE, PASSIVE/*, MEDITATION, ALCHEMY*/} from '../skills.js'
 import {equipSkill, unequipSkill} from '../actions.js'
 
-const SelectedSkillLayout = ({skillName, skillList, eventType, dispatchAdd, dispatchRemove}) => {
+const makeButton = (skillName, skillList, dispatchAdd, dispatchRemove) => {
+  if (skillList.indexOf(skillName) === -1) {
+    return <Button onClick={dispatchAdd(skillName, skillList.indexOf(null))}
+      disabled={skillList.indexOf(null) === -1}>Add</Button>
+  }
+  return <Button onClick={dispatchRemove(skillName)}>Remove</Button>
+}
+
+const SelectedSkillLayout = ({score, skillName, skillList, skillStats, eventType, dispatchAdd, dispatchRemove}) => {
+  var skillObject = SKILLS[skillName]
   if (!skillName) {
     return <div></div>
   }
-  if (SKILLS[skillName].eventType !== eventType) {
+  if (skillObject.eventType !== eventType) {
     return <div></div>
   }
-  if (skillList.indexOf(skillName) === -1) {
-    return <div>
-      {SKILLS[skillName].name}
-      <div>{SKILLS[skillName].description}</div>
-      <Button onClick={dispatchAdd(skillName, skillList.indexOf(null))}
-        disabled={skillList.indexOf(null) === -1}>Add</Button>
-    </div>
-  }
   return <div>
-    {SKILLS[skillName].name}
-    <div>{SKILLS[skillName].description}</div>
-    <Button onClick={dispatchRemove(skillName)}>Remove</Button>
+    {skillObject.name} Level {skillStats.level}
+    <div>XP: {score} / {skillObject.xpRequiredFunction(skillStats.level)} </div>
+    <div>{skillObject.description}</div>
+    {eventType !== PASSIVE ? makeButton(skillName, skillList, dispatchAdd, dispatchRemove) : null}
   </div>
 }
 const mapDispatchToSelectedSkillProps = (dispatch) => {
@@ -31,11 +33,14 @@ const mapDispatchToSelectedSkillProps = (dispatch) => {
     dispatchAdd: (skillName, index) => () => dispatch(equipSkill(skillName, index))
   }
 }
-const mapStateToSelectedSkillProps = (state) => {
+const mapStateToProps = (eventType) => (state) => {
   return {
+    score: state.scores[state.selectedSkill],
     skillName: state.selectedSkill,
+    skillStats: state.availableSkills[state.selectedSkill],
     skillList: state.equippedBattleSkills,
-    eventType: BATTLE
+    eventType: eventType
   }
 }
-export const BattleSelectedSkill = connect(mapStateToSelectedSkillProps, mapDispatchToSelectedSkillProps)(SelectedSkillLayout)
+export const BattleSelectedSkill = connect(mapStateToProps(BATTLE), mapDispatchToSelectedSkillProps)(SelectedSkillLayout)
+export const PassiveSelectedSkill = connect(mapStateToProps(PASSIVE), mapDispatchToSelectedSkillProps)(SelectedSkillLayout)

@@ -41,15 +41,18 @@ const initialState = {
     cultivation: 0,
     body: 0,
     mind: 0,
-    soul: 0
+    soul: 0,
+    burning: 0,
+    slashing: 0,
+    samplePassive: 0,
   },
   activeEvent: null,
   eventStep: 0,
 
   availableSkills: {
-    burning: {level: 0, xp: 0, percent:0, rate:1},
-    slashing: {level: 0, xp: 0, percent:0, rate:1},
-    samplePassive: {level: 0, xp: 0, percent:0, rate:1},
+    burning: {level: 1, percent:50, rate:1},
+    slashing: {level: 0, percent:0, rate:1},
+    samplePassive: {level: 0, percent:0, rate:1},
   },
   equippedBattleSkills: new Array(SKILL_LIMIT).fill(null),
   equippedAlchemySkills: new Array(SKILL_LIMIT).fill(null),
