@@ -1,4 +1,4 @@
-import {SKILLS, PASSIVE} from '../skills.js'
+import {getTotalMultiplier} from '../utils.js'
 
 export function successfulBreakthroughReducer(state) {
   return Object.assign({}, state, {
@@ -16,23 +16,7 @@ export function tickReducer(state) {
   var availableSkills = state.availableSkills
   var oldScores = state.scores
   var newScores = {}
-  var multiplier = Object.keys(state.availableSkills)
-      .filter(skill => SKILLS[skill].eventType === PASSIVE)
-      .reduce((result, skill) => {
-        console.log(skill)
-        if (!SKILLS[skill].multiplierFunction ) {
-          return result
-        }
-        var modifier = SKILLS[skill].multiplierFunction(availableSkills[skill].level)
-        console.log(modifier)
-        var stat
-        for (stat of Object.keys(modifier)) {
-          result[stat] = (result[stat] ? result[stat] : 1) * modifier[stat]
-        }
-        return result
-      }, {cultivation: 1, body: 1, mind: 1, soul: 1})
-
-
+  var multiplier = getTotalMultiplier(state);
   var statName
   for (statName in stats) {
     var statMultiplier = multiplier[statName] ? multiplier[statName] : 1
