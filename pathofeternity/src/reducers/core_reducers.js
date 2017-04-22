@@ -10,8 +10,10 @@ export function successfulBreakthroughReducer(state) {
   })
 }
 
+// Two chunks - handles core stats and skills similarly.
 export function tickReducer(state) {
   var stats = state.stats
+  var availableSkills = state.availableSkills
   var oldScores = state.scores
   var newScores = {}
   var multiplier = Object.keys(state.availableSkills)
@@ -20,7 +22,7 @@ export function tickReducer(state) {
       .reduce((result, skill) => {
         var stat
         for (stat of Object.keys(skill.multiplier)) {
-          result[stat] *= skill.multiplier[stat]
+          result[stat] = (result[stat] ? result[stat] : 1) * skill.multiplier[stat]
         }
         return result
       }, {cultivation: 1, body: 1, mind: 1, soul: 1})
@@ -28,11 +30,18 @@ export function tickReducer(state) {
 
   var statName
   for (statName in stats) {
+    var statMultiplier = multiplier[statName] ? multiplier[statName] : 1
     newScores[statName] = Math.min(
-      oldScores[statName] + (stats[statName].rate * multiplier[statName] * stats[statName].percent / 100),
+      oldScores[statName] + (stats[statName].rate * statMultiplier * stats[statName].percent / 100),
       stats[statName].max
     )
   }
+  var skillName
+  for (skillName in availableSkills) {
+    // handle multiplier. 
+    // add to scores.
+  }
+
   return Object.assign({}, state, {
     scores: newScores,
   })
