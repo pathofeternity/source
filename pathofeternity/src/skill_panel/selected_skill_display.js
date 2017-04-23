@@ -7,7 +7,8 @@ import {equipSkill, unequipSkill} from '../actions.js'
 const makeButton = (skillName, skillList, dispatchAdd, dispatchRemove) => {
   if (skillList.indexOf(skillName) === -1) {
     return <Button onClick={dispatchAdd(skillName, skillList.indexOf(null))}
-      disabled={skillList.indexOf(null) === -1}>Add</Button>
+      disabled={skillList.indexOf(null) === -1}>Add
+    </Button>
   }
   return <Button onClick={dispatchRemove(skillName)}>Remove</Button>
 }
@@ -20,9 +21,13 @@ const SelectedSkillLayout = ({score, skillName, skillList, skillStats, eventType
   if (skillObject.eventType !== eventType) {
     return <div></div>
   }
+
+  var isMaxLevel = skillStats.level >= skillObject.maxLevel
   return <div>
-    {skillObject.name} Level {skillStats.level}
-    <div>XP: {score.toFixed(2)} / {skillObject.xpRequiredFunction(skillStats.level)} </div>
+    {skillObject.name} Level { isMaxLevel ? "MAX" : skillStats.level}
+    { isMaxLevel ? null :
+      <div>XP: {score} / {skillObject.xpRequiredFunction(skillStats.level)} </div>
+    }
     <div>{skillObject.description}</div>
     {eventType !== PASSIVE ? makeButton(skillName, skillList, dispatchAdd, dispatchRemove) : null}
   </div>
