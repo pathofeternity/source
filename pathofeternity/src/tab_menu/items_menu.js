@@ -62,35 +62,24 @@ const mapStateToEntryProps = (state) => {
 const InstantUseEntry = connect(mapStateToEntryProps, mapDispatchToEntryProps)(InstantUseLayout)
 
 // Actually the right side of the training menu, includes foundation slider.
-class ItemsMenuLayout extends React.Component {
-  constructor() {
-    super()
-    var stateBuilder = {}
-    Object.keys(ITEMS).forEach(item => {stateBuilder[item] = 1})
-    this.state = stateBuilder
-  }
-
-  render() {
-    return (
-      <div className="items-column-container">
-        <div className="thin"><h3>Foundation and bar</h3></div>
-        <div className="thin">
-          Placeholder:
-          <div className="small-slider">
-            <input type="range" min="0" max="100"></input>
-          </div>
-          25%
-        </div>
-        <div className="thick">
-          {
-            Object.keys(ITEMS).map((item, index) => <InstantUseEntry key={index} item={item} />)
-          }
-        </div>
+const ItemsMenuLayout = () => (
+  <div className="items-column-container">
+    <div className="thin"><h3>Foundation and bar</h3></div>
+    <div className="thin">
+      Placeholder:
+      <div className="small-slider">
+        <input type="range" min="0" max="100"></input>
       </div>
-    )
-  }
+      25%
+    </div>
+    <div className="thick">
+      {
+        Object.keys(ITEMS).map((item, index) => <InstantUseEntry key={index} item={item} />)
+      }
+    </div>
+  </div>
+)
 
-}
 
 const mapDispatchToProps = (dispatch) => {
   return {
