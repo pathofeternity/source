@@ -17,7 +17,8 @@ export const SKILLS = {
     type: ATTACK_SKILL,
     tags: [FIRE],
     xpRequiredFunction: (level) => 10,
-    icon: require("./images/logo.svg")
+    icon: require("./images/logo.svg"),
+    maxLevel: 2
   },
   slashing: {
     name: "Sword techniques",
@@ -26,16 +27,8 @@ export const SKILLS = {
     type: ATTACK_SKILL,
     tags: [SLASHING],
     xpRequiredFunction: (level) => 10,
-    icon: require("./images/logo.svg")
-  },
-  samplePassive: {
-    name: "Heavy Lifting",
-    description: "Increases body training rate by 50%",
-    eventType: PASSIVE,
-    type: PASSIVE,
-    xpRequiredFunction: (level) => 10,
     icon: require("./images/logo.svg"),
-    multiplierFunction: (level) => {return {body: 1.5}}
+    maxLevel: 2
   },
   cultivationProficiency: {
     name: "Cultivation Proficiency",

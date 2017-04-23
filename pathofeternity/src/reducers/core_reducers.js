@@ -1,4 +1,5 @@
 import {getTotalMultiplier} from '../utils.js'
+import {SKILLS} from '../skills.js'
 
 export function successfulBreakthroughReducer(state) {
   return Object.assign({}, state, {
@@ -27,14 +28,25 @@ export function tickReducer(state) {
   }
   //TODO: handle leveling up skills and disabling things after reaching max level.
   var skillName
-  for (skillName in availableSkills) {
+  var newSkills = Object.assign({}, availableSkills)
+  for (skillName in oldScores) {
+    if (!(skillName in availableSkills)) { continue }
     var xpMultiplier = multiplier[skillName] ? multiplier[skillName] : 1
     var thisSkill = availableSkills[skillName]
     newScores[skillName] = oldScores[skillName] + (thisSkill.rate * xpMultiplier * thisSkill.percent / 100)
+    var xpRequired = SKILLS[skillName].xpRequiredFunction(thisSkill.level)
+    if (newScores[skillName] >= xpRequired) {
+      newSkills[skillName].level++
+      newScores[skillName] = 0
+      if (newSkills[skillName].level >= SKILLS[skillName].maxLevel) {
+        delete newScores[skillName]
+      }
+    }
   }
 
   return Object.assign({}, state, {
     scores: newScores,
+    availableSkills: newSkills,
   })
 }
 
