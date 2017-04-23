@@ -39,6 +39,7 @@ export function tickReducer(state) {
       newSkills[skillName].level++
       newScores[skillName] = 0
       if (newSkills[skillName].level >= SKILLS[skillName].maxLevel) {
+        newSkills[skillName].percent = 0
         delete newScores[skillName]
       }
     }
