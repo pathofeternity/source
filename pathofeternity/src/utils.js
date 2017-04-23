@@ -10,7 +10,7 @@ export function getTotalMultiplier(state) {
         }
         var modifier = SKILLS[skill].multiplierFunction(availableSkills[skill].level)
         var stat
-        for (stat of Object.keys(modifier)) {
+        for (stat in modifier) {
           result[stat] = (result[stat] ? result[stat] : 1) * modifier[stat]
         }
         return result

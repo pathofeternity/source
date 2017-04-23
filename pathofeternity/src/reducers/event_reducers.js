@@ -15,14 +15,14 @@ export function deductCostReducer(state, action) {
   var cost = action.cost
   if (cost.statCosts) {
     var stat
-    for (stat of Object.keys(cost.statCosts)) {
+    for (stat in cost.statCosts) {
       newScores[stat] -= cost.statCosts[stat]
     }
   }
   var newInventory = Object.assign({}, state.inventory)
   if (cost.itemCosts) {
     var item
-    for (item of Object.keys(cost.itemCosts)) {
+    for (item in cost.itemCosts) {
       newInventory[item] -= cost.itemCosts[item]
     }
   }

@@ -42,7 +42,7 @@ class EventPanelLayout extends React.Component {
     }
     if (cost.statCosts) {
       var stat
-      for (stat of Object.keys(cost.statCosts)) {
+      for (stat in cost.statCosts) {
         if (scores[stat] < cost.statCosts[stat]) {
           return false;
         }
