@@ -7,7 +7,16 @@ export function progressEventReducer(state) {
 }
 
 export function endEventReducer(state) {
-  return Object.assign({}, state, {activeEvent: null, eventStep: 0})
+  var newScores = Object.assign({}, state.scores)
+  var stat
+  for (stat in state.stats) {
+    newScores[stat] = state.stats[stat].max
+  }
+  return Object.assign({}, state, {
+    activeEvent: null,
+    eventStep: 0,
+    scores: newScores,
+  })
 }
 
 export function deductCostReducer(state, action) {

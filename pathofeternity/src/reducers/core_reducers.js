@@ -16,15 +16,22 @@ export function tickReducer(state) {
   var stats = state.stats
   var availableSkills = state.availableSkills
   var oldScores = state.scores
-  var newScores = {}
+  var newScores = Object.assign({}, state.scores)
+  var newStats = Object.assign({}, state.stats)
   var multiplier = getTotalMultiplier(state);
+
+  var cultivationMultiplier = multiplier.cultivation ? multiplier.cultivation : 1
+  newScores.cultivation += stats.cultivation.rate * cultivationMultiplier * stats.cultivation.percent / 100
+  newScores.cultivation = Math.min(newScores.cultivation, stats.cultivation.max)
+  // Bit of a hacky workaround; cultivation works differently from BMS now.
   var statName
   for (statName in stats) {
+    if (statName === "cultivation") { continue }
     var statMultiplier = multiplier[statName] ? multiplier[statName] : 1
-    newScores[statName] = Math.min(
-      oldScores[statName] + (stats[statName].rate * statMultiplier * stats[statName].percent / 100),
-      stats[statName].max
-    )
+    var rate = stats[statName].rate * statMultiplier * stats[statName].percent / 100
+      newScores[statName] += rate
+      newStats[statName].max += rate
+
   }
   //TODO: handle leveling up skills and disabling things after reaching max level.
   var skillName

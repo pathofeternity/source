@@ -7,7 +7,7 @@ const SmallBarLayout = ({name, value, max, rate}) =>  (
     <div className="small bars-container">
       <h3>{name}</h3>
       <ProgressBar max={max} now={value}
-        label={<span>{value} / {max} ({rate}/sec)</span>} />
+        label={<span>{value.toFixed(0)} / {max.toFixed(0)} ({rate}/sec)</span>} />
     </div>
   )
   SmallBarLayout.propTypes = {

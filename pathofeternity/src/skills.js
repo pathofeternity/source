@@ -32,12 +32,12 @@ export const SKILLS = {
   },
   cultivationProficiency: {
     name: "Cultivation Proficiency",
-    description: "Increases cultivation training rate by 25% per level, compounding",
+    description: "Increases cultivation training rate by 50% per level, compounding",
     eventType: PASSIVE,
     type: PASSIVE,
     icon: require("./images/logo.svg"),
-    xpRequiredFunction: (level) => 10 * Math.pow(1.3, level),
-    multiplierFunction: (level) => {return {cultivation: Math.pow(1.25, level),}},
+    xpRequiredFunction: (level) => 10 * Math.pow(1.3, level-1),
+    multiplierFunction: (level) => {return {cultivation: Math.pow(1.5, level),}},
     maxLevel: NaN
   }
 }
