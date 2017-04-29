@@ -28,3 +28,6 @@ img.empty-slot {
   box-sizing: border-box;
   border: solid #cccccc;
 }
+.progress.smallProgress {
+  height: 5px !important;
+}

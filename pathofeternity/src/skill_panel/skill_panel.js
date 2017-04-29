@@ -15,6 +15,7 @@ const equipDragStart = (event) => {
 
 const SingleSkillLayout = ({availableSkills, scores, skillName, onClick}) => {
   var level = availableSkills[skillName].level
+  var maxLevel = SKILLS[skillName].maxLevel
   var skillObject = SKILLS[skillName]
   var currXp = scores[skillName]
   var xpRequired = skillObject.xpRequiredFunction(level)
@@ -23,10 +24,10 @@ const SingleSkillLayout = ({availableSkills, scores, skillName, onClick}) => {
       <img className="skill-icon" alt={skillObject.name}
         src={skillObject.icon} draggable="false"
       />
-      {skillObject.name} Lv. {level}
+      {skillObject.name} Lv. {level === maxLevel ? "MAX" : level}
     </div>
-    <ProgressBar max={xpRequired} now={currXp}
-    />
+    {level === maxLevel ? null : <ProgressBar className="smallProgress" max={xpRequired} now={currXp}/>}
+
   </div>
 }
 
@@ -52,6 +53,7 @@ const FilteredSkillListing = (skillNameList, skillType) => (
       .filter(skillName => SKILLS[skillName].type === skillType)
       .map(skillName =>
         <div key={SKILLS[skillName].name}
+          id={skillName}
           onDragStart={equipDragStart}
           draggable="true">
           <SingleSkill skillName={skillName}/>
