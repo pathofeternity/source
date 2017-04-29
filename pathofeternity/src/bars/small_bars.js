@@ -7,7 +7,7 @@ import {ProgressBar} from 'react-bootstrap'
 const SmallBarLayout = ({name, value, max, rate}) =>  (
     <div className="small bars-container">
       <h3>{name}</h3>
-      <ProgressBar max={max} now={value}
+      <ProgressBar className="statProgress" max={max} now={value}
         label={<span>{value.toFixed(0)} / {max.toFixed(0)} ({rate}/sec)</span>} />
     </div>
   )
@@ -21,7 +21,7 @@ const SmallBarLayout = ({name, value, max, rate}) =>  (
 const mapDispatchToProps = (dispatch) => {return {}}
 const statRate = (stat) => stat.percent * stat.rate / 100
 const mapStateToBodyProps = (state) => {
-  var multiplier = getTotalMultiplier(state)
+  var multiplier = getTotalMultiplier(state.availableSkills)
   return {
     name: "Body",
     value: Number(state.scores.body.toFixed(2)),
@@ -30,7 +30,7 @@ const mapStateToBodyProps = (state) => {
   }
 }
 const mapStateToMindProps = (state) => {
-  var multiplier = getTotalMultiplier(state)
+  var multiplier = getTotalMultiplier(state.availableSkills)
   return {
     name: "Mind",
     value: Number(state.scores.mind.toFixed(2)),
@@ -39,7 +39,7 @@ const mapStateToMindProps = (state) => {
   }
 }
 const mapStateToSoulProps = (state) => {
-  var multiplier = getTotalMultiplier(state)
+  var multiplier = getTotalMultiplier(state.availableSkills)
   return {
     name: "Soul",
     value: Number(state.scores.soul.toFixed(2)),

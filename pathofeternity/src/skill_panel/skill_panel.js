@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import {Tabs, Tab, Accordion, Panel} from 'react-bootstrap'
+import {Tabs, Tab, Accordion, Panel, ProgressBar} from 'react-bootstrap'
 import {SKILLS, ATTACK_SKILL, DEFENSE_SKILL, PASSIVE} from '../skills.js'
 import {selectSkill} from '../actions.js'
 import {BattleSkillDisplay} from './skill_icons_display.js'
@@ -13,21 +13,48 @@ const equipDragStart = (event) => {
   event.dataTransfer.setData(EVENT_TYPE, EQUIP)
 }
 
-const FilteredSkillListing = (skillNameList, skillType, onClick) => (
+const SingleSkillLayout = ({availableSkills, scores, skillName, onClick}) => {
+  var level = availableSkills[skillName].level
+  var skillObject = SKILLS[skillName]
+  var currXp = scores[skillName]
+  var xpRequired = skillObject.xpRequiredFunction(level)
+  return <div  onClick={onClick(skillName)}>
+    <div>
+      <img className="skill-icon" alt={skillObject.name}
+        src={skillObject.icon} draggable="false"
+      />
+      {skillObject.name} Lv. {level}
+    </div>
+    <ProgressBar max={xpRequired} now={currXp}
+    />
+  </div>
+}
+
+const singleSkillDispatchToProps = (dispatch) => {
+  return {
+    onClick: (skillName) => () => dispatch(selectSkill(skillName)),
+
+  }
+}
+const singleSkillStateToProps = (state) => {
+  return {
+    availableSkills: state.availableSkills,
+    scores: state.scores,
+  }
+}
+
+const SingleSkill = connect(singleSkillStateToProps, singleSkillDispatchToProps)(SingleSkillLayout)
+
+const FilteredSkillListing = (skillNameList, skillType) => (
   <div>
     {
       Object.keys(skillNameList)
       .filter(skillName => SKILLS[skillName].type === skillType)
       .map(skillName =>
         <div key={SKILLS[skillName].name}
-          id={skillName}
           onDragStart={equipDragStart}
-          onClick={onClick(skillName)}
           draggable="true">
-          <img className="skill-icon" alt={SKILLS[skillName]}
-            src={SKILLS[skillName].icon} draggable="false"
-          />
-          {SKILLS[skillName].name}
+          <SingleSkill skillName={skillName}/>
         </div>
       )
     }
@@ -35,7 +62,7 @@ const FilteredSkillListing = (skillNameList, skillType, onClick) => (
 )
 
 
-const SkillTabsLayout = ({availableSkills, onClick}) => (
+const SkillTabsLayout = ({availableSkills}) => (
   <Tabs id="tabs">
     <Tab eventKey={1} title="Battle">
       <div className="skill-tab-container">
@@ -43,13 +70,13 @@ const SkillTabsLayout = ({availableSkills, onClick}) => (
           <Accordion>
             <Panel
               header={"Attack"}>
-              {FilteredSkillListing(availableSkills, ATTACK_SKILL, onClick)}
+              {FilteredSkillListing(availableSkills, ATTACK_SKILL)}
             </Panel>
           </Accordion>
           <Accordion>
             <Panel
               header={"Defense"}>
-              {FilteredSkillListing(availableSkills, DEFENSE_SKILL, onClick)}
+              {FilteredSkillListing(availableSkills, DEFENSE_SKILL)}
             </Panel>
           </Accordion>
         </div>
@@ -70,7 +97,7 @@ const SkillTabsLayout = ({availableSkills, onClick}) => (
       <div className="skill-tab-container">
         <div className="skill-listing">
           <Panel header={"Passives"}>
-            {FilteredSkillListing(availableSkills, PASSIVE, onClick)}
+            {FilteredSkillListing(availableSkills, PASSIVE)}
           </Panel>
         </div>
         <PassiveSelectedSkill/>
@@ -79,19 +106,15 @@ const SkillTabsLayout = ({availableSkills, onClick}) => (
   </Tabs>
 )
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onClick: (skillName) => () => dispatch(selectSkill(skillName)),
-
-  }
+const skillTabsDispatchToProps = (dispatch) => {
+  return {}
 }
-const mapStateToProps = (state) => {
+const skillTabsStateToProps = (state) => {
   return {
     availableSkills: state.availableSkills
   }
 }
 
-
-const SkillPanel = connect(mapStateToProps, mapDispatchToProps)(SkillTabsLayout)
+const SkillPanel = connect(skillTabsStateToProps, skillTabsDispatchToProps)(SkillTabsLayout)
 
 export default SkillPanel

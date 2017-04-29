@@ -18,7 +18,7 @@ export function tickReducer(state) {
   var oldScores = state.scores
   var newScores = Object.assign({}, state.scores)
   var newStats = Object.assign({}, state.stats)
-  var multiplier = getTotalMultiplier(state);
+  var multiplier = getTotalMultiplier(availableSkills);
 
   var cultivationMultiplier = multiplier.cultivation ? multiplier.cultivation : 1
   newScores.cultivation += stats.cultivation.rate * cultivationMultiplier * stats.cultivation.percent / 100

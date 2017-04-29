@@ -24,7 +24,7 @@ const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
   <div className="bars-component">
     <div className="bars-container">
       <h2>Cultivation - {levelName(cultivation)}</h2>
-      <ProgressBar max={cultivationMax} now={cultivation}
+      <ProgressBar className="statProgress" max={cultivationMax} now={cultivation}
         label={spanOrButton(cultivation, cultivationMax, cultivationRate,
         startBreakthrough, hasExistingEvent)} />
     </div>
@@ -51,7 +51,7 @@ const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
   }}
   const statRate = (stat) => stat.percent * stat.rate / 100
   const mapStateToProps = (state) => {
-    var multiplier = getTotalMultiplier(state)
+    var multiplier = getTotalMultiplier(state.availableSkills)
     return {
       cultivation: Number(state.scores.cultivation.toFixed(2)),
       cultivationMax: state.stats.cultivation.max,

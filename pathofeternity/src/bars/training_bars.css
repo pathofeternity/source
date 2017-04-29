@@ -16,7 +16,7 @@ h3 {
   width: calc(33% - 9px);
   float:left;
 }
-.progress {
+.progress.statProgress {
   margin-bottom:0px !important;
   height:34px !important;
   position: relative;
