@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import './training_bars.css';
 import {startEvent} from '../actions.js'
 import { connect } from 'react-redux'
+import {getTotalMultiplier} from '../utils.js'
 import {ProgressBar, Button, Fade} from 'react-bootstrap'
 import {BodyBar, MindBar, SoulBar} from './small_bars.js'
 import {levelName} from '../library.js'
@@ -50,10 +51,11 @@ const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
   }}
   const statRate = (stat) => stat.percent * stat.rate / 100
   const mapStateToProps = (state) => {
+    var multiplier = getTotalMultiplier(state)
     return {
       cultivation: Number(state.scores.cultivation.toFixed(2)),
       cultivationMax: state.stats.cultivation.max,
-      cultivationRate: statRate(state.stats.cultivation),
+      cultivationRate: statRate(state.stats.cultivation) * multiplier.cultivation,
       hasExistingEvent: state.activeEvent != null
     }
   }
