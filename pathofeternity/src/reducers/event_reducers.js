@@ -10,6 +10,7 @@ export function endEventReducer(state) {
   var newScores = Object.assign({}, state.scores)
   var stat
   for (stat in state.stats) {
+    if (stat === "cultivation") { continue }
     newScores[stat] = state.stats[stat].max
   }
   return Object.assign({}, state, {
