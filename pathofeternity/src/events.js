@@ -10,13 +10,6 @@ export const EVENTS = {
     steps: [
       {
         type: MEDITATION,
-        titleText: "Focus Mind",
-        displayText: "Preparing Mind",
-        defaultActionName: "Focus",
-        showDefaultAction: true,
-      },
-      {
-        type: MEDITATION,
         titleText: "Focus Energy",
         displayText: "Focusing Energy",
         defaultActionName: "Focus",

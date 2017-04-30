@@ -1,14 +1,25 @@
 import {getTotalMultiplier} from '../utils.js'
 import {SKILLS} from '../skills.js'
+import {showPopup, grantSkill} from '../actions.js'
+import {grantSkillReducer} from './skill_reducers.js'
 
 export function successfulBreakthroughReducer(state) {
-  return Object.assign({}, state, {
+
+  var newState = Object.assign({}, state, {
     stats: Object.assign({}, state.stats, {
       cultivation: Object.assign({}, state.stats.cultivation, {
         max: state.stats.cultivation.max * 10
       })
     })
   })
+  if (state.stats.cultivation.max === 10) {
+      return grantSkillReducer(
+        showPopupReducer(newState, showPopup("A Chance Encounter",
+        "A wandering cultivator happens by as you finish your breakthrough, and gives you some tips. You gained the Cultivation Proficiency skill.")),
+        grantSkill("cultivationProficiency")
+      )
+  }
+  return newState
 }
 
 // Two chunks - handles core stats and skills similarly.
