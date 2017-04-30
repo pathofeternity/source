@@ -99,6 +99,8 @@ export function pathApp(state = loadGame(), action) {
       return showPopupReducer(state, action)
     case HIDE_POPUP:
       return hidePopupReducer(state)
+    case GRANT_SKILL:
+      return grantSkillReducer(state, action)
     default:
       return state
   }
