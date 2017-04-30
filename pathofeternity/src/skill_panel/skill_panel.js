@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import {Tabs, Tab, Accordion, Panel, ProgressBar} from 'react-bootstrap'
+import {Tabs, Tab, Accordion, Panel, ProgressBar, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import {SKILLS, ATTACK_SKILL, DEFENSE_SKILL, PASSIVE} from '../skills.js'
 import {selectSkill} from '../actions.js'
 import {BattleSkillDisplay} from './skill_icons_display.js'
 import {BattleSelectedSkill, PassiveSelectedSkill} from './selected_skill_display.js'
 import {SKILL_NAME, EVENT_TYPE, EQUIP} from './event_constants.js'
+import {getTotalMultiplier} from '../utils.js'
 import './skill_panel.css'
 
 const equipDragStart = (event) => {
@@ -13,22 +14,27 @@ const equipDragStart = (event) => {
   event.dataTransfer.setData(EVENT_TYPE, EQUIP)
 }
 
-const SingleSkillLayout = ({availableSkills, scores, skillName, onClick}) => {
+const SingleSkillLayout = ({availableSkills, scores, skillName, onClick, multiplier}) => {
   var level = availableSkills[skillName].level
   var maxLevel = SKILLS[skillName].maxLevel
   var skillObject = SKILLS[skillName]
   var currXp = scores[skillName]
-  var xpRequired = skillObject.xpRequiredFunction(level)
-  return <div  onClick={onClick(skillName)}>
-    <div>
-      <img className="skill-icon" alt={skillObject.name}
-        src={skillObject.icon} draggable="false"
-      />
-      {skillObject.name} Lv. {level === maxLevel ? "MAX" : level}
-    </div>
-    {level === maxLevel ? null : <ProgressBar className="smallProgress" max={xpRequired} now={currXp}/>}
+  var multiplierNumber = multiplier[skillName] ? multiplier[skillName] : 1
+  var totalRate = availableSkills[skillName].rate * availableSkills[skillName].percent * multiplierNumber / 100
 
-  </div>
+  var xpRequired = skillObject.xpRequiredFunction(level)
+  return <OverlayTrigger placement="top" overlay={<Tooltip id="skill-tip">{scores[skillName]} / {xpRequired}, {totalRate}/sec</Tooltip>}>
+    <div onClick={onClick(skillName)}>
+      <div>
+        <img className="skill-icon" alt={skillObject.name}
+          src={skillObject.icon} draggable="false"
+        />
+        {skillObject.name} Lv. {level === maxLevel ? "MAX" : level}
+      </div>
+      {level === maxLevel ? null : <ProgressBar className="smallProgress" max={xpRequired} now={currXp}/>}
+
+    </div>
+  </OverlayTrigger>
 }
 
 const singleSkillDispatchToProps = (dispatch) => {
@@ -41,6 +47,7 @@ const singleSkillStateToProps = (state) => {
   return {
     availableSkills: state.availableSkills,
     scores: state.scores,
+    multiplier: getTotalMultiplier(state),
   }
 }
 

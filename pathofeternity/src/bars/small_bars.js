@@ -21,30 +21,30 @@ const SmallBarLayout = ({name, value, max, rate}) =>  (
 const mapDispatchToProps = (dispatch) => {return {}}
 const statRate = (stat) => stat.percent * stat.rate / 100
 const mapStateToBodyProps = (state) => {
-  var multiplier = getTotalMultiplier(state.availableSkills)
+  var multiplier = getTotalMultiplier(state)
   return {
     name: "Body",
     value: Number(state.scores.body.toFixed(2)),
     max: state.stats.body.max,
-    rate: statRate(state.stats.body) * multiplier.body,
+    rate: statRate(state.stats.body) * (multiplier.body ? multiplier.body : 1),
   }
 }
 const mapStateToMindProps = (state) => {
-  var multiplier = getTotalMultiplier(state.availableSkills)
+  var multiplier = getTotalMultiplier(state)
   return {
     name: "Mind",
     value: Number(state.scores.mind.toFixed(2)),
     max: state.stats.mind.max,
-    rate: statRate(state.stats.mind) * multiplier.mind,
+    rate: statRate(state.stats.mind) * (multiplier.mind ? multiplier.mind : 1),
   }
 }
 const mapStateToSoulProps = (state) => {
-  var multiplier = getTotalMultiplier(state.availableSkills)
+  var multiplier = getTotalMultiplier(state)
   return {
     name: "Soul",
     value: Number(state.scores.soul.toFixed(2)),
     max: state.stats.soul.max,
-    rate: statRate(state.stats.soul) * multiplier.soul,
+    rate: statRate(state.stats.soul) * (multiplier.soul ? multiplier.soul : 1)
   }
 }
 

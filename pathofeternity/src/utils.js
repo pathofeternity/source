@@ -1,6 +1,7 @@
 import {SKILLS, PASSIVE} from './skills.js'
 
-export function getTotalMultiplier(availableSkills) {
+export function getTotalMultiplier(state) {
+  var availableSkills = state.availableSkills
   var multiplier = Object.keys(availableSkills)
       .filter(skill => SKILLS[skill].eventType === PASSIVE)
       .reduce((result, skill) => {

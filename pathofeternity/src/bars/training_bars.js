@@ -51,11 +51,11 @@ const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
   }}
   const statRate = (stat) => stat.percent * stat.rate / 100
   const mapStateToProps = (state) => {
-    var multiplier = getTotalMultiplier(state.availableSkills)
+    var multiplier = getTotalMultiplier(state)
     return {
       cultivation: Number(state.scores.cultivation.toFixed(2)),
       cultivationMax: state.stats.cultivation.max,
-      cultivationRate: statRate(state.stats.cultivation) * multiplier.cultivation,
+      cultivationRate: statRate(state.stats.cultivation) * (multiplier.cultivation ? multiplier.cultivation : 1),
       hasExistingEvent: state.activeEvent != null
     }
   }
