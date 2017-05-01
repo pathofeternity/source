@@ -31,3 +31,6 @@ img.empty-slot {
 .progress.smallProgress {
   height: 5px !important;
 }
+.name-div {
+  display: inline-block;
+}

@@ -14,6 +14,13 @@ const equipDragStart = (event) => {
   event.dataTransfer.setData(EVENT_TYPE, EQUIP)
 }
 
+const MakeTooltip = (scores, skillName, xpRequired, totalRate, level) => {
+  if (level === SKILLS[skillName].maxLevel) {
+    return <Tooltip id="skill-tip">MAX</Tooltip>
+  }
+  return <Tooltip id="skill-tip">{scores[skillName]} / {xpRequired}, {totalRate}/sec</Tooltip>
+}
+
 const SingleSkillLayout = ({availableSkills, scores, skillName, onClick, multiplier}) => {
   var level = availableSkills[skillName].level
   var maxLevel = SKILLS[skillName].maxLevel
@@ -21,20 +28,20 @@ const SingleSkillLayout = ({availableSkills, scores, skillName, onClick, multipl
   var currXp = scores[skillName]
   var multiplierNumber = multiplier[skillName] ? multiplier[skillName] : 1
   var totalRate = availableSkills[skillName].rate * availableSkills[skillName].percent * multiplierNumber / 100
-
   var xpRequired = skillObject.xpRequiredFunction(level)
-  return <OverlayTrigger placement="top" overlay={<Tooltip id="skill-tip">{scores[skillName]} / {xpRequired}, {totalRate}/sec</Tooltip>}>
-    <div onClick={onClick(skillName)}>
-      <div>
+
+  return <div onClick={onClick(skillName)}>
+    <OverlayTrigger placement="top" overlay={MakeTooltip(scores, skillName, xpRequired, totalRate, level)}>
+      <div className="name-div">
         <img className="skill-icon" alt={skillObject.name}
           src={skillObject.icon} draggable="false"
         />
         {skillObject.name} Lv. {level === maxLevel ? "MAX" : level}
       </div>
+    </OverlayTrigger>
       {level === maxLevel ? null : <ProgressBar className="smallProgress" max={xpRequired} now={currXp}/>}
 
     </div>
-  </OverlayTrigger>
 }
 
 const singleSkillDispatchToProps = (dispatch) => {
