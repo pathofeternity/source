@@ -73,5 +73,25 @@ export const EVENTS = {
         }
       },
     ],
+  },
+  basicFight: {
+    name: "Fight a dummy",
+    steps: [
+      {
+        type: BATTLE,
+        isFight: true,
+        maxHp: 20,
+        titleText: "Fight a dummy",
+        enemyName: "Target Dummy",
+        finishAction: (skillName) => {
+          var skill = SKILLS[skillName]
+          var numHerbs = 2
+          if (skill && skill.tags.indexOf(SLASHING) !== -1) {
+            numHerbs = 3
+          }
+          return grantItem('herb', numHerbs)
+        },
+      },
+    ],
   }
 }

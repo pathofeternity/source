@@ -13,7 +13,14 @@ import './event_panel.css'
 class EventPanelLayout extends React.Component {
   constructor() {
     super()
-    this.state = {progress: 0, disableButtons: false}
+    this.state = {progress: 0, disableButtons: false, hasHP: false, HP: 0}
+  }
+
+  componentWillMount() {
+    const {steps, stepIndex} = this.props
+    if (steps[stepIndex].isFight) {
+      this.setState({HP: steps[stepIndex].maxHp})
+    }
   }
 
   makeBarTimeout(i) {
@@ -27,6 +34,9 @@ class EventPanelLayout extends React.Component {
       dispatch(currentStep.finishAction(skillName))
     }
     if (stepIndex < steps.length - 1) {
+      if (steps[stepIndex + 1].isFight) {
+        this.setState({HP: steps[stepIndex + 1].maxHp})
+      }
       dispatch(progressEvent())
     } else {
       dispatch(endEvent())
@@ -87,8 +97,74 @@ class EventPanelLayout extends React.Component {
       {SKILLS[skill].name}
     </Button>
   }
+
+  nonCombatStep() {
+    const {currentStep, steps, equippedSkills, dispatch, stepIndex} = this.props
+    return <div>
+      <div className="event-usable-skills">
+        <ButtonToolbar>
+          {
+            currentStep.showDefaultAction ?
+              <Button bsStyle="primary"
+                onClick={() => this.clickSkill(DEFAULT)}
+                disabled={this.state.disableButtons || !this.canPayCost(DEFAULT)}>
+                {steps[stepIndex].defaultActionName}
+              </Button>
+              : null
+          }
+          {
+            equippedSkills.map((skill, index) => this.renderSkillButton(skill, index))
+          }
+          <Button onClick={() => dispatch(endEvent())}
+            disabled={this.state.disableButtons}>
+            Cancel
+          </Button>
+        </ButtonToolbar>
+      </div>
+      <div className="event-progress-display">
+        <h3>{steps[stepIndex].displayText}</h3>
+        <ProgressBar max={5} now={this.state.progress}/>
+      </div>
+    </div>
+  }
+  attackWith(skill) {console.log(skill)}
+
+  // Enable/disable skills based on in-combat cost (MP) later on.
+  renderAttackButton(skill, index) {
+    if (skill === null) {return null}
+    return <Button key={index}
+      onClick={() => this.attackWith(skill)}>
+      {SKILLS[skill].name}
+    </Button>
+  }
+
+  combatStep() {
+    const {equippedSkills, dispatch, steps, stepIndex} = this.props
+    return <div>
+      <div className="event-usable-skills">
+        <ButtonToolbar>
+          <Button bsStyle="primary"
+            onClick={() => this.attackWith(DEFAULT)}
+            disabled={this.state.disableButtons}>
+            Normal Punch
+          </Button>
+          {
+            equippedSkills.map((skill, index) => this.renderAttackButton(skill, index))
+          }
+          <Button onClick={() => dispatch(endEvent())}
+            disabled={this.state.disableButtons}>
+            Flee
+          </Button>
+        </ButtonToolbar>
+      </div>
+      <div className="event-progress-display">
+        <h3>vs. {steps[stepIndex].enemyName}</h3>
+        <ProgressBar max={steps[stepIndex].maxHp} now={this.state.HP}/>
+      </div>
+    </div>
+  }
   render() {
-    const {stepIndex, currentStep, steps, dispatch, equippedSkills, eventTitle} = this.props
+    const {stepIndex, steps, eventTitle} = this.props
     return (
       <div className="event-panel">
         <div className="event-top">
@@ -101,35 +177,9 @@ class EventPanelLayout extends React.Component {
                 {step.titleText}
               </Button>
             )}
-
           </ButtonToolbar>
         </div>
-        <div>
-          <div className="event-usable-skills">
-            <ButtonToolbar>
-              {
-                currentStep.showDefaultAction ?
-                  <Button bsStyle="primary"
-                    onClick={() => this.clickSkill(DEFAULT)}
-                    disabled={this.state.disableButtons || !this.canPayCost(DEFAULT)}>
-                    {steps[stepIndex].defaultActionName}
-                  </Button>
-                  : null
-              }
-              {
-                equippedSkills.map((skill, index) => this.renderSkillButton(skill, index))
-              }
-              <Button onClick={() => dispatch(endEvent())}
-                disabled={this.state.disableButtons}>
-                Cancel
-              </Button>
-            </ButtonToolbar>
-          </div>
-          <div className="event-progress-display">
-            <h3>{steps[stepIndex].displayText}</h3>
-            <ProgressBar max={5} now={this.state.progress}/>
-          </div>
-        </div>
+        {steps[stepIndex].isFight ? this.combatStep() : this.nonCombatStep()}
       </div>
     )
   }

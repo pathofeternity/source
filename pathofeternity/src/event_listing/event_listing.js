@@ -9,6 +9,7 @@ const EventListingLayout = ({maxCultivation, onClick}) =>  (
   <div>
     {maxCultivation > 100 ? <Button onClick={onClick('gatherHerbs')}>Gather Herbs</Button> : null}
     <Button onClick={onClick('thornyRoad')}>Travel through Woods</Button>
+    <Button onClick={onClick('basicFight')}>Fight a dummy</Button>
   </div>
 )
 
