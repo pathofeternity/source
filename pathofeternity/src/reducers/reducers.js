@@ -2,7 +2,7 @@ import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH,
   START_EVENT, PROGRESS_EVENT, END_EVENT,
   GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL, SELECT_SKILL,
   GRANT_ITEM, USE_ITEM, DEDUCT_COST, SHOW_POPUP, HIDE_POPUP,
-  GRANT_EVENT,  
+  GRANT_EVENT,
 } from '../actions.js'
 import {grantEventReducer, startEventReducer, progressEventReducer, endEventReducer, deductCostReducer} from './event_reducers.js'
 import {grantSkillReducer, equipSkillReducer, unequipSkillReducer, selectSkillReducer} from './skill_reducers.js'
@@ -20,19 +20,19 @@ const initialState = {
     },
     body: {
       trainingName: 'Physical Training',
-      max: 100,
+      max: 10,
       rate: 1,
       percent: 0
     },
     mind: {
       trainingName: 'Mental Training',
-      max: 100,
+      max: 10,
       rate: 1,
       percent: 0
     },
     soul: {
       trainingName: 'Soul Training',
-      max: 100,
+      max: 10,
       rate: 1,
       percent: 0
     }
@@ -51,7 +51,7 @@ const initialState = {
   eventStep: 0,
 
   availableSkills: {
-    burning: {level: 1, percent:50, rate:1},
+    burning: {level: 1, percent:0, rate:1},
     slashing: {level: 0, percent:0, rate:1},
   //  cultivationProficiency: {level: 1, percent:0, rate:1},
   },
