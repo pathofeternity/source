@@ -1,15 +1,18 @@
 import React from 'react';
 import './event_listing.css';
+import {EVENTS} from '../events.js'
 import {Button} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import {startEvent} from '../actions.js'
 
-const EventListingLayout = ({maxCultivation, onClick}) =>  (
+const EventListingLayout = ({maxCultivation, availableEvents, onClick}) =>  (
 
   <div>
-    {maxCultivation > 100 ? <Button onClick={onClick('gatherHerbs')}>Gather Herbs</Button> : null}
-    <Button onClick={onClick('thornyRoad')}>Travel through Woods</Button>
-    <Button onClick={onClick('basicFight')}>Fight a dummy</Button>
+    {availableEvents.map((eventName, index) => {
+      return <Button onClick={onClick(eventName)} key={index}>
+        {EVENTS[eventName].name}
+      </Button>
+    })}
   </div>
 )
 
@@ -21,6 +24,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 const mapStateToProps = (state) => {
   return {
+    availableEvents: state.availableEvents,
     maxCultivation: state.stats.cultivation.max,
   }
 }

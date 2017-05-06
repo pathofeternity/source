@@ -1,7 +1,8 @@
 import {getTotalMultiplier} from '../utils.js'
 import {SKILLS} from '../skills.js'
-import {showPopup, grantSkill} from '../actions.js'
+import {showPopup, grantSkill, grantEvent} from '../actions.js'
 import {grantSkillReducer} from './skill_reducers.js'
+import {grantEventReducer} from './event_reducers.js'
 
 export function successfulBreakthroughReducer(state) {
 
@@ -12,12 +13,15 @@ export function successfulBreakthroughReducer(state) {
       })
     })
   })
+  // E0 -> E1
   if (state.stats.cultivation.max === 10) {
-      return grantSkillReducer(
-        showPopupReducer(newState, showPopup("A Chance Encounter",
-        "A wandering cultivator happens by as you finish your breakthrough, and gives you some tips. You gained the Cultivation Proficiency skill.")),
-        grantSkill("cultivationProficiency")
-      )
+    newState = showPopupReducer(newState, showPopup("A Chance Encounter",
+    "A wandering cultivator happens by as you finish your breakthrough, and gives you some tips. You gained the Cultivation Proficiency skill."))
+    return grantSkillReducer(newState, grantSkill("cultivationProficiency"))
+  }
+  // E1 -> E2
+  if (state.stats.cultivation.max == 100) {
+    return grantEventReducer(newState, grantEvent("gatherHerbs"))
   }
   return newState
 }

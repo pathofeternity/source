@@ -1,3 +1,10 @@
+export function grantEventReducer(state, action) {
+  return Object.assign({}, state, {
+    availableEvents: state.availableEvents.concat([action.eventName])
+  })
+}
+
+
 export function startEventReducer(state, action) {
   return Object.assign({}, state, {activeEvent: action.eventName, eventStep: 0})
 }

@@ -14,6 +14,7 @@ export const USE_ITEM = 'USE_ITEM'
 export const DEDUCT_COST = 'DEDUCT_COST'
 export const SHOW_POPUP = 'SHOW_POPUP'
 export const HIDE_POPUP = 'HIDE_POPUP'
+export const GRANT_EVENT = 'GRANT_EVENT'
 
 export function noOp() {
   return { type: NO_OP }
@@ -80,4 +81,8 @@ export function hidePopup() {
 }
 export function showPopup(title, message) {
   return {type: SHOW_POPUP, title: title, message: message}
+}
+
+export function grantEvent(eventName) {
+  return {type: GRANT_EVENT, eventName: eventName}
 }
