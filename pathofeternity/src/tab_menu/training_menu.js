@@ -20,53 +20,61 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, cultivationMax, onCh
 				</tr></tbody></table>
 			</Panel>
 		</Accordion>
-		{cultivationMax >= 1e2 ?
-			<Accordion>
-				<Panel header={"Basic (" + (body + mind + soul) + "%)"}>
-					<table><tbody>
-						<tr>
-							<td>Physical Training</td>
-							<td><input type="range" min="0" max="100"	value={body} onChange={e => {onChange("body", e)}}/></td>
-							<td>{body}%</td>
-						</tr>
-						{cultivationMax >= 1e6 ?
+		<Fade in={cultivationMax >= 1e2}>
+			{cultivationMax >= 1e2 ?
+				<Accordion>
+					<Panel header={"Basic (" + (body + mind + soul) + "%)"}>
+						<table><tbody>
 							<tr>
-								<td>Mental Training</td>
-								<td><input type="range" min="0" max="100"	value={mind} onChange={e => {onChange("mind", e)}}/></td>
-								<td>{mind}%</td>
+								<td>Physical Training</td>
+								<td><input type="range" min="0" max="100"	value={body} onChange={e => {onChange("body", e)}}/></td>
+								<td>{body}%</td>
 							</tr>
-							: null
-						}
-						{cultivationMax >= 1e26 ?
-							<tr>
-								<td>Soul Training</td>
-								<td><input type="range" min="0" max="100"	value={soul} onChange={e => {onChange("soul", e)}}/></td>
-								<td>{soul}%</td>
-							</tr>
-							: null
-						}
-					</tbody></table>
-				</Panel>
-			</Accordion>
-		: null }
-		<Accordion>
-			<Fade in={availableSkills.cultivationProficiency !== undefined}>
-				<Panel header="Skills">
-					<table><tbody>
-						{Object.keys(scores)
-							.filter(name => availableSkills[name])
-							.map((name, index) =>{
-								return <tr key={index}>
-									<td>Train {SKILLS[name].name}</td>
-									<td><input type="range" min="0" max="100"
-										value={availableSkills[name].percent}
-										onChange={e => {onChange(name, e)}}/></td>
-									<td>{availableSkills[name].percent}%</td>
-								</tr>})}
-					</tbody></table>
-				</Panel>
-			</Fade>
-		</Accordion>
+							<Fade in={cultivationMax >= 1e6}>
+								{cultivationMax >= 1e6 ?
+									<tr>
+										<td>Mental Training</td>
+										<td><input type="range" min="0" max="100"	value={mind} onChange={e => {onChange("mind", e)}}/></td>
+										<td>{mind}%</td>
+									</tr>
+									: <tr></tr>
+								}
+							</Fade>
+							<Fade in={cultivationMax >= 1e26}>
+								{cultivationMax >= 1e26 ?
+									<tr>
+										<td>Soul Training</td>
+										<td><input type="range" min="0" max="100"	value={soul} onChange={e => {onChange("soul", e)}}/></td>
+										<td>{soul}%</td>
+									</tr>
+									: <tr></tr>
+								}</Fade>
+						</tbody></table>
+					</Panel>
+				</Accordion>
+				: <div></div> }
+		</Fade>
+		<Fade in={availableSkills.cultivationProficiency !== undefined}>
+			{availableSkills.cultivationProficiency !== undefined ?
+				<Accordion>
+					<Panel header="Skills">
+						<table><tbody>
+							{Object.keys(scores)
+								.filter(name => availableSkills[name])
+								.map((name, index) =>{
+									return <tr key={index}>
+										<td>Train {SKILLS[name].name}</td>
+										<td><input type="range" min="0" max="100"
+											value={availableSkills[name].percent}
+											onChange={e => {onChange(name, e)}}/></td>
+										<td>{availableSkills[name].percent}%</td>
+									</tr>})}
+						</tbody></table>
+					</Panel>
+				</Accordion>
+				: <div></div>
+			}
+		</Fade>
 	</div>
 )
 
