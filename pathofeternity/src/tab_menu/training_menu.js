@@ -19,7 +19,9 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, cultivationMax, onCh
 					<td>{cultivation}%</td>
 				</tr></tbody></table>
 			</Panel>
-			<Fade in={cultivationMax >= 1e2}>
+		</Accordion>
+		{cultivationMax >= 1e2 ?
+			<Accordion>
 				<Panel header={"Basic (" + (body + mind + soul) + "%)"}>
 					<table><tbody>
 						<tr>
@@ -27,23 +29,27 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, cultivationMax, onCh
 							<td><input type="range" min="0" max="100"	value={body} onChange={e => {onChange("body", e)}}/></td>
 							<td>{body}%</td>
 						</tr>
-						<Fade in={cultivationMax >= 1e6}>
+						{cultivationMax >= 1e6 ?
 							<tr>
 								<td>Mental Training</td>
 								<td><input type="range" min="0" max="100"	value={mind} onChange={e => {onChange("mind", e)}}/></td>
 								<td>{mind}%</td>
 							</tr>
-						</Fade>
-						<Fade in={cultivationMax >= 1e26}>
+							: null
+						}
+						{cultivationMax >= 1e26 ?
 							<tr>
 								<td>Soul Training</td>
 								<td><input type="range" min="0" max="100"	value={soul} onChange={e => {onChange("soul", e)}}/></td>
 								<td>{soul}%</td>
 							</tr>
-						</Fade>
+							: null
+						}
 					</tbody></table>
 				</Panel>
-			</Fade>
+			</Accordion>
+		: null }
+		<Accordion>
 			<Fade in={availableSkills.cultivationProficiency !== undefined}>
 				<Panel header="Skills">
 					<table><tbody>
