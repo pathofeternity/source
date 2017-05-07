@@ -1,0 +1,22 @@
+.sect-listing-entry {
+  border-style: solid;
+  border-color: #cccccc;
+  overflow: hidden;
+  padding: 3px;
+}
+.sect-listing-section {
+  width: 25%;
+  float: left;
+  text-align: center;
+}
+.sect-listing-foundation-tech {
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: #cccccc;
+  height: 80px;
+}
+.sect-listing-foundation-skill {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
