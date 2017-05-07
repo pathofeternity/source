@@ -36,7 +36,7 @@ export const SKILLS = {
     eventType: PASSIVE,
     type: PASSIVE,
     icon: require("./images/logo.svg"),
-    xpRequiredFunction: (level) => 10 * Math.pow(1.3, level-1),
+    xpRequiredFunction: (level) => 10 * Math.pow(1.3, level),
     multiplierFunction: (level) => {return {cultivation: Math.pow(1.5, level),}},
     maxLevel: NaN
   }
