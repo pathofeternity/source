@@ -20,7 +20,7 @@ export function successfulBreakthroughReducer(state) {
     return grantSkillReducer(newState, grantSkill("cultivationProficiency"))
   }
   // E1 -> E2
-  if (state.stats.cultivation.max == 100) {
+  if (state.stats.cultivation.max === 100) {
     return grantEventReducer(newState, grantEvent("gatherHerbs"))
   }
   return newState
@@ -61,6 +61,7 @@ export function tickReducer(state) {
       newSkills[skillName].level++
       newScores[skillName] = 0
       if (newSkills[skillName].level >= SKILLS[skillName].maxLevel) {
+        newStats.cultivation.percent += newSkills[skillName].percent
         newSkills[skillName].percent = 0
         delete newScores[skillName]
       }
@@ -80,17 +81,22 @@ export function setPercentReducer(state, action) {
   // Calculate how much room we have left.
   var statName
   for (statName in stats) {
+    if (statName === "cultivation") {
+      continue;
+    }
+    if (statName === action.statName) {
+      continue;
+    }
     sum += stats[statName].percent
   }
   var skillName
   for (skillName in skills) {
+    if (skillName === action.statName) {
+      continue;
+    }
     sum += skills[skillName].percent
   }
-  if (stats[action.statName]) {
-    sum -= stats[action.statName].percent
-  } else { //the stat is XP for a skill.
-    sum -= skills[action.statName].percent
-  }
+  console.log(sum)
   var remaining = 100 - sum
 
   var newValue = Math.min(remaining, action.percent)
@@ -105,6 +111,8 @@ export function setPercentReducer(state, action) {
       { percent: newValue}
     )
   }
+  newStats.cultivation = Object.assign({}, stats.cultivation,
+      {percent: remaining - newValue})
   return Object.assign({}, state, {stats: newStats, availableSkills: newSkills})
 }
 export function hidePopupReducer(state) {

@@ -15,7 +15,7 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, cultivationMax, onCh
 					<td>Meditation</td>
 					<td><input type="range" min="0" max="100"
 						value={cultivation}
-						onChange={e => {onChange("cultivation", e)}}/></td>
+						disabled={true}/></td>
 					<td>{cultivation}%</td>
 				</tr></tbody></table>
 			</Panel>
