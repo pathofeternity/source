@@ -20,7 +20,7 @@ export const EVENTS = {
   },
   gatherHerbs: {
     name: "Gather Herbs",
-    shouldDisplay: (eventDisplayInfo) => eventDisplayInfo.level >= 1,
+    shouldDisplay: (eventDisplayInfo) => eventDisplayInfo.level >= 2,
     steps: [
       {
         type: BATTLE,

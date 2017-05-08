@@ -20,8 +20,8 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, onChange, level, ava
 				</tr></tbody></table>
 			</Panel>
 		</Accordion>
-		<Fade in={level >= 1}>
-			{level >= 1 ?
+		<Fade in={level >= 2}>
+			{level >= 2 ?
 				<Accordion>
 					<Panel header={"Basic (" + (body + mind + soul) + "%)"}>
 						<table><tbody>
@@ -30,8 +30,8 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, onChange, level, ava
 								<td><input type="range" min="0" max="100"	value={body} onChange={e => {onChange("body", e)}}/></td>
 								<td>{body}%</td>
 							</tr>
-							<Fade in={level >= 5}>
-								{level >= 5 ?
+							<Fade in={level >= 6}>
+								{level >= 6 ?
 									<tr>
 										<td>Mental Training</td>
 										<td><input type="range" min="0" max="100"	value={mind} onChange={e => {onChange("mind", e)}}/></td>
@@ -40,8 +40,8 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, onChange, level, ava
 									: <tr></tr>
 								}
 							</Fade>
-							<Fade in={level >= 25}>
-								{level >= 25 ?
+							<Fade in={level >= 26}>
+								{level >= 26 ?
 									<tr>
 										<td>Soul Training</td>
 										<td><input type="range" min="0" max="100"	value={soul} onChange={e => {onChange("soul", e)}}/></td>

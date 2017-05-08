@@ -28,13 +28,13 @@ const BarsLayout = ({cultivation, cultivationMax, level, cultivationRate,
         label={spanOrButton(cultivation, cultivationMax, cultivationRate,
         startBreakthrough, hasExistingEvent)} />
     </div>
-    <Fade in={level >= 1}><div>
+    <Fade in={level >= 2}><div>
       <BodyBar/>
     </div></Fade>
-    <Fade in={level >= 5}><div>
+    <Fade in={level >= 6}><div>
       <MindBar/>
     </div></Fade>
-    <Fade in={level >= 25}><div>
+    <Fade in={level >= 26}><div>
       <SoulBar/>
     </div></Fade>
 
