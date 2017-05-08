@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 const mapStateToProps = (state) => {
   var eventDisplayInfo = {
-    maxCultivation: state.stats.cultivation.max,
+    level: state.level
   }
   return {
     eventDisplayInfo: eventDisplayInfo,

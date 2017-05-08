@@ -47,6 +47,9 @@ const initialState = {
     slashing: 0,
   //  cultivationProficiency: 0,
   },
+
+  level: 0,
+
   activeEvent: null,
   eventStep: 0,
 

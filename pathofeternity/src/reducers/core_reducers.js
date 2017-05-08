@@ -6,6 +6,7 @@ import {grantSkillReducer} from './skill_reducers.js'
 export function successfulBreakthroughReducer(state) {
 
   var newState = Object.assign({}, state, {
+    level: state.level + 1,
     stats: Object.assign({}, state.stats, {
       cultivation: Object.assign({}, state.stats.cultivation, {
         max: state.stats.cultivation.max * 10

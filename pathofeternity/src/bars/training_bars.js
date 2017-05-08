@@ -19,7 +19,7 @@ const spanOrButton = (value, max, rate, startBreakthrough, hasExistingEvent) => 
   }
 }
 
-const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
+const BarsLayout = ({cultivation, cultivationMax, level, cultivationRate,
   startBreakthrough, hasExistingEvent}) =>  (
   <div className="bars-component">
     <div className="bars-container">
@@ -28,13 +28,13 @@ const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
         label={spanOrButton(cultivation, cultivationMax, cultivationRate,
         startBreakthrough, hasExistingEvent)} />
     </div>
-    <Fade in={cultivationMax >= 1e2}><div>
+    <Fade in={level >= 1}><div>
       <BodyBar/>
     </div></Fade>
-    <Fade in={cultivationMax >= 1e6}><div>
+    <Fade in={level >= 5}><div>
       <MindBar/>
     </div></Fade>
-    <Fade in={cultivationMax >= 1e26}><div>
+    <Fade in={level >= 25}><div>
       <SoulBar/>
     </div></Fade>
 
@@ -56,7 +56,8 @@ const BarsLayout = ({cultivation, cultivationMax, cultivationRate,
       cultivation: Number(state.scores.cultivation.toFixed(2)),
       cultivationMax: state.stats.cultivation.max,
       cultivationRate: statRate(state.stats.cultivation) * (multiplier.cultivation ? multiplier.cultivation : 1),
-      hasExistingEvent: state.activeEvent != null
+      hasExistingEvent: state.activeEvent != null,
+      level: state.level
     }
   }
 

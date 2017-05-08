@@ -20,7 +20,7 @@ export const EVENTS = {
   },
   gatherHerbs: {
     name: "Gather Herbs",
-    shouldDisplay: (eventDisplayInfo) => eventDisplayInfo.maxCultivation >= 1e2,
+    shouldDisplay: (eventDisplayInfo) => eventDisplayInfo.level >= 1,
     steps: [
       {
         type: BATTLE,

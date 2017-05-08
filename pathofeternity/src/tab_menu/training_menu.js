@@ -6,7 +6,7 @@ import {Panel, Accordion, Fade} from 'react-bootstrap'
 import {setPercent} from '../actions.js'
 
 // Component with local state to expand/collapse panels.
-const TrainingMenuLayout = ({cultivation, body, mind, soul, cultivationMax, onChange, availableSkills, scores}) => (
+const TrainingMenuLayout = ({cultivation, body, mind, soul, onChange, level, availableSkills, scores}) => (
 	<div className="training-container">
 
 		<Accordion>
@@ -20,8 +20,8 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, cultivationMax, onCh
 				</tr></tbody></table>
 			</Panel>
 		</Accordion>
-		<Fade in={cultivationMax >= 1e2}>
-			{cultivationMax >= 1e2 ?
+		<Fade in={level >= 1}>
+			{level >= 1 ?
 				<Accordion>
 					<Panel header={"Basic (" + (body + mind + soul) + "%)"}>
 						<table><tbody>
@@ -30,8 +30,8 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, cultivationMax, onCh
 								<td><input type="range" min="0" max="100"	value={body} onChange={e => {onChange("body", e)}}/></td>
 								<td>{body}%</td>
 							</tr>
-							<Fade in={cultivationMax >= 1e6}>
-								{cultivationMax >= 1e6 ?
+							<Fade in={level >= 5}>
+								{level >= 5 ?
 									<tr>
 										<td>Mental Training</td>
 										<td><input type="range" min="0" max="100"	value={mind} onChange={e => {onChange("mind", e)}}/></td>
@@ -40,8 +40,8 @@ const TrainingMenuLayout = ({cultivation, body, mind, soul, cultivationMax, onCh
 									: <tr></tr>
 								}
 							</Fade>
-							<Fade in={cultivationMax >= 1e26}>
-								{cultivationMax >= 1e26 ?
+							<Fade in={level >= 25}>
+								{level >= 25 ?
 									<tr>
 										<td>Soul Training</td>
 										<td><input type="range" min="0" max="100"	value={soul} onChange={e => {onChange("soul", e)}}/></td>
@@ -89,7 +89,7 @@ const mapStateToProps = (state) => {
 		body: state.stats.body.percent,
 		mind: state.stats.mind.percent,
 		soul: state.stats.soul.percent,
-		cultivationMax: state.stats.cultivation.max,
+		level: state.level,
 		availableSkills: state.availableSkills,
 		scores: state.scores,
 	}
