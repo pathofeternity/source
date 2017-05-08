@@ -9,6 +9,7 @@ import Popup from './popup.js';
 import EventListing from './event_listing/event_listing.js';
 import {tick, showPopup} from './actions.js'
 import { connect } from 'react-redux'
+import {Fade} from 'react-bootstrap'
 
 /*
   This file technically defines two components:
@@ -18,7 +19,7 @@ import { connect } from 'react-redux'
 */
 
 // Uses block arrow syntax to restrict the scope to this file.
-const AppLayout = ({onClick, save, deleteSave, hasEvent, showPopup}) =>  (
+const AppLayout = ({onClick, save, deleteSave, hasEvent, showPopup, level}) =>  (
 
   <div className="App-container">
     <Popup />
@@ -28,26 +29,44 @@ const AppLayout = ({onClick, save, deleteSave, hasEvent, showPopup}) =>  (
           <TrainingBars />
         </div>
         <div className="App-timer">
-          <button onClick={onClick} >TICK (for manual debugging)</button>
-          <button onClick={save}>Save</button>
-          <button onClick={deleteSave}>Delete Save</button>
-          <button onClick={showPopup}>Open Popup</button>
-          <TimerArea/>
+          <Fade in={level >= 1}>
+      			{level >= 0 ?
+              <div>
+                <button onClick={onClick} >TICK (for manual debugging)</button>
+                <button onClick={save}>Save</button>
+                <button onClick={deleteSave}>Delete Save</button>
+                <button onClick={showPopup}>Open Popup</button>
+                <TimerArea/>
+              </div>
+            : <div/> }
+          </Fade>
         </div>
       </div>
-      <div className="App-menu">
-        <TabMenu />
-      </div>
+          <div className="App-menu">
+            <Fade in={level >= 1}>
+        			{level >= 1 ?
+                <TabMenu />
+              : <div/> }
+            </Fade>
+          </div>
     </div>
     <div className="App-column">
-      <div className="App-skills">
-        <SkillPanel/>
-      </div>
-      <div className="App-map">
-        {
-          hasEvent ? <EventPanel /> : <EventListing />
-        }
-      </div>
+          <div className="App-skills">
+            <Fade in={level >= 1}>
+        			{level >= 1 ?
+                <SkillPanel/>
+              : <div/> }
+            </Fade>
+          </div>
+          <div className="App-map">
+            <Fade in={level >= 1 || hasEvent} >
+        			{level >= 1 || hasEvent ?
+                <div>
+                  {hasEvent ? <EventPanel /> : <EventListing />}
+                </div>
+              : <div/> }
+            </Fade>
+          </div>
     </div>
   </div>
   )
@@ -68,7 +87,8 @@ const mapStateToProps = (state) => {
     score: state.score,
     save: () => localStorage.setItem('saved_game', JSON.stringify(state)),
     deleteSave: () => localStorage.setItem('saved_game', null),
-    hasEvent: state.activeEvent != null
+    hasEvent: state.activeEvent != null,
+    level: state.level
   }
 }
 
