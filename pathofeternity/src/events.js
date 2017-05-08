@@ -5,14 +5,14 @@ export const DEFAULT = "default"
 
 export const EVENTS = {
   breakthroughE1: {
-    name: "Breakthrough to Essence 1",
+    name: "A Mysterious Phenomenon",
     listDisplay: false,
     steps: [
       {
         type: MEDITATION,
-        titleText: "Focus Energy",
-        displayText: "Focusing Energy",
-        defaultActionName: "Focus",
+        titleText: "Gather Specks",
+        displayText: "Gathering Specks",
+        defaultActionName: "Gather",
         showDefaultAction: true,
         finishAction: (skillName) => successfulBreakthrough(),
       }
