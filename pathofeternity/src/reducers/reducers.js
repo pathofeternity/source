@@ -1,8 +1,7 @@
 import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH,
   START_EVENT, PROGRESS_EVENT, END_EVENT,
   GRANT_SKILL, EQUIP_SKILL, UNEQUIP_SKILL, SELECT_SKILL,
-  GRANT_ITEM, USE_ITEM, DEDUCT_COST, SHOW_POPUP, HIDE_POPUP,
-  GRANT_EVENT,
+  GRANT_ITEM, USE_ITEM, DEDUCT_COST, SHOW_POPUP, HIDE_POPUP
 } from '../actions.js'
 import {startEventReducer, progressEventReducer, endEventReducer, deductCostReducer} from './event_reducers.js'
 import {grantSkillReducer, equipSkillReducer, unequipSkillReducer, selectSkillReducer} from './skill_reducers.js'

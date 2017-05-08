@@ -1,6 +1,6 @@
 import {getTotalMultiplier} from '../utils.js'
 import {SKILLS} from '../skills.js'
-import {showPopup, grantSkill, grantEvent} from '../actions.js'
+import {showPopup, grantSkill} from '../actions.js'
 import {grantSkillReducer} from './skill_reducers.js'
 
 export function successfulBreakthroughReducer(state) {
