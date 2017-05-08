@@ -5,17 +5,17 @@ import {Button} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import {startEvent} from '../actions.js'
 
-const EventListingLayout = ({maxCultivation, availableEvents, onClick}) =>  (
-
+const EventListingLayout = ({eventDisplayInfo, onClick}) =>  (
   <div>
-    {availableEvents.map((eventName, index) => {
-      return <Button onClick={onClick(eventName)} key={index}>
-        {EVENTS[eventName].name}
-      </Button>
-    })}
+    {Object.keys(EVENTS).filter(name => EVENTS[name].shouldDisplay(eventDisplayInfo))
+      .map((eventName, index) => {
+        return <Button onClick={onClick(eventName)} key={index}>
+          {EVENTS[eventName].name}
+        </Button>
+      })
+    }
   </div>
 )
-
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -23,9 +23,11 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 const mapStateToProps = (state) => {
-  return {
-    availableEvents: state.availableEvents,
+  var eventDisplayInfo = {
     maxCultivation: state.stats.cultivation.max,
+  }
+  return {
+    eventDisplayInfo: eventDisplayInfo,
   }
 }
 
