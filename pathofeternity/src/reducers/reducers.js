@@ -4,7 +4,7 @@ import { TICK, SET_PERCENT, SUCCESSFUL_BREAKTHROUGH,
   GRANT_ITEM, USE_ITEM, DEDUCT_COST, SHOW_POPUP, HIDE_POPUP,
   GRANT_EVENT,
 } from '../actions.js'
-import {grantEventReducer, startEventReducer, progressEventReducer, endEventReducer, deductCostReducer} from './event_reducers.js'
+import {startEventReducer, progressEventReducer, endEventReducer, deductCostReducer} from './event_reducers.js'
 import {grantSkillReducer, equipSkillReducer, unequipSkillReducer, selectSkillReducer} from './skill_reducers.js'
 import {tickReducer, setPercentReducer, successfulBreakthroughReducer, showPopupReducer, hidePopupReducer} from './core_reducers.js'
 import {grantItemReducer, useItemReducer} from './item_reducers.js'
@@ -60,8 +60,6 @@ const initialState = {
   equippedMeditationSkills: new Array(SKILL_LIMIT).fill(null),
   selectedSkill: null,
 
-  availableEvents: [],
-
   popup: {
     show: false,
     message: null,
@@ -104,8 +102,6 @@ export function pathApp(state = loadGame(), action) {
       return hidePopupReducer(state)
     case GRANT_SKILL:
       return grantSkillReducer(state, action)
-    case GRANT_EVENT:
-      return grantEventReducer(state, action)
     default:
       return state
   }
