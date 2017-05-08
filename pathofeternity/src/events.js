@@ -6,7 +6,7 @@ export const DEFAULT = "default"
 export const EVENTS = {
   breakthroughE1: {
     name: "A Mysterious Phenomenon",
-    listDisplay: false,
+    shouldDisplay: (eventDisplayInfo) => false,
     steps: [
       {
         type: MEDITATION,
@@ -20,6 +20,7 @@ export const EVENTS = {
   },
   gatherHerbs: {
     name: "Gather Herbs",
+    shouldDisplay: (eventDisplayInfo) => eventDisplayInfo.maxCultivation >= 1e2,
     steps: [
       {
         type: BATTLE,
@@ -45,6 +46,7 @@ export const EVENTS = {
   },
   thornyRoad: {
     name: "Travel through Woods",
+    shouldDisplay: (eventDisplayInfo) => false,
     steps: [
       {
         type: BATTLE,
@@ -76,6 +78,7 @@ export const EVENTS = {
   },
   basicFight: {
     name: "Fight a dummy",
+    shouldDisplay: (eventDisplayInfo) => false,
     steps: [
       {
         type: BATTLE,
