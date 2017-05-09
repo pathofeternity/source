@@ -58,15 +58,15 @@ const AppLayout = ({onClick, save, deleteSave, hasEvent, showPopup, level}) =>  
               : <div/> }
             </Fade>
           </div>
+          <Fade in={level >= 1 || hasEvent} >
+            {level >= 1 || hasEvent ?
           <div className="App-map">
-            <Fade in={level >= 1 || hasEvent} >
-        			{level >= 1 || hasEvent ?
                 <div>
                   {hasEvent ? <EventPanel /> : <EventListing />}
                 </div>
-              : <div/> }
-            </Fade>
           </div>
+          : <div/> }
+        </Fade>
     </div>
   </div>
   )
