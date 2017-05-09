@@ -63,9 +63,9 @@ const initialState = {
   selectedSkill: null,
 
   popup: {
-    show: false,
-    message: null,
-    title: null,
+    show: true,
+    message: "After a long day working in the fields, you relax on a chair watching the sunset peacefully.  Tonight though, the last few rays of sunlight seem to twinkle off of something hanging in the air.  You grab at the speck of light and when it touches your hand, you feel a strand of warmth enter your body.  This feeling is quite pleasant, so you start to gather every speck you can see nearby.",
+    title: "The Story Begins",
   },
   inventory: {
   },
