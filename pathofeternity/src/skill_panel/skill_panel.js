@@ -6,7 +6,7 @@ import {selectSkill} from '../actions.js'
 import {BattleSkillDisplay} from './skill_icons_display.js'
 import {BattleSelectedSkill, PassiveSelectedSkill} from './selected_skill_display.js'
 import {SKILL_NAME, EVENT_TYPE, EQUIP} from './event_constants.js'
-import {getTotalMultiplier} from '../utils.js'
+import {getTotalMultiplier, formatNumber} from '../utils.js'
 import './skill_panel.css'
 
 const equipDragStart = (event) => {
@@ -22,7 +22,7 @@ var skillObject = SKILLS[skillName]
   var totalRate = availableSkills[skillName].rate * availableSkills[skillName].percent * multiplierNumber / 100
   return <div>
     {level === SKILLS[skillName].maxLevel ? <div>MAX</div> :
-      <div>{scores[skillName]} / {xpRequired}, {totalRate}/sec</div>
+      <div>{formatNumber(scores[skillName])} / {formatNumber(xpRequired)}, {formatNumber(totalRate)}/sec</div>
     }
     <div>{SKILLS[skillName].description}</div>
     <div>Current / Next</div>

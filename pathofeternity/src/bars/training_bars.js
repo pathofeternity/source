@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {getTotalMultiplier} from '../utils.js'
 import {ProgressBar, Button, Fade} from 'react-bootstrap'
 import {BodyBar, MindBar, SoulBar} from './small_bars.js'
-import {levelName} from '../library.js'
+import {levelName, formatNumber} from '../utils.js'
 
 const spanOrButton = (value, max, rate, startBreakthrough, hasExistingEvent) => {
 
@@ -15,7 +15,7 @@ const spanOrButton = (value, max, rate, startBreakthrough, hasExistingEvent) => 
         disabled={hasExistingEvent} onClick={startBreakthrough}>Breakthrough</Button>
     </span>
   } else {
-    return <span>{value} / {max} ({rate}/sec)</span>
+    return <span>{formatNumber(value)} / {formatNumber(max)} ({formatNumber(rate)}/sec)</span>
   }
 }
 

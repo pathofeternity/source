@@ -3,12 +3,13 @@ import './training_bars.css';
 import { connect } from 'react-redux'
 import {getTotalMultiplier} from '../utils.js'
 import {ProgressBar} from 'react-bootstrap'
+import {formatNumber} from '../utils.js'
 
 const SmallBarLayout = ({name, value, max, rate}) =>  (
     <div className="small bars-container">
       <h3>{name}</h3>
       <ProgressBar className="statProgress" max={max} now={value}
-        label={<span>{value.toFixed(0)} / {max.toFixed(0)} ({rate}/sec)</span>} />
+        label={<span>{formatNumber(value)} / {formatNumber(max)} ({formatNumber(rate)}/sec)</span>} />
     </div>
   )
   SmallBarLayout.propTypes = {
