@@ -23,7 +23,7 @@ const BarsLayout = ({cultivation, cultivationMax, level, cultivationRate,
   startBreakthrough, hasExistingEvent}) =>  (
   <div className="bars-component">
     <div className="bars-container">
-      <h2>Cultivation - {levelName(cultivation)}</h2>
+      <h2>Cultivation - {levelName(level)}</h2>
       <ProgressBar className="statProgress" max={cultivationMax} now={cultivation}
         label={spanOrButton(cultivation, cultivationMax, cultivationRate,
         startBreakthrough, hasExistingEvent)} />
